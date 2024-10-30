@@ -1,6 +1,6 @@
 import React from 'react';
 
-const Announce = ({ status }) => {
+const Announce = ({ status, text }) => {
     return (
         <div>
             <div

@@ -2,7 +2,7 @@ import React from 'react';
 
 const Combo = ({ name, paper, price }) => {
     return (
-        <div className='bg-slate-200 flex flex-col rounded-lg shadow-lg gap-3 w-[230px] px-3 py-2 border-4 border-transparent hover:border-blue-600 scale-75 cursor-pointer'>
+        <div className='bg-white flex flex-col rounded-lg shadow-lg gap-3 w-[230px] px-3 py-2 border-4 border-transparent hover:border-blue-600 scale-75 cursor-pointer'>
             <span className='mt-2 text-xl text-left'>Combo 1</span>
 
             <div className='flex items-center'>

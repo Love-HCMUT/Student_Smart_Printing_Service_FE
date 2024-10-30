@@ -2,7 +2,7 @@ import React from 'react'
 
 const TotalPayment = () => {
     return (
-        <div className='w-1/4 bg-slate-300 py-3 px-4 rounded-lg shadow-lg'>
+        <div className='w-1/4 bg-white py-3 px-4 rounded-lg shadow-lg'>
             <span className='text-xl font-bold mb-3'>Your cart</span>
 
             <div className='flex gap-2 justify-between mt-4'>

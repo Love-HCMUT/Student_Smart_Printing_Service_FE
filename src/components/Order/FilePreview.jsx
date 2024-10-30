@@ -13,7 +13,7 @@ const FilePreview = ({ name, weight }) => {
                 <span className="text-gray-900 ml-5">{name}</span>
             </div>
 
-            <span className="text-gray-500 text-sm flex-shrink-0">${weight} MB</span>
+            <span className="text-gray-500 text-sm flex-shrink-0">{weight} MB</span>
 
             <div className="ml-5">
                 <svg width="18" height="18" viewBox="0 0 18 18" fill="none" xmlns="http://www.w3.org/2000/svg">
