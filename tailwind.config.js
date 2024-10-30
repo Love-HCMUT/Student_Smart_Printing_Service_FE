@@ -10,7 +10,7 @@ module.exports = {
         'fore-background': '#E8E8E8',
         'main-background': '#FFFFFF',
         'gray-light': '#EAECF0',
-        'gray-dark': '#667085',
+
         'pure-white': '#FCFCFD',
         'deep-blue': '#0070FF',
         'blue-black': '#101828',
@@ -30,6 +30,10 @@ module.exports = {
         'status-gray-background': '#F2F4F7',
         'status-gray-dot': '#6C778B',
         'status-gray-text': '#364254',
+
+        'table-text-color': '#667085',
+
+        'background-paging-disable': '#C4CDD5'
       }
     },
   },
