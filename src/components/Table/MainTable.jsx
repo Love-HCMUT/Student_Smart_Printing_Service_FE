@@ -4,6 +4,7 @@ import { COLUMNS } from './Table_Lib/columns';
 import arrow from '../../assets/arrow-down.svg';
 import { Checkbox } from './Table_Lib/Checkbox';
 import { useTable, useSortBy, useRowSelect, usePagination } from 'react-table';
+import Pagination from './Table_Lib/Pagination';
 
 export const MainTable = ({
     data = MOCK_DATA,
@@ -12,7 +13,8 @@ export const MainTable = ({
 
     isUsePagination = true,
     paginationSize = 10,
-
+    w = '100%',
+    h = '100%',
 }) => {
     const memoizedColumns = useMemo(() => columns, [columns]);
     const memoizedData = useMemo(() => data, [data]);
@@ -48,10 +50,9 @@ export const MainTable = ({
         rows,
         page,
         prepareRow,
-        state: { pageIndex, pageSize },
+        state: { pageIndex },
         canPreviousPage,
         canNextPage,
-        pageOptions,
         pageCount,
         gotoPage,
         nextPage,
@@ -69,8 +70,8 @@ export const MainTable = ({
     const tableRows = isUsePagination ? page : rows;
 
     return (
-        <div>
-            <table {...getTableProps()} className="border-l border-r border-gray-light">
+        <div className={`w-[${w}] h-[${h}]`}>
+            <table {...getTableProps()} className={`border-l border-r border-gray-light w-full`}>
                 <thead>
                     {headerGroups.map((headerGroup) => (
                         <tr {...headerGroup.getHeaderGroupProps()}>
@@ -101,7 +102,7 @@ export const MainTable = ({
                         return (
                             <tr
                                 {...row.getRowProps()}
-                                className="text-gray-dark text-xs font-inter font-normal py-2.5"
+                                className="py-2.5"
                             >
                                 {row.cells.map((cell) => (
                                     <td {...cell.getCellProps()} className="px-2 py-1">
@@ -113,48 +114,22 @@ export const MainTable = ({
                     })}
                 </tbody>
             </table>
+
+            {/* Pagination được canh giữa */}
             {isUsePagination && (
-                <div className="pagination mt-4 flex items-center justify-between">
-                    <button onClick={() => gotoPage(0)} disabled={!canPreviousPage}>
-                        {'<<'}
-                    </button>
-                    <button onClick={previousPage} disabled={!canPreviousPage}>
-                        {'<'}
-                    </button>
-                    <span>
-                        Page{' '}
-                        <strong>
-                            {pageIndex + 1} of {pageOptions.length}
-                        </strong>
-                    </span>
-                    <button onClick={nextPage} disabled={!canNextPage}>
-                        {'>'}
-                    </button>
-                    <button onClick={() => gotoPage(pageCount - 1)} disabled={!canNextPage}>
-                        {'>>'}
-                    </button>
-                    <span>
-                        | Go to page:{' '}
-                        <input
-                            type="number"
-                            defaultValue={pageIndex + 1}
-                            onChange={(e) => {
-                                const page = e.target.value ? Number(e.target.value) - 1 : 0;
-                                gotoPage(page);
-                            }}
-                            style={{ width: '50px' }}
-                        />
-                    </span>
-                    <select
-                        value={pageSize}
-                        onChange={(e) => setPageSize(Number(e.target.value))}
-                    >
-                        {[10, 20, 30, 40, 50].map((size) => (
-                            <option key={size} value={size}>
-                                Show {size}
-                            </option>
-                        ))}
-                    </select>
+                <div className="flex justify-center mt-4">
+                    <Pagination
+                        {...{
+                            previousPage,
+                            nextPage,
+                            gotoPage,
+                            pageIndex,
+                            pageCount,
+                            canPreviousPage,
+                            canNextPage,
+                            setPageSize,
+                        }}
+                    />
                 </div>
             )}
         </div>

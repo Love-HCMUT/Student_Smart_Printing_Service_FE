@@ -17,10 +17,7 @@ export const Checkbox = forwardRef(({ indeterminate = false, ...rest }, ref) => 
             className="
                 h-4 
                 w-4 
-                accent-deep-blue  /* Thay đổi màu sắc của checkbox */
-                border-2 
-                border-deep-blue /* Màu viền của checkbox */
-                rounded-md /* Thay đổi hình dạng nếu cần */
+                accent-deep-blue
             "
         />
     );
