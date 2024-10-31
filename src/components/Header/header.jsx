@@ -1,36 +1,38 @@
 // src/components/Header.jsx
 import React from 'react';
 
-const Header = ({ links, userName }) => {
+export default function Header_APP({ links, userName }) {
   return (
-    <header className="bg-blue-500 text-white p-2 shadow-md">
-      <div className="container mx-auto flex items-center justify-between">
+    <header className="w-full fixed top-0 left-0 bg-blue-500 text-white flex items-center justify-between px-6 py-3 z-10">
+      <div className="container mx-auto flex justify-between items-center px-4">
         {/* Logo */}
         <div className="flex items-center">
-          <img src="" alt="Logo" className="h-10 mr-4" /> 
+          <img src="/logo.png" alt="Logo" className="h-8 mr-4" />
         </div>
 
         {/* Navigation Links */}
-        <nav className="flex-1">
-          <ul className="flex justify-center space-x-8">
-            {links.map((link, index) => (
-              <li key={index}>
-                <a href={link.href} className="hover:text-gray-300">
-                  {link.label}
-                </a>
-              </li>
-            ))}
-          </ul>
+        <nav className="flex space-x-6">
+          {links.map((link) => (
+            <a
+              key={link.label}
+              href={link.href}
+              className="text-white hover:text-black transition-colors"
+            >
+              {link.label}
+            </a>
+          ))}
         </nav>
 
         {/* User Info */}
         <div className="flex items-center space-x-2">
           <span>{userName}</span>
-          <img src="" alt="User Avatar" className="h-8 w-8 rounded-full border border-white" /> 
+          <img
+            src="/user-icon.png"
+            alt="User Icon"
+            className="h-8 w-8 rounded-full bg-white p-1"
+          />
         </div>
       </div>
     </header>
   );
-};
-
-export default Header;
+}

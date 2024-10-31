@@ -1,7 +1,6 @@
-import { MainTable } from "./components/Table/MainTable";
 // src/App.jsx
 import React from "react";
-import { Header } from "./components/Table/Header/header";
+import Header_APP from "./components/Header/header";
 
 function HeaderApp() {
   const links = [
@@ -16,7 +15,7 @@ function HeaderApp() {
 
   return (
     <div className="App">
-      <Header links={links} userName={userName} />
+      <Header_APP links={links} userName={userName} />
       {/* Nội dung chính */}
       <main className="p-4">
         <h2 className="text-xl">Welcome to the Dashboard!</h2>
