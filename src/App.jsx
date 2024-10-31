@@ -1,7 +1,7 @@
 // src/App.jsx
 import React from "react";
 import Header_APP from "./components/Header/header";
-
+import Footer from "./components/Footer/footer"
 function HeaderApp() {
   const links = [
     { label: 'Home', href: '#home' },
@@ -27,6 +27,7 @@ function HeaderApp() {
       <main className="p-4">
         <h2 className="text-xl">Welcome to the Dashboard!</h2>
       </main>
+      <Footer/>
     </div>
   );
 }
