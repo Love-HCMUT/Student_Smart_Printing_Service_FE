@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 
 const Pagination = ({
     previousPage,
@@ -8,9 +8,15 @@ const Pagination = ({
     pageCount,
     canPreviousPage,
     canNextPage,
+    width = 'w-6',
+    height = 'h-6'
 }) => {
     const [isInputVisible, setInputVisible] = useState(false);
     const [inputValue, setInputValue] = useState(pageIndex + 1);
+
+    useEffect(() => {
+        setInputValue(pageIndex + 1);
+    }, [pageIndex]);
 
     const handlePageInput = (e) => {
         const value = e.target.value;
@@ -32,7 +38,7 @@ const Pagination = ({
             <button
                 onClick={previousPage}
                 disabled={!canPreviousPage}
-                className={`w-6 h-6 bg-white 
+                className={`${width} ${height} bg-white 
                 rounded-md text-[10px] 
                 border border-gray-300 
                 hover:bg-gray-400 
@@ -48,13 +54,13 @@ const Pagination = ({
 
             <button
                 onClick={() => gotoPage(0)}
-                className="w-6 h-6 bg-white 
+                className={`${width} ${height} bg-white 
                rounded-md text-[10px] 
                border border-gray-300 
                hover:bg-gray-400 
                focus:outline-none 
                focus:ring-2 focus:ring-gray-500 
-               focus:ring-opacity-50 flex items-center justify-center"
+               focus:ring-opacity-50 flex items-center justify-center`}
             >
                 {'1'}
             </button>
@@ -69,16 +75,18 @@ const Pagination = ({
                         onChange={handlePageInput}
                         onBlur={handleBlur}
                         onKeyDown={(e) => e.key === 'Enter' && handlePageSubmit()}
-                        className="w-10 h-6 p-1 border rounded-md 
+                        className={`w-10 ${height} p-1 border rounded-md 
                      border-gray-300 focus:ring-2 
                      focus:ring-gray-500 focus:outline-none 
-                     text-center text-[10px]"
+                     text-center text-[10px]`}
                     />
                 ) : (
                     <button
                         onClick={() => setInputVisible(true)}
-                        className="w-6 h-6 text-gray-400 
-                     flex items-center justify-center text-[10px]"
+                        className={`${width} ${height} bg-white 
+                                    rounded-md
+                                    border border-gray-300  text-gray-400 
+                     flex items-center justify-center text-[10px]`}
                     >
                         ...
                     </button>
@@ -88,13 +96,13 @@ const Pagination = ({
             {pageCount > 1 && (
                 <button
                     onClick={() => gotoPage(pageCount === 2 ? 1 : pageCount - 2)}
-                    className="w-6 h-6 bg-white 
+                    className={`${width} ${height} bg-white 
                    rounded-md text-[10px] 
                    border border-gray-300 
                    hover:bg-gray-400 
                    focus:outline-none 
                    focus:ring-2 focus:ring-gray-500 
-                   focus:ring-opacity-50 flex items-center justify-center"
+                   focus:ring-opacity-50 flex items-center justify-center`}
                 >
                     {pageCount === 2 ? '2' : pageCount - 1}
                 </button>
@@ -103,13 +111,13 @@ const Pagination = ({
             {pageCount > 2 && (
                 <button
                     onClick={() => gotoPage(pageCount - 1)}
-                    className="w-6 h-6 bg-white 
+                    className={`${width} ${height} bg-white 
                    rounded-md text-[10px] 
                    border border-gray-300 
                    hover:bg-gray-400 
                    focus:outline-none 
                    focus:ring-2 focus:ring-gray-500 
-                   focus:ring-opacity-50 flex items-center justify-center"
+                   focus:ring-opacity-50 flex items-center justify-center`}
                 >
                     {pageCount}
                 </button>
@@ -118,7 +126,7 @@ const Pagination = ({
             <button
                 onClick={nextPage}
                 disabled={!canNextPage}
-                className={`w-6 h-6 bg-white 
+                className={`${width} ${height} bg-white 
                 rounded-md text-[10px] 
                 border border-gray-300 
                 hover:bg-gray-400 

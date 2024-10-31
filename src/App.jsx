@@ -1,10 +1,9 @@
-import OrdersHistoryPayment from "./components/Table/Student/Payment/orders_history_payment"
-import PrinterTable from "./components/Table/Student/Printer/printer_table"
+import PageSettingTable from "./components/Table/SPSO/PageSetting/page_setting_tables"
 
 function App() {
   return (
     <>
-      <PrinterTable />
+      <PageSettingTable />
     </>
   )
 }

@@ -10,7 +10,7 @@ export const COLUMNS = [
         Header: 'Type of Printer',
         accessor: 'type_of_printer',
         Cell: ({ value }) => (
-            <span className="text-xs font-inter text-black">{value}</span>
+            <span className="text-xs font-bold text-black">{value}</span>
         ),
     },
     {
