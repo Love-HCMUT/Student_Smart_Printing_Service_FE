@@ -2,6 +2,8 @@
 import React from "react";
 import Header_APP from "./components/Header/header";
 import Footer from "./components/Footer/footer"
+import Header_Login from "./components/Header/header_login"
+import LoginForm from "./components/Login/login"
 function HeaderApp() {
   const links = [
     { label: 'Home', href: '#home' },
@@ -22,11 +24,9 @@ function HeaderApp() {
 
   return (
     <div className="App">
-      <Header_APP links={links} userName={userName} />
+      <Header_Login/>
       {/* Nội dung chính */}
-      <main className="p-4">
-        <h2 className="text-xl">Welcome to the Dashboard!</h2>
-      </main>
+      <main><LoginForm/></main>
       <Footer/>
     </div>
   );

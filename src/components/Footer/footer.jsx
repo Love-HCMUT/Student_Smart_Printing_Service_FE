@@ -1,10 +1,11 @@
+// Footer.jsx
 import React from 'react';
 import Printer from "../../assets/printer.svg";
 import Logo from "../../assets/logo.svg";
 
 const Footer = () => {
   return (
-    <footer className="w-full fixed bottom-0 left-0 bg-[#46A0DE] text-white py-10 flex items-center justify-between ">
+    <footer className="w-full bg-[#46A0DE] text-white py-5 flex items-center justify-between relative">
       
       {/* Printer Image Positioned Absolutely */}
       <img
