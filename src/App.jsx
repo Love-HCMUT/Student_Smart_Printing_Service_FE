@@ -4,11 +4,18 @@ import Header_APP from "./components/Header/header";
 
 function HeaderApp() {
   const links = [
-    { label: "Home", href: "#home" },
-    { label: "Manage Printer", href: "#manage-printer" },
-    { label: "Log", href: "#log" },
-    { label: "Setting", href: "#setting" },
-    { label: "Report", href: "#report" },
+    { label: 'Home', href: '#home' },
+    { label: 'Manage Printer', href: '#manage-printer' },
+    { label: 'Log', href: '#log' },
+    {
+      label: 'Setting',
+      href: '#setting',
+      subLinks: [
+        { label: 'Paper', href: '#paper' },
+        { label: 'File', href: '#file' },
+      ],
+    },
+    { label: 'Report', href: '#report' },
   ];
 
   const userName = "Phan Tuấn Kiệt";
