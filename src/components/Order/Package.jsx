@@ -4,7 +4,7 @@ import FilePreview from './FilePreview'
 
 const Package = () => {
     return (
-        <div className='relative px-6 py-3 bg-slate-200 rounded w-1/2'>
+        <div className='relative px-6 py-3 bg-slate-200 rounded w-5/6 shadow-xl'>
 
             {/* icon thung rac  */}
             <div className="absolute top-2 right-2">

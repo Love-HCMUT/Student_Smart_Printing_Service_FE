@@ -6,12 +6,15 @@ import Combo from "./components/Payment/Combo"
 import PaymentMethod from "./components/Payment/PaymentMethod"
 import TotalPayment from "./components/Payment/TotalPayment"
 import Note from "./components/Payment/Note"
+import OrderPage from "./pages/OrderPage"
+import ConfirmOrderPage from "./pages/ConfirmOrderPage"
+import PaymentPage from "./pages/PaymentPage"
 
 function App() {
 
   return (
     <>
-      <Package />
+      <ConfirmOrderPage />
     </>
   )
 }
