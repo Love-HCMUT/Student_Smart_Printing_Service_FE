@@ -15,12 +15,11 @@ const PackageForm = ({
   isColorCover,
 }) => {
   return (
-    <div className="p-8 mx-auto w-1/2 bg-white shadow-lg rounded-lg"> {/* White background, shadow, and rounded corners */}
+    <div className="p-8 mx-auto w-1/2 bg-white shadow-lg rounded-lg"> 
       <h2 className="text-2xl font-semibold mb-6 text-left">Packages view point</h2>
       
       <div className="border-2 border-dashed border-purple-300 rounded-lg p-8">
         
-        {/* Package ID Section */}
         <div className="mb-8">
           <h3 className="text-lg font-semibold mb-2">Package ID</h3>
           <label className="block text-gray-700">Documents</label>
@@ -52,7 +51,6 @@ const PackageForm = ({
           </div>
         </div>
 
-        {/* Package's option Section */}
         <div className="mb-8">
           <h3 className="text-lg font-semibold mb-2">Package's option</h3>
           <div className="grid grid-cols-2 gap-4">
@@ -109,7 +107,6 @@ const PackageForm = ({
           </div>
         </div>
 
-        {/* Package's after print option Section */}
         <div className="mb-8">
           <h3 className="text-lg font-semibold mb-2">Package's after print option</h3>
           <div className="grid grid-cols-2 gap-4">
@@ -146,7 +143,7 @@ const PackageForm = ({
           </div>
         </div>
 
-        {/* Package's color print option Section */}
+
         <div className="mb-8">
           <h3 className="text-lg font-semibold mb-2">Package's color print option</h3>
           <div className="grid grid-cols-2 gap-4">
