@@ -1,19 +1,20 @@
 // src/components/Header.jsx
-import React, { useState } from 'react';
-import Logo from "../../assets/logo.svg"
-import Avarta from "../../assets/avarta.svg"
+import React, { useState } from "react";
+import Logo from "../../assets/logo.svg";
+import Avarta from "../../assets/avarta.svg";
+import { NavLink } from "react-router-dom";
 
-export default function Header_APP({ links, userName, highlightedIndex }) {
-  const [activeLink, setActiveLink] = useState(null); 
-
-  const handleLinkClick = (label) => {
-    setActiveLink(activeLink === label ? null : label); 
+export default function Header_APP({ links, userName }) {
+  const [activeLink, setActiveLink] = useState(null);
+  const [currentTab, setCurrentTab] = useState(0);
+  const handleLinkClick = (label, index) => {
+    setActiveLink(activeLink === label ? null : label);
+    setCurrentTab(index);
   };
 
   return (
     <header className="w-full fixed top-0 left-0 bg-[#46A0DE] text-white flex items-center justify-between px-4 py-3">
       <div className="container mx-auto flex items-center">
-
         <div className="flex items-center">
           <img src={Logo} alt="Logo" className="h-8" />
         </div>
@@ -24,11 +25,11 @@ export default function Header_APP({ links, userName, highlightedIndex }) {
               <a
                 href={link.href}
                 className={`px-5 py-4 text-white transition-colors ${
-                  index === highlightedIndex ? 'bg-[#1488D8]' : 'hover:bg-[#1488D8]'
+                  index === currentTab ? "bg-[#1488D8]" : "hover:bg-[#1488D8]"
                 } hover:text-black`}
                 onClick={(e) => {
-                  e.preventDefault(); 
-                  handleLinkClick(link.label); 
+                  e.preventDefault();
+                  handleLinkClick(link.label, index);
                 }}
               >
                 {link.label}
@@ -51,7 +52,6 @@ export default function Header_APP({ links, userName, highlightedIndex }) {
           ))}
         </nav>
 
-
         <div className="flex items-center space-x-2 ml-auto">
           <span>{userName}</span>
           <img
@@ -64,4 +64,3 @@ export default function Header_APP({ links, userName, highlightedIndex }) {
     </header>
   );
 }
-
