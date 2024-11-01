@@ -6,6 +6,7 @@ import Header_Login from "./components/Header/header_login";
 import LoginForm from "./components/Login/login";
 import WelcomeBanner from "./components/Home/home";
 import backgroundImage from './assets/background.jpg';
+import PrinterForm from "./components/Form/Printer_form";
 
 function HeaderApp() {
   const links = [
@@ -33,13 +34,10 @@ function HeaderApp() {
       {/* Main Content with Background Image */}
 
       <main 
-        className="flex-grow bg-cover flex items-center justify-start p-10 pt-5"
-        style={{ backgroundImage: `url(${backgroundImage})` }}
       >
         {/* Move WelcomeBanner to the left */}
-        <div className="ml-[70px] mt-[-150px]">
-          <WelcomeBanner userName={userName} />
-        </div>
+          <PrinterForm />
+
       </main>
       
       {/* Footer Stays at Bottom */}
