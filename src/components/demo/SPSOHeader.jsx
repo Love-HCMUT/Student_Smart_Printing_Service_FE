@@ -1,32 +1,32 @@
 import Header_APP from "../Header/header";
 
-export const SPSOHeader = () => {
+export const SPSOHeader = ({ highlightedIndex = 0 }) => {
   return (
     <Header_APP
       links={[
         {
           label: "Home",
-          href: "/SPSO",
+          href: "/spso/home",
         },
         {
           label: "Manage Printer",
-          href: "SPSO/printer",
+          href: "printer",
         },
         {
           label: "Log",
-          href: "SPSO/log",
+          href: "log",
         },
         {
           label: "Setting",
-          href: "SPSO/setting",
+          href: "setting",
         },
         {
           label: "Report",
-          href: "SPSO/report",
+          href: "report",
         },
       ]}
       userName={"Dương Hải Lâm"}
-      highlightedIndex={0}
+      highlightedIndex={highlightedIndex}
     />
   );
 };

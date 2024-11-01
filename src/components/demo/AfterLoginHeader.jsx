@@ -1,24 +1,20 @@
 import Header_APP from "../Header/header";
 
-export const UserHeader = () => {
+export const AfterLoginHeader = () => {
   return (
     <Header_APP
       links={[
         {
-          label: "Home",
+          label: "User",
           href: "/user/home",
         },
         {
-          label: "Account Balance",
-          href: "balance",
+          label: "Staff",
+          href: "/staff/home",
         },
         {
-          label: "History",
-          href: "history",
-        },
-        {
-          label: "Order",
-          href: "order",
+          label: "SPSO",
+          href: "/spso/home",
         },
       ]}
       userName={"Dương Hải Lâm"}

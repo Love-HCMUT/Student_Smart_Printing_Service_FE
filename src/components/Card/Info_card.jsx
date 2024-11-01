@@ -11,8 +11,8 @@ const InfoCards = ({
   ],
 }) => {
   return (
-    <div className="flex gap-6 p-8">
-      <div className="flex flex-col justify-between bg-white shadow-md rounded-lg p-6 w-1/4 max-w-xs">
+    <div className="flex gap-6 p-8 justify-between">
+      <div className="flex flex-col justify-between bg-white shadow-md rounded-lg p-6">
         <div>
           <h3 className="text-gray-500 text-lg">Total papers</h3>
           <p className="text-4xl font-bold text-gray-800 mt-2">{totalPapers}</p>
@@ -21,7 +21,7 @@ const InfoCards = ({
       </div>
 
       {/* Recent Transition Card */}
-      <div className="flex flex-col bg-white shadow-md rounded-lg p-6 w-1/4 max-w-xs">
+      <div className="flex flex-col bg-white shadow-md rounded-lg p-6">
         <h3 className="text-gray-500 text-lg">Recent transition</h3>
         <ul className="mt-4 space-y-2">
           {recentTransitions.map((transition, index) => (

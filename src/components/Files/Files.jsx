@@ -18,7 +18,7 @@ const types = {
 export const Files = () => {
   return (
     <>
-      <div className="flex flex-col items-center justify-center align-middle">
+      <div className="w-screen mb-8 flex flex-col items-center justify-center align-middle">
         <Head />
         <Body types={types} />
         <Foot />

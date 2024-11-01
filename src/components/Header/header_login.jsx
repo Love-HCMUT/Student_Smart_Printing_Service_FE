@@ -1,6 +1,7 @@
 // src/components/Header.jsx
 import React, { useState } from "react";
 import Logo from "../../assets/login.jpg";
+import { NavLink } from "react-router-dom";
 
 export default function Header_Login({ links, userName, highlightedIndex }) {
   const [activeLink, setActiveLink] = useState(null);
@@ -16,7 +17,9 @@ export default function Header_Login({ links, userName, highlightedIndex }) {
           <img src={Logo} alt="Logo" className="h-10" />
         </div>
       </div>
-      <button className="items-end">Login</button>
+      <NavLink to={`login`} className="items-end">
+        Login
+      </NavLink>
     </header>
   );
 }

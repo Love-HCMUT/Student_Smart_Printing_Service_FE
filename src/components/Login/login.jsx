@@ -1,6 +1,7 @@
 // LoginForm.jsx
 import React from "react";
 import Login from "../../assets/login_div.jpg";
+import { NavLink } from "react-router-dom";
 
 const LoginForm = () => {
   return (
@@ -23,12 +24,13 @@ const LoginForm = () => {
           />
 
           <div className="flex justify-center">
-            <button
-              type="submit"
-              className="w-32 py-2 bg-[#044CC8] text-white font-semibold rounded-lg hover:bg-blue-700 focus:outline-none"
+            <NavLink
+              to={`loginSuccess`}
+              // type="submit"
+              className="w-full py-2 bg-[#044CC8] text-center text-white font-semibold rounded-lg hover:bg-blue-700 focus:outline-none"
             >
               Login
-            </button>
+            </NavLink>
           </div>
         </form>
       </div>

@@ -4,9 +4,9 @@ import Logo from "../../assets/logo.svg";
 import Avarta from "../../assets/avarta.svg";
 import { NavLink } from "react-router-dom";
 
-export default function Header_APP({ links, userName }) {
+export default function Header_APP({ links, userName, highlightedIndex }) {
   const [activeLink, setActiveLink] = useState(null);
-  const [currentTab, setCurrentTab] = useState(0);
+  const [currentTab, setCurrentTab] = useState(highlightedIndex);
   const handleLinkClick = (label, index) => {
     setActiveLink(activeLink === label ? null : label);
     setCurrentTab(index);
@@ -22,29 +22,29 @@ export default function Header_APP({ links, userName }) {
         <nav className="flex">
           {links.map((link, index) => (
             <div key={link.label} className="relative">
-              <a
-                href={link.href}
+              <NavLink
+                to={link.href}
                 className={`px-5 py-4 text-white transition-colors ${
                   index === currentTab ? "bg-[#1488D8]" : "hover:bg-[#1488D8]"
                 } hover:text-black`}
                 onClick={(e) => {
-                  e.preventDefault();
+                  // e.preventDefault();
                   handleLinkClick(link.label, index);
                 }}
               >
                 {link.label}
-              </a>
+              </NavLink>
 
               {link.subLinks && activeLink === link.label && (
                 <div className="absolute left-0 mt-2 bg-[#46A0DE] text-white shadow-lg rounded">
                   {link.subLinks.map((subLink) => (
-                    <a
+                    <NavLink
                       key={subLink.label}
-                      href={subLink.href}
+                      to={subLink.href}
                       className="block px-5 py-3 text-white hover:text-black hover:bg-[#1488D8] transition-colors"
                     >
                       {subLink.label}
-                    </a>
+                    </NavLink>
                   ))}
                 </div>
               )}

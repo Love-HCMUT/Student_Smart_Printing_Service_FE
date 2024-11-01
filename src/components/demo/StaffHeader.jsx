@@ -6,11 +6,11 @@ export const StaffHeader = () => {
       links={[
         {
           label: "Home",
-          href: "/staff",
+          href: "/staff/home",
         },
         {
           label: "Printing Manager",
-          href: "staff/printing",
+          href: "printing",
         },
       ]}
       userName={"Dương Hải Lâm"}
