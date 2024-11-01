@@ -58,7 +58,7 @@ function HeaderApp() {
   recentTransitions={[
     { color: 'red', text: '400 papers at 12/12/2024 ' },
     { color: 'green', text: '200 papers at 01/01/2025 ' },
-    { color: 'blue', text: '200 papers at 01/01/2025 ' },
+    { color: 'green', text: '200 papers at 01/01/2025 ' },
   ]}
 />
   </main>

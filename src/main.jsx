@@ -6,8 +6,8 @@ import Login_page from "./pages/Login_page.jsx";
 import Home_App from "./pages/Home_page.jsx";
 createRoot(document.getElementById("root")).render(
   <StrictMode>
-    <HeaderApp />
+    {/* <HeaderApp /> */}
     {/* <Login_page /> */}
-    {/* <Home_App/> */}
+    <Home_App/>
   </StrictMode>
 );
