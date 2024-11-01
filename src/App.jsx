@@ -7,6 +7,7 @@ import LoginForm from "./components/Login/login";
 import WelcomeBanner from "./components/Home/home";
 import backgroundImage from './assets/background.jpg';
 import PrinterForm from "./components/Form/Printer_form";
+import PackageForm from "./components/Form/Package_form";
 
 function HeaderApp() {
   const links = [
@@ -27,22 +28,38 @@ function HeaderApp() {
   const userName = "Phan Tuấn Kiệt";
 
   return (
-    <div className="flex flex-col min-h-screen">
-      {/* Header */}
-      <Header_APP links={links} userName={userName} />
+    <div className="App flex flex-col min-h-screen"> {/* Set to flex and full height */}
+  {/* Header */}
+  <header className="fixed top-0 left-0 w-full z-50">
+    <Header_Login />
+  </header>
 
-      {/* Main Content with Background Image */}
+  {/* Main Content with Background Image */}
+  <main className="flex-grow pt-16"> {/* Allow main to grow and add padding */}
+    {/* Move WelcomeBanner to the left */}
+    {/* <PrinterForm /> */}
+    <PackageForm 
+    document1="Document name.pdf"
+    document2="Document name.pdf"
+    papers="10"
+    sides="2"
+    copies="1"
+    fromPage="1"
+    endPage="10"
+    isCover="True"
+    isGlass="False"
+    isBinding="True"
+    isColorAllPages="True"
+    isColorCover="False"
+/>
 
-      <main 
-      >
-        {/* Move WelcomeBanner to the left */}
-          <PrinterForm />
+  </main>
+  
+  {/* Footer Stays at Bottom */}
+  <Footer />
+</div>
 
-      </main>
-      
-      {/* Footer Stays at Bottom */}
-      <Footer />
-    </div>
+
   );
 }
 
