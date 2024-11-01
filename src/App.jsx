@@ -8,7 +8,7 @@ import WelcomeBanner from "./components/Home/home";
 import backgroundImage from './assets/background.jpg';
 import PrinterForm from "./components/Form/Printer_form";
 import PackageForm from "./components/Form/Package_form";
-
+import InfoCards from "./components/Card/Info_card";
 function HeaderApp() {
   const links = [
     { label: 'Home', href: '#home' },
@@ -38,7 +38,7 @@ function HeaderApp() {
   <main className="flex-grow pt-16"> {/* Allow main to grow and add padding */}
     {/* Move WelcomeBanner to the left */}
     {/* <PrinterForm /> */}
-    <PackageForm 
+    {/* <PackageForm 
     document1="Document name.pdf"
     document2="Document name.pdf"
     papers="10"
@@ -51,8 +51,16 @@ function HeaderApp() {
     isBinding="True"
     isColorAllPages="True"
     isColorCover="False"
+/> */}
+    <InfoCards 
+  totalPapers="357" 
+  paperSize="A4 - papers" 
+  recentTransitions={[
+    { color: 'red', text: '400 papers at 12/12/2024 ' },
+    { color: 'green', text: '200 papers at 01/01/2025 ' },
+    { color: 'blue', text: '200 papers at 01/01/2025 ' },
+  ]}
 />
-
   </main>
   
   {/* Footer Stays at Bottom */}
