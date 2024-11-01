@@ -1,11 +1,9 @@
-import { MainTable } from "./components/Table/MainTable"
-
+import PageSettingTable from "./components/Table/SPSO/PageSetting/page_setting_tables"
 
 function App() {
-
   return (
     <>
-      <MainTable />
+      <PageSettingTable />
     </>
   )
 }
