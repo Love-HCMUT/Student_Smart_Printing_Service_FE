@@ -25,24 +25,26 @@ function Home_App() {
 
   return (
     <div className="flex flex-col min-h-screen">
-      {/* Header */}
-      <Header_APP links={links} userName={userName} />
+  {/* Header */}
+  <header className="fixed top-0 left-0 w-full z-50">
+    <Header_APP links={links} userName={userName} />
+  </header>
 
-      {/* Main Content with Background Image */}
-
-      <main 
-        className="flex-grow bg-cover flex items-center justify-start p-10 pt-5 min-h-screen"
-        style={{ backgroundImage: `url(${backgroundImage})` }}
-      >
-        {/* Move WelcomeBanner to the left */}
-        <div className="ml-[70px] mt-[-150px]">
-          <WelcomeBanner userName={userName} />
-        </div>
-      </main>
-      
-      {/* Footer Stays at Bottom */}
-      <Footer />
+  {/* Main Content with Background Image */}
+  <main 
+    className="flex-grow bg-cover flex items-center justify-start p-10 pt-20 min-h-screen" // Tăng khoảng cách với `pt-20` để tránh bị header che
+    style={{ backgroundImage: `url(${backgroundImage})` }}
+  >
+    {/* Move WelcomeBanner to the left */}
+    <div className="ml-[100px] mt-[-200px]">
+      <WelcomeBanner userName={userName} />
     </div>
+  </main>
+
+  {/* Footer Stays at Bottom */}
+  <Footer />
+</div>
+
   );
 }
 

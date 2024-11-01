@@ -7,7 +7,7 @@ import Home_App from "./pages/Home_page.jsx";
 createRoot(document.getElementById("root")).render(
   <StrictMode>
     {/* <HeaderApp /> */}
-    {/* <Login_page /> */}
-    <Home_App/>
+    <Login_page />
+    {/* <Home_App/> */}
   </StrictMode>
 );
