@@ -12,8 +12,8 @@ export const OrdersHistoryPaymentSearch = ({ filter, setFilter }) => {
     return (
         <div className="flex items-center mb-5 justify-between">
             <div className="flex">
-                <div className="flex items-center p-3 shadow-md rounded-xl border w-28">
-                    <img src={Filter} alt="filter" className="w-4 h-4 text-gray-400 mr-2" />
+                <div className="flex items-center p-2 shadow-md rounded-xl border w-28">
+                    <img src={Filter} alt="filter" className="w-4 h-4 text-gray-400 mr-2 ml-2" />
                     <span className="text-gray-600">Filters</span>
                 </div>
             </div>

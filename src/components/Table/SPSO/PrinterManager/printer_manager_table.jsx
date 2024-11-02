@@ -4,6 +4,9 @@ import { COLUMNS } from "./printer_columns";
 import arrow from "../../../../assets/arrow-down.svg";
 import { Checkbox } from "../../Table_Lib/Components/Checkbox";
 import Pagination from "../../Table_Lib/Components/Pagination";
+import { SearchBar1 } from "../SearchBar1/searchbar01";
+import group from "../../../../assets/group.svg";
+import { SPSOHeader1 } from "../Header1/Header1";
 const MOCK_DATA = [
     {
         "printer_id": "PRT001",
@@ -302,7 +305,8 @@ const PrinterManagerTable = () => {
         gotoPage,
         nextPage,
         previousPage,
-        state: { pageIndex },
+        setGlobalFilter,
+        state: { pageIndex, globalFilter },
     } = useTable(
         {
             columns,
@@ -333,23 +337,22 @@ const PrinterManagerTable = () => {
         }
     );
 
-    // const { globalFilter } = state;
-    {/* <PrinterSearch filter={globalFilter} setFilter={setGlobalFilter} />
-            <OrderPrintingHeader /> */}
     return (
-        <div className="container mx-auto p-4">
-
-            <div className="w-full">
+        <div className="container mx-auto p-4 min-h-screen">
+            <div className="w-full rounded-lg mt-6">
+                <div className="shadow-lg">
+                    < SearchBar1 filter={globalFilter} setFilter={setGlobalFilter} param={<PrinterManagerControl />} />
+                    <SPSOHeader1 />
+                </div>
                 <div className="h-[600px] overflow-auto">
-                    <table {...getTableProps()} className="min-w-full bg-white border
-                 border-gray-300 rounded-md">
-                        <thead className="bg-gray-100">
+                    <table {...getTableProps()} className="w-full border rounded-md">
+                        <thead className="bg-gray-light">
                             {headerGroups.map(headerGroup => (
                                 <tr {...headerGroup.getHeaderGroupProps()} key={headerGroup.id}>
                                     {headerGroup.headers.map(column => (
                                         <th
                                             {...column.getHeaderProps(column.getSortByToggleProps())}
-                                            className="px-4 py-2 text-left text-xs font-medium text-gray-500 tracking-wider cursor-pointer"
+                                            className="p-3 text-left text-xs font-medium text-gray-700 tracking-wider cursor-pointer"
                                             key={column.id}
                                         >
                                             <div className="flex items-center">
@@ -372,9 +375,10 @@ const PrinterManagerTable = () => {
                             {page.map(row => {
                                 prepareRow(row);
                                 return (
-                                    <tr {...row.getRowProps()} key={row.id}>
+                                    <tr {...row.getRowProps()} key={row.id} className="hover:bg-gray-50">
                                         {row.cells.map(cell => (
-                                            <td {...cell.getCellProps()} className="max-w-40 px-4 py-2 text-sm text-gray-700 break-words" key={cell.column.id}>
+                                            <td {...cell.getCellProps()} className="px-4 py-2 text-sm font-normal
+                                                                                    text-gray-700 break-words" key={cell.column.id}>
                                                 {cell.render('Cell')}
                                             </td>
                                         ))}
@@ -384,8 +388,9 @@ const PrinterManagerTable = () => {
                         </tbody>
                     </table>
                 </div>
-                <div className="bottom-0 left-0 right-0 flex justify-center items-center bg-white py-2">
-                    <Pagination previousPage={previousPage}
+                <div className="flex justify-center items-center bg-white py-2">
+                    <Pagination
+                        previousPage={previousPage}
                         nextPage={nextPage}
                         gotoPage={gotoPage}
                         pageIndex={pageIndex}
@@ -393,21 +398,36 @@ const PrinterManagerTable = () => {
                         canPreviousPage={canPreviousPage}
                         canNextPage={canNextPage}
                         width={'w-8'}
-                        height={'h-8'} />
+                        height={'h-8'}
+                    />
                 </div>
             </div>
         </div>
     );
 };
 
-// const OrderPrintingHeader = () => {
-//     return (
-//         <div className="p-4 shadow-lg">
-//             <h1 className="text-xl font-bold">Printer information</h1>
-//             <span className="text-sm text-gray-600">Click the box on the left side of print to choose</span> <br />
-//             <span className="text-sm text-gray-600">You can only choose one printer</span>
-//         </div>
-//     )
-// }
+const PrinterManagerControl = () => {
+    return (
+        <div className="flex items-center space-x-2 p-4">
+            <button className=" bg-button-blue hover:bg-button-blue-hover
+                                text-white
+                                  text-sm px-4 py-2
+                                  rounded-full flex items-center space-x-1">
+                <img
+                    src={group}
+                    alt="search"
+                    className="w-4 h-4 text-gray-400 mr-2"
+                />
+                <span>Add Printer</span>
+            </button>
+            <button className="bg-button-green hover:bg-button-green-hover text-white text-sm px-4 py-2 rounded-full">
+                Enable
+            </button>
+            <button className="bg-button-red hover:bg-button-red-hover text-white text-sm px-4 py-2 rounded-full">
+                Disable
+            </button>
+        </div>
+    );
+};
 
 export default PrinterManagerTable;
