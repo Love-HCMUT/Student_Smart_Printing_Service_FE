@@ -40,6 +40,11 @@ export const COLUMNS = [
         Cell: ({ value }) => (
             <span className="text-xs font-inter text-table-text-color">{value}</span>
         ),
+        sortType: (rowA, rowB) => {
+            const dateA = new Date(rowA.original.year_of_manufacture.split('-').reverse().join('-'));
+            const dateB = new Date(rowB.original.year_of_manufacture.split('-').reverse().join('-'));
+            return dateA - dateB;
+        },
     },
     {
         Header: 'Status',
