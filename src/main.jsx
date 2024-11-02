@@ -3,7 +3,6 @@ import { createRoot } from "react-dom/client";
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 // import "regenerator-runtime/runtime";
 import "./styles/index.css";
-import App from "./App";
 import LoginForm from "./components/Login/login";
 import { PreLogin } from "./components/demo/PreLogin";
 import { AfterLogin } from "./components/demo/AfterLogin";

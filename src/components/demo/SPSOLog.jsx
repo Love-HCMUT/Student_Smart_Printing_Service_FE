@@ -11,7 +11,7 @@ export const SPSOLog = () => {
     <>
       <div className="flex flex-col w-screen justify-center align-middle items-center">
         <SPSOHeaderLog />
-        <div className="mt-[40px]">
+        <div className="mt-[40px] w-full">
           <Outlet />
         </div>
         <Footer />
