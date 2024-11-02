@@ -1,3 +1,19 @@
+const parseDate = (dateString) => {
+    const [datePart, timePart] = dateString.split(' ');
+    const [day, month, year] = datePart.split('/').map(Number);
+    const [hours, minutes] = timePart.split(':').map(Number);
+    return new Date(year, month - 1, day, hours, minutes);
+};
+
+const dateSort = (rowA, rowB, columnId) => {
+    const dateA = parseDate(rowA.original[columnId]);
+    const dateB = parseDate(rowB.original[columnId]);
+
+    if (dateA < dateB) return -1;
+    if (dateA > dateB) return 1;
+    return 0;
+};
+
 export const COLUMNS = [
     {
         Header: 'User ID',
@@ -33,11 +49,7 @@ export const COLUMNS = [
         Cell: ({ value }) => (
             <span className="text-xs font-inter text-table-text-color">{value}</span>
         ),
-        // sortType: (rowA, rowB) => {
-        //     const dateA = new Date(rowA.original.date_of_transaction.split('/').reverse().join('-'));
-        //     const dateB = new Date(rowB.original.date_of_transaction.split('/').reverse().join('-'));
-        //     return dateA - dateB;
-        // },
+        sortType: dateSort,
     },
     {
         Header: 'End Time',
@@ -45,11 +57,7 @@ export const COLUMNS = [
         Cell: ({ value }) => (
             <span className="text-xs font-inter text-table-text-color">{value}</span>
         ),
-        // sortType: (rowA, rowB) => {
-        //     const dateA = new Date(rowA.original.date_of_transaction.split('/').reverse().join('-'));
-        //     const dateB = new Date(rowB.original.date_of_transaction.split('/').reverse().join('-'));
-        //     return dateA - dateB;
-        // },
+        sortType: dateSort,
     },
     {
         Header: 'Number of pages',

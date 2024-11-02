@@ -6,7 +6,7 @@ import { Checkbox } from "../../Table_Lib/Components/Checkbox";
 import Pagination from "../../Table_Lib/Components/Pagination";
 import { SearchBar1 } from "../SearchBar1/searchbar01";
 import { SPSOHeader1 } from "../Header1/Header1";
-import { CustomDateInput } from "./customDateInputComponent";
+import { CustomDateInput } from "../DateInputComponent.jsx/customDateInputComponent";
 
 const MOCK_DATA = [
     {
@@ -161,13 +161,6 @@ const PaymentHistoryTable = () => {
     const [startDate, setStartDate] = useState(null);
     const [endDate, setEndDate] = useState(null);
     const [searchInput, setSearchInput] = useState("");
-
-    const handleStartDate = (event) => {
-        setStartDate(event.target.value);
-    }
-    const handleEndDate = (event) => {
-        setEndDate(event.target.value);
-    }
 
     const filterDataByDate = (rows, id, filterValue) => {
         const { startDate, endDate } = filterValue;
