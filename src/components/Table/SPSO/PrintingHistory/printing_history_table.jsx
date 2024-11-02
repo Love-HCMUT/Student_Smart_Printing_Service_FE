@@ -53,7 +53,7 @@ const PrintingHistoryPayment = () => {
     const [startDate, setStartDate] = useState(null);
     const [endDate, setEndDate] = useState(null);
     const [searchInput, setSearchInput] = useState("");
-
+    //
     const filterDataByDateRange = (rows, id, filterValue) => {
         const { startDate, endDate } = filterValue;
 
