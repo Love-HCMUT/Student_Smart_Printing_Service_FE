@@ -339,11 +339,9 @@ const PrinterManagerTable = () => {
 
     return (
         <div className="container mx-auto p-4 min-h-screen">
-            <div className="w-full rounded-lg mt-6">
-                <div className="shadow-lg">
-                    < SearchBar1 filter={globalFilter} setFilter={setGlobalFilter} param={<PrinterManagerControl />} />
-                    <SPSOHeader1 />
-                </div>
+            <div className="w-full rounded-lg mt-6 shadow-lg">
+                < SearchBar1 filter={globalFilter} setFilter={setGlobalFilter} param={<PrinterManagerControl />} />
+                <SPSOHeader1 />
                 <div className="h-[600px] overflow-auto">
                     <table {...getTableProps()} className="w-full border rounded-md">
                         <thead className="bg-gray-light">
@@ -408,7 +406,7 @@ const PrinterManagerTable = () => {
 
 const PrinterManagerControl = () => {
     return (
-        <div className="flex items-center space-x-2 p-4">
+        <div className="flex items-center space-x-2 p-4 w-[22rem]">
             <button className=" bg-button-blue hover:bg-button-blue-hover
                                 text-white
                                   text-sm px-4 py-2

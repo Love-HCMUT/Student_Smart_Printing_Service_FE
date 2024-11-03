@@ -49,7 +49,7 @@ const OrdersHistoryTable = () => {
     const { globalFilter } = state;
 
     return (
-        <div className="container mx-auto p-4">
+        <div className="container mx-auto p-4 mt-8">
             <OrdersHistorySearchTables filter={globalFilter} setFilter={setGlobalFilter} />
             <OrderPrintingHeader />
             <div className="w-full">

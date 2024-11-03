@@ -54,7 +54,7 @@ export const PSMainTable = ({
             />
             <div className="border border-gray-300 rounded-md">
                 <table {...getTableProps()} className="border-l border-r border-gray-light w-full">
-                    <thead className="sticky top-0 bg-white z-10">
+                    <thead className="top-0 bg-white z-10">
                         {headerGroups.map(headerGroup => (
                             <tr {...headerGroup.getHeaderGroupProps()} key={headerGroup.id}>
                                 {headerGroup.headers.map(column => (

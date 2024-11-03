@@ -7,6 +7,7 @@ import { SearchBar1 } from "../SearchBar1/searchbar01";
 import { SPSOHeader1 } from "../Header1/Header1";
 import { Checkbox } from "../../Table_Lib/Components/Checkbox";
 import { CustomDateInput } from "../DateInputComponent.jsx/customDateInputComponent";
+import { IsDateString } from "class-validator";
 
 const MOCK_DATA = [
     {
@@ -44,7 +45,16 @@ const MOCK_DATA = [
         "start_time": "15/02/2024 10:00",
         "end_time": "15/02/2024 10:30",
         "number_of_pages": "A4-300"
-    }
+    },
+    {
+        "user_ID": "USR005",
+        "printer_id": "PRT004",
+        "printing_staff_id": "STF004",
+        "file_name": "document4.pdf",
+        "start_time": "15/02/2024 11:00",
+        "end_time": "15/02/2024 11:30",
+        "number_of_pages": "A4-300"
+    },
 ]
 
 const PrintingHistoryPayment = () => {
@@ -53,24 +63,39 @@ const PrintingHistoryPayment = () => {
     const [startDate, setStartDate] = useState(null);
     const [endDate, setEndDate] = useState(null);
     const [searchInput, setSearchInput] = useState("");
-    //
+
+    const parseCustomDate = (DateString) => {
+        if (DateString) {
+            const [datePart, hourPart] = DateString.split(" ");
+            if (datePart && hourPart) {
+                const [day, month, year] = datePart.split("/");
+                const [hour, minute] = hourPart.split(":");
+
+                if (day && month && year && hour && minute) {
+                    return new Date(year, month - 1, day, hour, minute);
+                }
+            }
+        }
+        return null;
+    };
+
     const filterDataByDateRange = (rows, id, filterValue) => {
         const { startDate, endDate } = filterValue;
 
         return rows.filter(row => {
-            const rowStartTime = new Date(row.original.start_time);
-            const rowEndTime = new Date(row.original.end_time);
+            const rowStartTime = parseCustomDate(row.original.start_time);
+            const rowEndTime = parseCustomDate(row.original.end_time);
 
             const rowStartDateOnly = new Date(rowStartTime.getFullYear(), rowStartTime.getMonth(), rowStartTime.getDate());
             const rowEndDateOnly = new Date(rowEndTime.getFullYear(), rowEndTime.getMonth(), rowEndTime.getDate());
 
             if (startDate) {
-                const startOnly = new Date(new Date(startDate).toISOString().split('T')[0]);
+                const startOnly = new Date(new Date(startDate).getFullYear(), new Date(startDate).getMonth(), new Date(startDate).getDate());
                 if (rowStartDateOnly < startOnly) return false;
             }
 
             if (endDate) {
-                const endOnly = new Date(new Date(endDate).toISOString().split('T')[0]);
+                const endOnly = new Date(new Date(endDate).getFullYear(), new Date(endDate).getMonth(), new Date(endDate).getDate());
                 if (rowEndDateOnly > endOnly) return false;
             }
 
@@ -141,8 +166,8 @@ const PrintingHistoryPayment = () => {
 
     return (
         <div className="container mx-auto px-6 h-fit w-3/5 rounded-lg">
-            <div className="">
-                < SearchBar1
+            <div className="flex flex-col gap-4 mb-4">
+                <SearchBar1
                     value={searchInput}
                     setValue={setSearchInput}
                     setFilter={(value) => setGlobalFilter({ startDate, endDate, searchInput: value })}
@@ -157,8 +182,8 @@ const PrintingHistoryPayment = () => {
                     }
                 />
 
-                <SPSOHeader1 />
             </div>
+            <SPSOHeader1 />
             <div className="h-[430px] overflow-auto">
                 <table {...getTableProps()} className="mx-auto border rounded-md w-full">
                     <thead className="bg-gray-light">
@@ -218,6 +243,7 @@ const PrintingHistoryPayment = () => {
         </div>
     );
 };
+
 const DateInputComponent = ({ startDate, setStartDate, endDate, setEndDate, setGlobalFilter }) => {
     const handleStartDateChange = (date) => {
         setStartDate(date);
@@ -236,7 +262,5 @@ const DateInputComponent = ({ startDate, setStartDate, endDate, setEndDate, setG
         </div>
     );
 };
-
-
 
 export default PrintingHistoryPayment;
