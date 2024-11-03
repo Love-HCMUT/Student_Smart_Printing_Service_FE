@@ -208,7 +208,7 @@ const AddPaperSetting = ({ value, onChange }) => {
                 onChange={(e) => setNumberOfPaper(e.target.value)}
                 className="px-4 py-2 border rounded-md text-center"
             />
-        </div>
+            git pull origin Table-Component        </div>
     );
 };
 
