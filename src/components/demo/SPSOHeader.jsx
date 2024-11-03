@@ -24,6 +24,10 @@ export const SPSOHeader = ({ highlightedIndex = 0 }) => {
           label: "Report",
           href: "report",
         },
+        {
+          label: "Authorization",
+          href: "auth",
+        }
       ]}
       userName={"Dương Hải Lâm"}
       highlightedIndex={highlightedIndex}

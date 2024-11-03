@@ -27,6 +27,7 @@ import Package from "./components/Order/Package";
 import Note from "./components/Payment/Note";
 import { UserOrder } from "./components/demo/UserOrder";
 import { UserBalance } from "./components/demo/UserBalance";
+import AuthorizationTable from "./components/Table/SPSO/Authorization/authorization_table";
 
 const router = createBrowserRouter([
   {
@@ -125,6 +126,10 @@ const router = createBrowserRouter([
           },
         ],
       },
+      {
+        path: "/spso/auth",
+        element: <AuthorizationTable />
+      }
     ],
   },
 ]);
