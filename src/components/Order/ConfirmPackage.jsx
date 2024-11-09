@@ -3,7 +3,7 @@ import FilePreview from './FilePreview'
 
 const ConfirmPackage = () => {
     return (
-        <div className='w-2/5 bg-slate-100 p-3 rounded shadow-md'>
+        <div className='w-full mx-5 bg-slate-100 p-5 rounded shadow-md'>
             <div className='flex px-2'>
                 <div className='w-full font-bold text-center flex justify-center items-center'>
                     <h3 className='w-2/3 text-center bg-blue-400 rounded-md'>Package 1</h3>
@@ -30,7 +30,7 @@ const ConfirmPackage = () => {
                         <p><span className='text-blue-500 font-bold'>Format:</span> ansfkasflkaslfasfgklaslkm</p>
                         <p><span className='text-blue-500 font-bold'>Location:</span> ansfkasflkaslfasfgklaslkm</p>
                         <p><span className='text-blue-500 font-bold'>Color:</span> ansfkasflkaslfasfgklaslkm</p>
-
+                        6
                     </div>
                 </div>
 
