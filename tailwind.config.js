@@ -42,8 +42,19 @@ module.exports = {
 
         'table-text-color': '#667085',
 
-        'background-paging-disable': '#C4CDD5'
+        'background-paging-disable': '#C4CDD5',
 
+        'button-blue': '#1488D8',
+        'button-green': '#13C296',
+        'button-red': '#FF2C2C',
+
+        'button-blue-hover': '#0F6AB4',
+        'button-green-hover': '#0F9A7C',
+        'button-red-hover': '#D32F2F',
+
+      },
+      fontSize: {
+        'custom-size': '0.875rem',
       }
     },
   },

@@ -3,7 +3,6 @@ import { createRoot } from "react-dom/client";
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 // import "regenerator-runtime/runtime";
 import "./styles/index.css";
-import App from "./App";
 import LoginForm from "./components/Login/login";
 import { PreLogin } from "./components/demo/PreLogin";
 import { AfterLogin } from "./components/demo/AfterLogin";
@@ -28,13 +27,11 @@ import Package from "./components/Order/Package";
 import Note from "./components/Payment/Note";
 import { UserOrder } from "./components/demo/UserOrder";
 import { UserBalance } from "./components/demo/UserBalance";
-import Login_page from "./pages/Login_page";
-import Home_App from "./pages/Home_page";
 
 const router = createBrowserRouter([
   {
     path: "/",
-    element: <Home_App />,
+    element: <PreLogin />,
   },
   {
     path: "/login",
