@@ -15,6 +15,16 @@ export const SPSOHeader = ({ highlightedIndex = 0 }) => {
         {
           label: "Log",
           href: "log",
+          sublinks: [
+            {
+              label: "Printing",
+              href: "printing",
+            },
+            {
+              label: "Payment",
+              href: "payment",
+            },
+          ],
         },
         {
           label: "Setting",

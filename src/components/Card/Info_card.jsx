@@ -22,7 +22,7 @@ const InfoCards = ({
 
       {/* Recent Transition Card */}
       <div className="flex flex-col bg-white shadow-md rounded-lg p-6">
-        <h3 className="text-gray-500 text-lg">Recent transition</h3>
+        <h3 className="text-gray-500 text-lg">Recent transaction</h3>
         <ul className="mt-4 space-y-2">
           {recentTransitions.map((transition, index) => (
             <li key={index} className="flex items-center text-gray-600">

@@ -8,8 +8,10 @@ export default function Header_APP({ links, userName, highlightedIndex }) {
   const [activeLink, setActiveLink] = useState(null);
   const [currentTab, setCurrentTab] = useState(highlightedIndex);
   const handleLinkClick = (label, index) => {
-    setActiveLink(activeLink === label ? null : label);
     setCurrentTab(index);
+  };
+  const handleOnMouseover = () => {
+    setActiveLink(activeLink === label ? null : label);
   };
 
   return (
@@ -21,7 +23,11 @@ export default function Header_APP({ links, userName, highlightedIndex }) {
 
         <nav className="flex">
           {links.map((link, index) => (
-            <div key={link.label} className="relative">
+            <div
+              key={link.label}
+              className="relative"
+              onMouseOver={() => handleOnMouseover()}
+            >
               <NavLink
                 to={link.href}
                 className={`px-5 py-4 text-white transition-colors ${

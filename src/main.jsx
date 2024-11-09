@@ -28,11 +28,13 @@ import Package from "./components/Order/Package";
 import Note from "./components/Payment/Note";
 import { UserOrder } from "./components/demo/UserOrder";
 import { UserBalance } from "./components/demo/UserBalance";
+import Login_page from "./pages/Login_page";
+import Home_App from "./pages/Home_page";
 
 const router = createBrowserRouter([
   {
     path: "/",
-    element: <PreLogin />,
+    element: <Home_App />,
   },
   {
     path: "/login",

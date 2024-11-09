@@ -28,11 +28,12 @@ import PrintingHistoryPayment from "./components/Table/SPSO/PrintingHistory/prin
 import OrdersHistoryPayment from "./components/Table/Student/Payment/orders_history_payment";
 import PrinterTable from "./components/Table/Student/Printer/printer_table";
 import OrdersHistoryTable from "./components/Table/Student/Printing/orders_history_tables";
+import Home_App from "./pages/Home_page";
 
 function App() {
   return (
     <>
-      
+      <Home_App />
     </>
   );
 }
