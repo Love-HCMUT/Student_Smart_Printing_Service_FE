@@ -3,7 +3,8 @@ import React, { useState } from 'react';
 import Logo from "../../assets/logo.svg"
 import Avarta from "../../assets/avarta.svg"
 
-export default function Header_APP({ links, userName, highlightedIndex }) {
+// onLogout là function để gửi yêu cầu tới server,.... và chuyển hướng ra trang login
+export default function Header_APP({ links, userName, highlightedIndex, onLogout  }) {
   const [activeLink, setActiveLink] = useState(null); 
 
   const handleLinkClick = (label) => {
@@ -59,6 +60,12 @@ export default function Header_APP({ links, userName, highlightedIndex }) {
             alt="User Icon"
             className="h-8 w-8 rounded-full p-1"
           />
+          <button
+            onClick={onLogout}
+            className="px-4 py-2 bg-gradient-to-r from-red-500 to-red-600 hover:from-red-600 hover:to-red-700 text-white rounded-full shadow-md hover:shadow-lg transition-all duration-300 ease-in-out transform hover:-translate-y-0.5 ml-4"
+          >
+            Log Out
+          </button>
         </div>
       </div>
     </header>

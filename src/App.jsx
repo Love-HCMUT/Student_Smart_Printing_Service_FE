@@ -31,11 +31,11 @@ function HeaderApp() {
     <div className="App flex flex-col min-h-screen"> {/* Set to flex and full height */}
   {/* Header */}
   <header className="fixed top-0 left-0 w-full z-50">
-    <Header_Login />
+    <Header_APP links={links} userName={userName} />
   </header>
 
   {/* Main Content with Background Image */}
-  <main className="flex-grow pt-16"> {/* Allow main to grow and add padding */}
+   <main className="flex-grow pt-16"> {/* Allow main to grow and add padding */}
     {/* Move WelcomeBanner to the left */}
     {/* <PrinterForm /> */}
     {/* <PackageForm 
@@ -52,7 +52,7 @@ function HeaderApp() {
     isColorAllPages="True"
     isColorCover="False"
 /> */}
-    <InfoCards 
+    {/* <InfoCards 
   totalPapers="357" 
   paperSize="A4 - papers" 
   recentTransitions={[
@@ -60,8 +60,8 @@ function HeaderApp() {
     { color: 'green', text: '200 papers at 01/01/2025 ' },
     { color: 'green', text: '200 papers at 01/01/2025 ' },
   ]}
-/>
-  </main>
+/> */}
+  </main> 
   
   {/* Footer Stays at Bottom */}
   <Footer />
