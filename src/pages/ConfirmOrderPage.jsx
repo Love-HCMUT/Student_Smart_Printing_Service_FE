@@ -4,6 +4,11 @@ import TotalOrder from '../components/Order/TotalOrder'
 import Note from '../components/Payment/Note'
 
 const ConfirmOrderPage = () => {
+
+    
+
+
+
     return (
         <div className='justify-center w-lvw min-h-screen bg-light-gray flex gap-10'>
 

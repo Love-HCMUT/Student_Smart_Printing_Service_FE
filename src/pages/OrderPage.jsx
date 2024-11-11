@@ -1,16 +1,68 @@
-import React from 'react'
+import React, { useCallback, useState } from 'react'
 import Package from '../components/Order/Package'
 import Note from '../components/Payment/Note'
 
 const OrderPage = () => {
+    const [config, setConfig] = useState({
+        copy: 1,
+        sides: 1,
+        paper: 'A4',
+        paper_per_sheet: 1,
+        scale: 1,
+        cover: true,
+        binding: true,
+        glass: false,
+        color_all: false,
+        color_cover: false,
+    })
+
+    const [pages, setPages] = useState([{
+        from: 0,
+        to: undefined,
+        color: false,
+        orientation: 'landscape'
+    }])
+
+    const updateField = useCallback((namefield, value) => {
+        console.log("update ", namefield)
+        setConfig(prev => ({
+            ...prev, [namefield]: value
+        }))
+    }, [])
+
+    const removePages = useCallback((index) => {
+        setPages(page => page.filter((_, i) => i != index))
+    }, [])
+
+    const addPages = useCallback((pages) => {
+        setPages((prev) => [...prev, pages])
+    }, [])
+
+    const updatePages = useCallback((index, fieldname, value) => {
+        setConfig(prev => {
+            const updatedConfig = [...prev];
+            updatedConfig[index] = {
+                ...updatedConfig[index],
+                [fieldname]: value
+            }
+            return updatedConfig
+        })
+    }, [])
+
+    console.log(config)
+    console.log(pages)
+
     return (
         <div className='bg-white w-lwh flex justify-center items-center flex-col'>
             <h1 className='mt-[30px] h-[80px] text-left w-2/3 font-bold text-3xl flex items-center text-blue-800'>Your orders</h1>
 
             <div className='p-10 border bg-light-gray h-full w-2/3 shadow-xl flex flex-col justify-center items-center gap-10'>
                 {/* package */}
-                <Package />
-                <Package />
+                <Package
+                    func={updateField}
+                    remove={removePages}
+                    add={addPages}
+                    update={updatePages} />
 
                 <div className="col-span-1 flex items-end justify-end">
                     <button

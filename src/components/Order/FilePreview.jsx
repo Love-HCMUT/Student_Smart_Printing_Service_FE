@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { memo } from 'react'
 
 const FilePreview = ({ name, weight }) => {
     return (
@@ -29,4 +29,4 @@ const FilePreview = ({ name, weight }) => {
     )
 }
 
-export default FilePreview
+export default memo(FilePreview)
