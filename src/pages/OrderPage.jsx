@@ -1,56 +1,32 @@
-import React, { useCallback, useState } from 'react'
+import React, { useState } from 'react'
 import Package from '../components/Order/Package'
 import Note from '../components/Payment/Note'
 
 const OrderPage = () => {
-    const [config, setConfig] = useState({
-        copy: 1,
-        sides: 1,
-        paper: 'A4',
-        paper_per_sheet: 1,
-        scale: 1,
-        cover: true,
-        binding: true,
-        glass: false,
-        color_all: false,
-        color_cover: false,
-    })
 
-    const [pages, setPages] = useState([{
-        from: 0,
-        to: undefined,
-        color: false,
-        orientation: 'landscape'
-    }])
+    const [packages, setPackages] = useState([{}])
 
-    const updateField = useCallback((namefield, value) => {
-        console.log("update ", namefield)
-        setConfig(prev => ({
-            ...prev, [namefield]: value
-        }))
-    }, [])
+    const addMorePackage = () => {
+        const newpackages = [
+            ...packages, {}
+        ]
+        setPackages(newpackages)
+    }
 
-    const removePages = useCallback((index) => {
-        setPages(page => page.filter((_, i) => i != index))
-    }, [])
+    const removePackage = (index) => {
+        const newpackages = packages.filter((e, i) => i != index)
+        setPackages(newpackages)
+    }
 
-    const addPages = useCallback((pages) => {
-        setPages((prev) => [...prev, pages])
-    }, [])
-
-    const updatePages = useCallback((index, fieldname, value) => {
-        setConfig(prev => {
-            const updatedConfig = [...prev];
-            updatedConfig[index] = {
-                ...updatedConfig[index],
-                [fieldname]: value
-            }
-            return updatedConfig
+    const updatePackage = (index, value) => {
+        const newpackages = packages.map((e, i) => {
+            if (i === index) return value
+            else return e
         })
-    }, [])
+        setPackages(newpackages)
+    }
 
-    console.log(config)
-    console.log(pages)
+    console.log("pack", packages)
 
     return (
         <div className='bg-white w-lwh flex justify-center items-center flex-col'>
@@ -58,15 +34,14 @@ const OrderPage = () => {
 
             <div className='p-10 border bg-light-gray h-full w-2/3 shadow-xl flex flex-col justify-center items-center gap-10'>
                 {/* package */}
-                <Package
-                    func={updateField}
-                    remove={removePages}
-                    add={addPages}
-                    update={updatePages} />
+                {packages.map((e, i) =>
+                    <Package index={i} update={updatePackage} remove={removePackage} />
+                )}
 
                 <div className="col-span-1 flex items-end justify-end">
                     <button
                         type="button"
+                        onClick={addMorePackage}
                         className="min-w-[100px] text-white bg-blue-400 hover:bg-blue-800 focus:outline-none focus:ring-blue-300 font-medium rounded-full text-sm px-5 py-2.5 text-center me-2 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
                     >
                         Add more packages

@@ -1,15 +1,70 @@
-import React, { memo } from 'react'
+import React, { useState, memo, useEffect } from 'react'
 import FilePreview from './FilePreview'
 import PageSetting from './PageSetting'
 
 
-const Package = ({ func, remove, add, update }) => {
+const Package = ({ index, update, remove }) => {
+  const [config, setConfig] = useState({
+    copy: 1,
+    sides: 2,
+    paper: 'A4',
+    paper_per_sheet: 1,
+    scale: 1,
+    cover: true,
+    binding: true,
+    glass: false,
+    color_all: false,
+    color_cover: false,
+  })
+
+  const [pages, setPages] = useState([{
+    from_to: "begin-end",
+    color: false,
+    orientation: 'landscape'
+  }])
+
+  useEffect(() => {
+    update(index, { ...config, pages: pages })
+  }, [pages, config])
+
+  const updateField = (namefield, value) => {
+    setConfig(prev => ({
+      ...prev, [namefield]: /^\d+$/.test(value) ? parseInt(value, 10) : value
+    }))
+  }
+
+  const removePages = (index) => {
+    setPages(page => page.filter((_, i) => i != index))
+  }
+
+  const addPages = () => {
+    const newpages = {
+      from_to: "begin-end",
+      color: false,
+      orientation: 'landscape'
+    }
+    setPages((prev) => [...prev, newpages])
+  }
+
+  const updatePages = (index, fieldname, value) => {
+    setPages(prev => {
+      const updatedConfig = [...prev];
+      updatedConfig[index] = {
+        ...updatedConfig[index],
+        [fieldname]: value
+      }
+      return updatedConfig
+    })
+  }
+
 
   return (
     <div className='relative px-6 py-3 bg-slate-200 rounded w-5/6 shadow-xl'>
 
       {/* icon thung rac  */}
-      <div className="absolute top-3 right-3">
+      <button
+        onClick={() => remove(index)}
+        className="absolute top-3 right-3">
         <svg className="icon" width="18" height="18" viewBox="0 0 18 18" fill="none" xmlns="http://www.w3.org/2000/svg">
           <g id="System Icons">
             <path id="Vector" d="M2.25 4.5H3.75H15.75" stroke="#111827" strokeWidth="1.25" strokeLinecap="round" strokeLinejoin="round" />
@@ -18,7 +73,7 @@ const Package = ({ func, remove, add, update }) => {
             <path id="Vector_4" d="M10.5 8.25V12.75" stroke="#111827" strokeWidth="1.25" strokeLinecap="round" strokeLinejoin="round" />
           </g>
         </svg>
-      </div>
+      </button>
 
       {/* information */}
       <div className='min-h-[230px] w-full flex justify-center items-center rounded gap-6 pt-2'>
@@ -36,7 +91,7 @@ const Package = ({ func, remove, add, update }) => {
                   type="number"
                   name="copies"
                   min="1"
-                  onChange={(event) => func('copy', event.target.value)}
+                  onChange={(event) => updateField('copy', event.target.value)}
                   className="max-w-11 border border-gray-300 rounded p-1 text-center"
                 />
               </div>
@@ -48,7 +103,7 @@ const Package = ({ func, remove, add, update }) => {
                   name="toPage"
                   min="1"
                   max="2"
-                  onChange={(event) => func('sides', event.target.value)}
+                  onChange={(event) => updateField('sides', event.target.value)}
                   className="max-w-11 border border-gray-300 rounded p-1 text-center"
                 />
               </div>
@@ -59,7 +114,7 @@ const Package = ({ func, remove, add, update }) => {
                 <select
                   name="paper"
                   className="w-14 border border-gray-300 rounded p-1 text-center"
-                  onChange={(event) => func('paper', event.target.value)}
+                  onChange={(event) => updateField('paper', event.target.value)}
                 >
                   <option value="A4">A4</option>
                   <option value="A3">A3</option>
@@ -73,7 +128,7 @@ const Package = ({ func, remove, add, update }) => {
                   name="toPage"
                   min="1"
                   className="max-w-11 border border-gray-300 rounded p-1 text-center"
-                  onChange={(event) => func('paper_per_sheet', event.target.value)}
+                  onChange={(event) => updateField('paper_per_sheet', event.target.value)}
                 />
               </div>
 
@@ -86,7 +141,7 @@ const Package = ({ func, remove, add, update }) => {
                   max="1"
                   step="0.1"
                   className="max-w-11 border border-gray-300 rounded p-1 text-center"
-                  onChange={(event) => func('scale', event.target.value)}
+                  onChange={(event) => updateField('scale', event.target.value)}
                 />
               </div>
 
@@ -97,13 +152,27 @@ const Package = ({ func, remove, add, update }) => {
           <div className=''>
             <h3 className='font-bold mb-1'>Pages</h3>
             <div>
-              <PageSetting />
-              <PageSetting />
+              {pages.map((e, index) =>
+                <div key={index} className='relative'>
+                  <button
+                    onClick={() => removePages(index)}
+                    className="absolute right-2 top-1 hover:bg-red-600 text-red-500 font-bold hover:text-white w-3 h-3 flex items-center justify-center rounded-full">
+                    x
+                  </button>
+                  <PageSetting
+                    index={index}
+                    func={updatePages}
+                  />
+                </div>)}
             </div>
 
             {/* Button add more */}
             <div className='w-full flex items-center justify-center'>
-              <button className='bg-blue-500 mt-2 rounded px-6 hover:bg-blue-600'>More setting pages</button>
+              <button
+                onClick={addPages}
+                className='bg-blue-500 mt-2 rounded px-6 hover:bg-blue-600'>
+                More setting pages
+              </button>
             </div>
 
           </div>
@@ -120,7 +189,7 @@ const Package = ({ func, remove, add, update }) => {
                   name="toPage"
                   min="0"
                   className="max-w-11 border border-gray-300 rounded p-1 text-center"
-                  onChange={(event) => func('cover', event.target.checked)}
+                  onChange={(event) => updateField('cover', event.target.checked)}
                 />
               </div>
 
@@ -131,7 +200,7 @@ const Package = ({ func, remove, add, update }) => {
                   name="toPage"
                   min="0"
                   className="max-w-11 border border-gray-300 rounded p-1 text-center"
-                  onChange={(event) => func('binding', event.target.checked)}
+                  onChange={(event) => updateField('binding', event.target.checked)}
                 />
               </div>
 
@@ -141,7 +210,7 @@ const Package = ({ func, remove, add, update }) => {
                   type="checkbox"
                   name="toPage"
                   min="0"
-                  onChange={(event) => func('glass', event.target.checked)}
+                  onChange={(event) => updateField('glass', event.target.checked)}
                   className="max-w-11 border border-gray-300 rounded p-1 text-center"
                 />
               </div>
@@ -160,7 +229,7 @@ const Package = ({ func, remove, add, update }) => {
                   type="checkbox"
                   name="toPage"
                   min="0"
-                  onChange={(event) => func('color_all', event.target.checked)}
+                  onChange={(event) => updateField('color_all', event.target.checked)}
                   className="max-w-11 border border-gray-300 rounded p-1 text-center"
                 />
               </div>
@@ -171,7 +240,7 @@ const Package = ({ func, remove, add, update }) => {
                   type="checkbox"
                   name="toPage"
                   min="0"
-                  // onChange={(event) => func('color_cover', event.target.checked)}
+                  onChange={(event) => updateField('color_cover', event.target.checked)}
                   className="max-w-11 border border-gray-300 rounded p-1 text-center"
                 />
               </div>
