@@ -2,12 +2,14 @@ import React, { useState } from "react";
 
 const RegisterForm = () => {
   const [formData, setFormData] = useState({
-    id: "",
     fullName: "",
     username: "",
     password: "",
     position: "",
     phoneNumber: "",
+    workingLocationCampus: "",
+    workingLocationBuilding: "",
+    workingLocationRoom: "",
   });
 
   const handleChange = (e) => {
@@ -22,21 +24,14 @@ const RegisterForm = () => {
 
   const isPhoneRequired =
     formData.position === "Printing Staff" || formData.position === "SPSO";
+  const isLocationRequired =
+    formData.position === "Printing Staff";
 
   return (
     <div className="flex-grow flex items-center justify-center min-h-screen bg-gray-100">
       <div className="bg-white p-8 rounded-2xl shadow-xl max-w-md w-full">
         <h2 className="text-3xl font-bold text-center text-blue-800 mb-5">Register</h2>
         <form className="space-y-5" onSubmit={handleSubmit}>
-          <input
-            type="text"
-            name="id"
-            value={formData.id}
-            onChange={handleChange}
-            placeholder="ID"
-            className="w-full px-5 py-2 border border-blue-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500 transition-all"
-            required
-          />
           <input
             type="text"
             name="fullName"
@@ -89,6 +84,38 @@ const RegisterForm = () => {
               className="w-full px-5 py-2 border border-blue-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500 transition-all"
               required
             />
+          )}
+
+          {isLocationRequired && (
+            <div className="flex space-x-3">
+              <input
+                type="text"
+                name="workingLocationCampus"
+                value={formData.workingLocationCampus}
+                onChange={handleChange}
+                placeholder="Campus"
+                className="w-full p-3 border border-blue-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500 transition-all text-center"
+                required
+              />
+              <input
+                type="text"
+                name="workingLocationBuilding"
+                value={formData.workingLocationBuilding}
+                onChange={handleChange}
+                placeholder="Building"
+                className="w-full p-3 border border-blue-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500 transition-all text-center"
+                required
+              />
+              <input
+                type="text"
+                name="workingLocationRoom"
+                value={formData.workingLocationRoom}
+                onChange={handleChange}
+                placeholder="Room"
+                className="w-full p-3 border border-blue-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500 transition-all text-center"
+                required
+              />
+            </div>
           )}
 
           <button

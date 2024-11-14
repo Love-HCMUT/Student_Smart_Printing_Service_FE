@@ -37,8 +37,8 @@ function HeaderApp() {
   {/* Main Content with Background Image */}
    <main className="flex-grow pt-16"> {/* Allow main to grow and add padding */}
     {/* Move WelcomeBanner to the left */}
-    {/* <PrinterForm /> */}
-    <PackageForm 
+    <PrinterForm />
+    {/* <PackageForm 
     documents={["Document name.pdf", "Another document.pdf"]} // Pass documents as an array
     papers="10"
     sides="2"
@@ -55,7 +55,7 @@ function HeaderApp() {
     isBinding="True"
     isColorAllPages="True"
     isColorCover="False"
-/>
+/> */}
 
 
 
