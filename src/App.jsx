@@ -38,20 +38,29 @@ function HeaderApp() {
    <main className="flex-grow pt-16"> {/* Allow main to grow and add padding */}
     {/* Move WelcomeBanner to the left */}
     {/* <PrinterForm /> */}
-    {/* <PackageForm 
-    document1="Document name.pdf"
-    document2="Document name.pdf"
+    <PackageForm 
+    documents={["Document name.pdf", "Another document.pdf"]} // Pass documents as an array
     papers="10"
     sides="2"
     copies="1"
-    fromPage="1"
-    endPage="10"
+    scale="100%"
+    paperSize="A4"
+    paperSheet="1"
+    printingPages={[
+        { fromPage: "1", endPage: "10", isColor: "True", orientation: "Portrait" },
+        { fromPage: "11", endPage: "20", isColor: "False", orientation: "Landscape" }
+    ]}
     isCover="True"
     isGlass="False"
     isBinding="True"
     isColorAllPages="True"
     isColorCover="False"
-/> */}
+/>
+
+
+
+
+
     {/* <InfoCards 
   totalPapers="357" 
   paperSize="A4 - papers" 
