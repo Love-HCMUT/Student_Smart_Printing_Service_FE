@@ -31,28 +31,37 @@ function HeaderApp() {
     <div className="App flex flex-col min-h-screen"> {/* Set to flex and full height */}
   {/* Header */}
   <header className="fixed top-0 left-0 w-full z-50">
-    <Header_Login />
+    <Header_APP links={links} userName={userName} />
   </header>
 
   {/* Main Content with Background Image */}
-  <main className="flex-grow pt-16"> {/* Allow main to grow and add padding */}
+   <main className="flex-grow pt-16"> {/* Allow main to grow and add padding */}
     {/* Move WelcomeBanner to the left */}
-    {/* <PrinterForm /> */}
+    <PrinterForm />
     {/* <PackageForm 
-    document1="Document name.pdf"
-    document2="Document name.pdf"
+    documents={["Document name.pdf", "Another document.pdf"]} // Pass documents as an array
     papers="10"
     sides="2"
     copies="1"
-    fromPage="1"
-    endPage="10"
+    scale="100%"
+    paperSize="A4"
+    paperSheet="1"
+    printingPages={[
+        { fromPage: "1", endPage: "10", isColor: "True", orientation: "Portrait" },
+        { fromPage: "11", endPage: "20", isColor: "False", orientation: "Landscape" }
+    ]}
     isCover="True"
     isGlass="False"
     isBinding="True"
     isColorAllPages="True"
     isColorCover="False"
 /> */}
-    <InfoCards 
+
+
+
+
+
+    {/* <InfoCards 
   totalPapers="357" 
   paperSize="A4 - papers" 
   recentTransitions={[
@@ -60,8 +69,8 @@ function HeaderApp() {
     { color: 'green', text: '200 papers at 01/01/2025 ' },
     { color: 'green', text: '200 papers at 01/01/2025 ' },
   ]}
-/>
-  </main>
+/> */}
+  </main> 
   
   {/* Footer Stays at Bottom */}
   <Footer />
