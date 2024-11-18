@@ -7,7 +7,7 @@ import { List } from "./List.jsx";
 export const ReportList = () => {
   return (
     <>
-      <div className="m-auto max-w-50% max-h-50% flex flex-col justify-center align-middle">
+      <div className="m-auto max-w-[50%] max-h-[50%] flex flex-col justify-center align-middle">
         <div className="m-auto inline-flex flex-col">
           <Head>
             <Filters />
@@ -16,18 +16,19 @@ export const ReportList = () => {
             <Input label="Year" min={2000} max={2050} />
           </Head>
           <Description title="Report" description="Monthly/Yearly Reports" />
+          <div className="w-full">
+            <List
+              names={[
+                { month: 12, year: 2024 },
+                { month: 11, year: 2024 },
+                { month: 10, year: 2024 },
+              ]}
+            />
+          </div>
+          <div className="w-full flex justify-center">
+            <List names={[{ year: 2023 }]} year />
+          </div>
         </div>
-        <List
-          names={[
-            [12, 2024],
-            [11, 2024],
-            [10, 2024],
-            [9, 2024],
-            [8, 2024],
-            [7, 2024],
-          ]}
-        />
-        <List names={[2023, 2022, 2021, 2020, 2019, 2018]} year />
       </div>
     </>
   );

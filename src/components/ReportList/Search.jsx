@@ -21,7 +21,7 @@ export const Search = () => {
   };
   return (
     <>
-      <div className="h-[42px] w-[588px] p-4 bg-[#f2f2f7] rounded-[20px] shadow justify-between items-center inline-flex">
+      <div className="h-[42px] w-full p-4 bg-[#f2f2f7] rounded-[20px] shadow justify-between items-center inline-flex">
         <input
           value={value}
           placeholder="Search"

@@ -1,8 +1,10 @@
 import chart from "../../assets/chart.svg";
-export const Month = ({ month = 9, year = 2024 }) => {
+export const Month = ({ data = { month: 9, year: 2024 } }) => {
+  const { month, year } = data;
+  console.log;
   return (
     <>
-      <div className="ml-6 my-4 min-w-[45%] max-h-[30%] p-6 bg-white rounded-2xl shadow hover:cursor-pointer hover:opacity-90">
+      <div className="flex flex-col ml-6 my-4 w-fit h-fit min-w-[45%] p-6 bg-white rounded-2xl shadow hover:cursor-pointer hover:opacity-90">
         <img
           className="w-full"
           src={chart}
