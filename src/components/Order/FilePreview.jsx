@@ -1,6 +1,6 @@
 import React, { memo } from 'react'
 
-const FilePreview = ({ name, weight }) => {
+const FilePreview = ({ index, name, weight, func }) => {
     return (
         <div className="flex items-center justify-between border-2 border-dashed border-blue-600 bg-blue-100 p-2 rounded-md mt-2">
             <div className="flex-grow flex items-center">
@@ -13,9 +13,11 @@ const FilePreview = ({ name, weight }) => {
                 <span className="text-gray-900 ml-5">{name}</span>
             </div>
 
-            <span className="text-gray-500 text-sm flex-shrink-0">{weight} MB</span>
+            <span className="text-gray-500 text-sm flex-shrink-0"> {(weight / 1024).toFixed(2)} KB</span>
 
-            <div className="ml-5">
+            <button
+                onClick={() => func(index)}
+                className="ml-5">
                 <svg width="18" height="18" viewBox="0 0 18 18" fill="none" xmlns="http://www.w3.org/2000/svg">
                     <g id="System Icons">
                         <path id="Vector" d="M2.25 4.5H3.75H15.75" stroke="#111827" strokeWidth="1.25" strokeLinecap="round" strokeLinejoin="round" />
@@ -24,7 +26,7 @@ const FilePreview = ({ name, weight }) => {
                         <path id="Vector_4" d="M10.5 8.25V12.75" stroke="#111827" strokeWidth="1.25" strokeLinecap="round" strokeLinejoin="round" />
                     </g>
                 </svg>
-            </div>
+            </button>
         </div>
     )
 }

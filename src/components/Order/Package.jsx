@@ -23,9 +23,28 @@ const Package = ({ index, update, remove }) => {
     orientation: 'landscape'
   }])
 
+  //handle file
+  const [fileSelected, setfileSelected] = useState([])
+  console.log("listfile: ", fileSelected)
+
   useEffect(() => {
     update(index, { ...config, pages: pages })
   }, [pages, config])
+
+
+  const removeFile = (index) => {
+    const newfileSelected = fileSelected.filter((_, i) => i !== index)
+    setfileSelected(newfileSelected)
+    console.log("remove ", index)
+  }
+
+  const uploadFile = (event) => {
+    const file = event.target.files[0]
+    if (file) {
+      const newFileSelected = [...fileSelected, file]
+      setfileSelected(newFileSelected)
+    }
+  }
 
   const updateField = (namefield, value) => {
     setConfig(prev => ({
@@ -262,7 +281,10 @@ const Package = ({ index, update, remove }) => {
                 <p class="mb-2 text-sm text-gray-700"><span class="font-semibold">Click to upload</span> or drag and drop</p>
                 <p class="text-xs text-gray-600">SVG, PNG, JPG or GIF (MAX. 800x400px)</p>
               </div>
-              <input id="dropzone-file" type="file" class="hidden" />
+              <input
+                id="dropzone-file" type="file" class="hidden"
+                onChange={uploadFile}
+              />
             </label>
           </div>
 
@@ -272,9 +294,9 @@ const Package = ({ index, update, remove }) => {
 
       {/* FILE PREVIEW */}
       <div className="w-full grid gap-1 mb-4">
-        {/* file */}
-        <FilePreview name="filename.pdf" weight={2} />
-        <FilePreview name="filename.pdf" weight={2} />
+        {fileSelected.map((e, i) => {
+          return <FilePreview key={i} index={i} name={e.name} weight={e.size} func={removeFile} />
+        })}
       </div>
 
     </div >
