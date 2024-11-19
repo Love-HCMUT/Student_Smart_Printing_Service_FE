@@ -1,14 +1,38 @@
-import React from 'react'
+import React, { useLayoutEffect, useState } from 'react'
 import FilePreview from './FilePreview'
 
-const ConfirmPackage = () => {
+const ConfirmPackage = ({ index, data, func, removefile, updatecopy }) => {
+    const [format, setFormat] = useState('')
+    const [location, setLocation] = useState('null')
+    const [specificPages, setSpecificPages] = useState([])
+
+    const handleRemoveFile = (idx) => {
+        removefile(index, idx)
+    }
+
+    useLayoutEffect(() => {
+        const formatData = Object.entries(data).
+            filter(([key, value]) => key !== 'pages' && key !== 'files').
+            map(([key, value]) => `${key}: ${value}`).join(', ')
+        setFormat(formatData)
+
+        const pages = (data.pages).map((entries) => {
+            return Object.entries(entries).map(([key, value]) => `${key}: ${value}`).join(', ')
+        })
+        setSpecificPages(pages)
+
+        console.log("data ", data)
+    }, [])
+
     return (
         <div className='w-full mx-5 bg-slate-100 p-5 rounded shadow-md'>
             <div className='flex px-2'>
                 <div className='w-full font-bold text-center flex justify-center items-center'>
                     <h3 className='w-2/3 text-center bg-blue-400 rounded-md'>Package 1</h3>
                 </div>
-                <button className=''>
+                <button
+                    onClick={() => func(index)}
+                    className=''>
                     <svg width="18" height="18" viewBox="0 0 18 18" fill="none" xmlns="http://www.w3.org/2000/svg">
                         <g id="System Icons">
                             <path id="Vector" d="M2.25 4.5H3.75H15.75" stroke="#111827" strokeWidth="1.25" strokeLinecap="round" strokeLinejoin="round" />
@@ -27,10 +51,15 @@ const ConfirmPackage = () => {
                 <div className='my-2'>
                     <span className='font-bold'>Infomation</span>
                     <div className='px-4 flex flex-col gap-1'>
-                        <p><span className='text-blue-500 font-bold'>Format:</span> ansfkasflkaslfasfgklaslkm</p>
-                        <p><span className='text-blue-500 font-bold'>Location:</span> ansfkasflkaslfasfgklaslkm</p>
-                        <p><span className='text-blue-500 font-bold'>Color:</span> ansfkasflkaslfasfgklaslkm</p>
-                        6
+                        <p><span className='text-blue-500 font-bold'>Format: </span>{format}</p>
+                        <p><span className='text-blue-500 font-bold'>Location:</span> {location}</p>
+                        <p><span className='text-blue-500 font-bold'>Specific pages:</span>
+                            <br></br>{specificPages.map((e, i) =>
+                                <React.Fragment key={i}>
+                                    {e}
+                                    <br />
+                                </React.Fragment>)}
+                        </p>
                     </div>
                 </div>
 
@@ -41,11 +70,13 @@ const ConfirmPackage = () => {
 
                     <div class="relative flex items-center max-w-[6rem]">
                         <button type="button" id="decrement-button" data-input-counter-decrement="quantity-input" class="flex items-center justify-center bg-white border border-gray-300 rounded-l-lg p-1 h-8 text-xl text-gray-800 hover:bg-gray-100 focus:ring-2 focus:ring-blue-500 focus:outline-none">
-                            <span>-</span>
+                            <span onClick={() => updatecopy(index, -1)}>-</span>
                         </button>
-                        <input type="text" id="quantity-input" data-input-counter aria-describedby="helper-text-explanation" class="bg-white border border-gray-300 h-8 text-center text-gray-900 text-lg focus:ring-blue-500 focus:border-blue-500 block w-full py-1 placeholder-gray-500" placeholder="999" required />
+                        <input type="text"
+                                id="quantity-input" data-input-counter aria-describedby="helper-text-explanation" class="bg-white border border-gray-300 h-8 text-center text-gray-900 text-lg focus:ring-blue-500 focus:border-blue-500 block w-full py-1 placeholder-gray-500"
+                                placeholder={data.copy} required />
                         <button type="button" id="increment-button" data-input-counter-increment="quantity-input" class="flex items-center justify-center bg-white border border-gray-300 rounded-r-lg p-1 h-8 text-xl text-gray-800 hover:bg-gray-100 focus:ring-2 focus:ring-blue-500 focus:outline-none">
-                            <span>+</span>
+                            <span onClick={() => updatecopy(index, 1)}>+</span>
                         </button>
                     </div>
                 </div>
@@ -54,8 +85,9 @@ const ConfirmPackage = () => {
                 <div>
                     <span className='font-bold'>Files</span>
                     <div className='px-3'>
-                        <FilePreview name="filename.pdf" weight={2} />
-                        <FilePreview name="filename.pdf" weight={2} />
+                        {
+                            data.files.map((e, i) => <FilePreview key={i} index={i} name={e.name} weight={e.size} func={handleRemoveFile} />)
+                        }
                     </div>
                 </div>
 
@@ -77,7 +109,7 @@ const ConfirmPackage = () => {
             </div>
 
 
-        </div>
+        </div >
     )
 }
 

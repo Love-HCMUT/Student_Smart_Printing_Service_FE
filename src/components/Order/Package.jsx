@@ -23,13 +23,13 @@ const Package = ({ index, update, remove }) => {
     orientation: 'landscape'
   }])
 
-  //handle file
+  //handle file, we need to upload file to MinIO and only store filename, filesize, fileURL in to object
   const [fileSelected, setfileSelected] = useState([])
   console.log("listfile: ", fileSelected)
 
   useEffect(() => {
-    update(index, { ...config, pages: pages })
-  }, [pages, config])
+    update(index, { ...config, pages: pages, files: fileSelected })
+  }, [pages, config, fileSelected])
 
 
   const removeFile = (index) => {
@@ -41,6 +41,9 @@ const Package = ({ index, update, remove }) => {
   const uploadFile = (event) => {
     const file = event.target.files[0]
     if (file) {
+
+      // UPLOAD MIN-IO
+
       const newFileSelected = [...fileSelected, file]
       setfileSelected(newFileSelected)
     }
@@ -53,7 +56,7 @@ const Package = ({ index, update, remove }) => {
   }
 
   const removePages = (index) => {
-    setPages(page => page.filter((_, i) => i != index))
+    setPages(page => page.filter((_, i) => i !== index))
   }
 
   const addPages = () => {
