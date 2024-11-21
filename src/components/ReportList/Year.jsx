@@ -1,3 +1,4 @@
+import { NavLink } from "react-router-dom";
 import chart from "../../assets/chart.svg";
 export const Year = ({ data = { year: 2023 } }) => {
   const { year } = data;
@@ -10,9 +11,12 @@ export const Year = ({ data = { year: 2023 } }) => {
           alt={`Năm ${year}`}
           title={`Năm ${year}`}
         />
-        <div className="text-center text-black text-xl font-normal font-['Open Sans']">
+        <NavLink
+          to={`detail`}
+          className="text-center text-black text-xl font-normal font-['Open Sans']"
+        >
           {`Năm ${year}`}
-        </div>
+        </NavLink>
       </div>
     </>
   );

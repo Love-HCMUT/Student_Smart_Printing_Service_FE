@@ -10,9 +10,13 @@
     "preview": "vite preview"
   },
   "dependencies": {
+    "@fortawesome/fontawesome-free": "^6.6.0",
     "react": "^18.3.1",
+    "react-datepicker": "^7.5.0",
     "react-dom": "^18.3.1",
-    "react-table": "^7.8.0"
+    "react-router-dom": "^6.27.0",
+    "react-table": "^7.8.0",
+    "regenerator-runtime": "^0.14.1"
   },
   "devDependencies": {
     "@eslint/js": "^9.13.0",

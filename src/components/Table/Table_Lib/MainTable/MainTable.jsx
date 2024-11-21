@@ -1,10 +1,11 @@
 import React, { useMemo } from 'react';
-import MOCK_DATA from './Table_Lib/MOCK_DATA.json';
-import { COLUMNS } from './Table_Lib/columns';
-import arrow from '../../assets/arrow-down.svg';
-import { Checkbox } from './Table_Lib/Checkbox';
-import { useTable, useSortBy, useRowSelect, usePagination } from 'react-table';
-import Pagination from './Table_Lib/Pagination';
+import MOCK_DATA from '../TableRawdata/MOCK_DATA.json';
+import { COLUMNS } from '../TableColumn/columns';
+import arrow from '../../../../assets/arrow-down.svg';
+import { Checkbox } from '../Components/Checkbox';
+import { useTable, useSortBy, useRowSelect, usePagination, useGlobalFilter } from 'react-table';
+import Pagination from '../Components/Pagination';
+import { GlobalFilter } from '../Components/GlobalFilter';
 
 export const MainTable = ({
     data = MOCK_DATA,
@@ -13,16 +14,27 @@ export const MainTable = ({
 
     isUsePagination = true,
     paginationSize = 10,
+
+    isUseFiltering = true,
+
     w = '100%',
     h = '100%',
 }) => {
     const memoizedColumns = useMemo(() => columns, [columns]);
     const memoizedData = useMemo(() => data, [data]);
 
-    const plugins = [useSortBy];
+    const plugins = [];
+
+    if (isUseFiltering) {
+        plugins.push(useGlobalFilter);
+    }
+
+    plugins.push(useSortBy);
+
     if (isUsePagination) {
         plugins.push(usePagination);
     }
+
     if (isUseRowSelect) {
         plugins.push(useRowSelect);
         plugins.push((hooks) => {
@@ -58,6 +70,8 @@ export const MainTable = ({
         nextPage,
         previousPage,
         setPageSize,
+        state,
+        setGlobalFilter,
     } = useTable(
         {
             columns: memoizedColumns,
@@ -69,8 +83,16 @@ export const MainTable = ({
 
     const tableRows = isUsePagination ? page : rows;
 
+    const { globalFilter } = state;
+
     return (
         <div className={`w-[${w}] h-[${h}]`}>
+
+            {/* Global Filter */}
+            {isUseFiltering && (
+                <GlobalFilter filter={globalFilter} setFilter={setGlobalFilter} />
+            )}
+
             <table {...getTableProps()} className={`border-l border-r border-gray-light w-full`}>
                 <thead>
                     {headerGroups.map((headerGroup) => (
@@ -115,7 +137,7 @@ export const MainTable = ({
                 </tbody>
             </table>
 
-            {/* Pagination được canh giữa */}
+            {/* Pagination */}
             {isUsePagination && (
                 <div className="flex justify-center mt-4">
                     <Pagination
