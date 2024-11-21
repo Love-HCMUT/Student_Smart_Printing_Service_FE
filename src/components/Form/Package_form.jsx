@@ -1,13 +1,15 @@
 import React from 'react';
+import printer from "../../assets/printer.svg"
 
 const PackageForm = ({
-  document1,
-  document2,
+  documents = [], // List of documents
   papers,
   sides,
   copies,
-  fromPage,
-  endPage,
+  scale,
+  paperSize,
+  paperSheet,
+  printingPages = [], // Array for multiple printing pages options
   isCover,
   isGlass,
   isBinding,
@@ -15,39 +17,29 @@ const PackageForm = ({
   isColorCover,
 }) => {
   return (
-    <div className="p-8 mx-auto w-1/2 bg-white shadow-lg rounded-lg"> 
+    <div className="p-8 mx-auto w-1/2 bg-white shadow-lg rounded-lg">
       <h2 className="text-2xl font-semibold mb-6 text-left">Packages view point</h2>
-      
-      <div className="border-2 border-dashed border-purple-300 rounded-lg p-8">
-        
+
+      <div className="border-2 border-dashed border-purple-300 rounded-lg p-8 h-max max-h-screen overflow-y-auto">
+
         <div className="mb-8">
           <h3 className="text-lg font-semibold mb-2">Package ID</h3>
           <label className="block text-gray-700">Documents</label>
           <div className="space-y-2">
-            <div className="flex items-center border border-gray-700 rounded-lg p-2 bg-gray-100">
-              <input
-                type="text"
-                value={document1 || ""}
-                placeholder="Document name.pdf"
-                readOnly
-                className="flex-grow bg-gray-100 focus:outline-none"
-              />
-              <button className="ml-2 text-gray-600">
-                <i className="fas fa-download"></i>
-              </button>
-            </div>
-            <div className="flex items-center border border-gray-700 rounded-lg p-2 bg-gray-100">
-              <input
-                type="text"
-                value={document2 || ""}
-                placeholder="Document name.pdf"
-                readOnly
-                className="flex-grow bg-gray-100 focus:outline-none"
-              />
-              <button className="ml-2 text-gray-600">
-                <i className="fas fa-download"></i>
-              </button>
-            </div>
+            {documents.map((doc, index) => (
+              <div key={index} className="flex items-center border border-gray-700 rounded-lg p-2 bg-gray-100">
+                <input
+                  type="text"
+                  value={doc || ""}
+                  placeholder="Document name.pdf"
+                  readOnly
+                  className="flex-grow bg-gray-100 focus:outline-none"
+                />
+                <button className="ml-2 text-gray-600">
+                <img src={printer} className="h-5 w-5"></img>
+                </button>
+              </div>
+            ))}
           </div>
         </div>
 
@@ -85,21 +77,31 @@ const PackageForm = ({
               />
             </div>
             <div>
-              <label className="block text-gray-700 mb-1">From</label>
+              <label className="block text-gray-700 mb-1">Scale</label>
               <input
                 type="text"
-                value={fromPage || ""}
-                placeholder="From Page"
+                value={scale || ""}
+                placeholder="Scale"
                 readOnly
                 className="border border-gray-300 p-2 rounded-lg w-full bg-gray-100"
               />
             </div>
             <div>
-              <label className="block text-gray-700 mb-1">End</label>
+              <label className="block text-gray-700 mb-1">Paper Size</label>
               <input
                 type="text"
-                value={endPage || ""}
-                placeholder="End Page"
+                value={paperSize || ""}
+                placeholder="Paper size"
+                readOnly
+                className="border border-gray-300 p-2 rounded-lg w-full bg-gray-100"
+              />
+            </div>
+            <div>
+              <label className="block text-gray-700 mb-1">Paper per Sheet</label>
+              <input
+                type="text"
+                value={paperSheet || ""}
+                placeholder="Paper per sheet"
                 readOnly
                 className="border border-gray-300 p-2 rounded-lg w-full bg-gray-100"
               />
@@ -142,8 +144,6 @@ const PackageForm = ({
             </div>
           </div>
         </div>
-
-
         <div className="mb-8">
           <h3 className="text-lg font-semibold mb-2">Package's color print option</h3>
           <div className="grid grid-cols-2 gap-4">
@@ -170,6 +170,56 @@ const PackageForm = ({
           </div>
         </div>
 
+
+        {printingPages.map((page, index) => (
+        <div className="mb-8">
+          <h3 className="text-lg font-semibold mb-2">Package's printing pages</h3>
+          
+            <div key={index} className="grid grid-cols-2 gap-4 mb-4">
+              <div>
+                <label className="block text-gray-700 mb-1">From page</label>
+                <input
+                  type="text"
+                  value={page.fromPage || ""}
+                  placeholder="From"
+                  readOnly
+                  className="border border-gray-300 p-2 rounded-lg w-full bg-gray-100"
+                />
+              </div>
+              <div>
+                <label className="block text-gray-700 mb-1">To page</label>
+                <input
+                  type="text"
+                  value={page.endPage || ""}
+                  placeholder="To"
+                  readOnly
+                  className="border border-gray-300 p-2 rounded-lg w-full bg-gray-100"
+                />
+              </div>
+              <div>
+                <label className="block text-gray-700 mb-1">Is color</label>
+                <input
+                  type="text"
+                  value={page.isColor || ""}
+                  placeholder="True/False"
+                  readOnly
+                  className="border border-gray-300 p-2 rounded-lg w-full bg-gray-100"
+                />
+              </div>
+              <div>
+                <label className="block text-gray-700 mb-1">Orientation</label>
+                <input
+                  type="text"
+                  value={page.orientation || ""}
+                  placeholder="Orientation"
+                  readOnly
+                  className="border border-gray-300 p-2 rounded-lg w-full bg-gray-100"
+                />
+              </div>
+            </div>
+          
+        </div>
+        ))}
       </div>
     </div>
   );

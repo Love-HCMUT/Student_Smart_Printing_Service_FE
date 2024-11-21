@@ -128,8 +128,8 @@ const router = createBrowserRouter([
       },
       {
         path: "/spso/auth",
-        element: <AuthorizationTable />
-      }
+        element: <AuthorizationTable />,
+      },
     ],
   },
 ]);
