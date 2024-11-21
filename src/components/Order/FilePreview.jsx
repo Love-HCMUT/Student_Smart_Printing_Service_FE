@@ -1,6 +1,6 @@
-import React from "react";
+import React, { memo } from "react";
 
-const FilePreview = ({ name, weight }) => {
+const FilePreview = ({ index, name, weight, func }) => {
   return (
     <div className="flex items-center justify-between border-2 border-dashed border-blue-600 bg-blue-100 p-2 rounded-md mt-2">
       <div className="flex-grow flex items-center">
@@ -25,10 +25,12 @@ const FilePreview = ({ name, weight }) => {
 
         <span className="text-gray-900 ml-5">{name}</span>
       </div>
+      <span className="text-gray-500 text-sm flex-shrink-0">
+        {" "}
+        {(weight / 1024).toFixed(2)} KB
+      </span>
 
-      <span className="text-gray-500 text-sm flex-shrink-0">{weight} MB</span>
-
-      <div className="ml-5">
+      <button onClick={() => func(index)} className="ml-5">
         <svg
           width="18"
           height="18"
@@ -71,9 +73,9 @@ const FilePreview = ({ name, weight }) => {
             />
           </g>
         </svg>
-      </div>
+      </button>
     </div>
   );
 };
 
-export default FilePreview;
+export default memo(FilePreview);

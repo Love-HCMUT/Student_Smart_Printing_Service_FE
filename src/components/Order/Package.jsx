@@ -1,12 +1,90 @@
-import React from "react";
+import React, { useState, memo, useEffect } from "react";
 import FilePreview from "./FilePreview";
+import PageSetting from "./PageSetting";
 
-const Package = () => {
+const Package = ({ index, update, remove }) => {
+  const [config, setConfig] = useState({
+    copy: 1,
+    sides: 2,
+    paper: "A4",
+    paper_per_sheet: 1,
+    scale: 1,
+    cover: true,
+    binding: true,
+    glass: false,
+    color_all: false,
+    color_cover: false,
+  });
+
+  const [pages, setPages] = useState([
+    {
+      from_to: "begin-end",
+      color: false,
+      orientation: "landscape",
+    },
+  ]);
+
+  //handle file, we need to upload file to MinIO and only store filename, filesize, fileURL in to object
+  const [fileSelected, setfileSelected] = useState([]);
+  console.log("listfile: ", fileSelected);
+
+  useEffect(() => {
+    update(index, { ...config, pages: pages, files: fileSelected });
+  }, [pages, config, fileSelected]);
+
+  const removeFile = (index) => {
+    const newfileSelected = fileSelected.filter((_, i) => i !== index);
+    setfileSelected(newfileSelected);
+    console.log("remove ", index);
+  };
+
+  const uploadFile = (event) => {
+    const file = event.target.files[0];
+    if (file) {
+      // UPLOAD MIN-IO
+
+      const newFileSelected = [...fileSelected, file];
+      setfileSelected(newFileSelected);
+    }
+  };
+
+  const updateField = (namefield, value) => {
+    setConfig((prev) => ({
+      ...prev,
+      [namefield]: /^\d+$/.test(value) ? parseInt(value, 10) : value,
+    }));
+  };
+
+  const removePages = (index) => {
+    setPages((page) => page.filter((_, i) => i !== index));
+  };
+
+  const addPages = () => {
+    const newpages = {
+      from_to: "begin-end",
+      color: false,
+      orientation: "landscape",
+    };
+    setPages((prev) => [...prev, newpages]);
+  };
+
+  const updatePages = (index, fieldname, value) => {
+    setPages((prev) => {
+      const updatedConfig = [...prev];
+      updatedConfig[index] = {
+        ...updatedConfig[index],
+        [fieldname]: value,
+      };
+      return updatedConfig;
+    });
+  };
+
   return (
-    <div className="relative px-6 py-3 bg-slate-200 rounded w-1/2">
+    <div className="relative px-6 py-3 bg-slate-200 rounded w-5/6 shadow-xl">
       {/* icon thung rac  */}
-      <div className="absolute top-2 right-2">
+      <button onClick={() => remove(index)} className="absolute top-3 right-3">
         <svg
+          className="icon"
           width="18"
           height="18"
           viewBox="0 0 18 18"
@@ -48,68 +126,110 @@ const Package = () => {
             />
           </g>
         </svg>
-      </div>
+      </button>
 
       {/* information */}
-      <div className="h-[230px] w-full flex justify-center items-center rounded gap-6 pt-2">
+      <div className="min-h-[230px] w-full flex justify-center items-center rounded gap-6 pt-2">
         {/* format section */}
         <div className="flex-1 flex-col items-center justify-center">
           <div className="my-2">
             <h3 className="font-bold">Format</h3>
-            <div className="grid grid-cols-3 gap-1">
-              <div className="px-2 flex justify-between items-center">
-                <label className="font-medium mr-2">Copy</label>
+
+            <div className="grid grid-cols-3 gap-2">
+              <div className="flex justify-between items-center">
+                <label className="ml-2 font-medium mr-2">Copy</label>
                 <input
                   type="number"
                   name="copies"
                   min="1"
-                  className="max-w-14 border border-gray-300 rounded p-1 text-center"
+                  onChange={(event) => updateField("copy", event.target.value)}
+                  className="max-w-11 border border-gray-300 rounded p-1 text-center"
                 />
               </div>
 
-              <div className="px-1 flex justify-between items-center">
-                <label className="font-medium mr-2">Sides</label>
+              <div className="flex justify-between items-center">
+                <label className="ml-2 font-medium mr-2">Sides</label>
                 <input
                   type="number"
                   name="toPage"
                   min="1"
-                  className="max-w-14 border border-gray-300 rounded p-1 text-center"
+                  max="2"
+                  onChange={(event) => updateField("sides", event.target.value)}
+                  className="max-w-11 border border-gray-300 rounded p-1 text-center"
                 />
               </div>
 
-              <div className="px-2 flex justify-between items-center">
-                <label className="font-medium mr-2">Paper</label>
+              <div className="flex justify-between items-center">
+                <label className="ml-2 font-medium mr-2">Paper</label>
                 <select
                   name="paper"
                   className="w-14 border border-gray-300 rounded p-1 text-center"
+                  onChange={(event) => updateField("paper", event.target.value)}
                 >
                   <option value="A4">A4</option>
                   <option value="A3">A3</option>
                 </select>
               </div>
 
-              <div className="px-2 flex justify-between items-center">
-                <label className="font-medium mr-2">From</label>
+              <div className="flex justify-between items-center">
+                <label className="ml-2 font-medium mr-2 leading-none">
+                  Page per sheet
+                </label>
                 <input
                   type="number"
-                  name="fromPage"
-                  min="0"
-                  className="max-w-14 border border-gray-300 rounded p-1 text-center"
+                  name="toPage"
+                  min="1"
+                  className="max-w-11 border border-gray-300 rounded p-1 text-center"
+                  onChange={(event) =>
+                    updateField("paper_per_sheet", event.target.value)
+                  }
                 />
               </div>
 
-              <div className="px-1 flex justify-between items-center">
-                <label className="font-medium mr-2">To</label>
+              <div className="flex justify-between items-center">
+                <label className="ml-2 font-medium mr-2">Scale</label>
                 <input
                   type="number"
                   name="toPage"
                   min="0"
-                  className="max-w-14 border border-gray-300 rounded p-1 text-center"
+                  max="1"
+                  step="0.1"
+                  className="max-w-11 border border-gray-300 rounded p-1 text-center"
+                  onChange={(event) => updateField("scale", event.target.value)}
                 />
               </div>
             </div>
           </div>
 
+          {/* Pages */}
+          <div className="">
+            <h3 className="font-bold mb-1">Pages</h3>
+            <div>
+              {pages.map((e, index) => (
+                <div key={index} className="relative">
+                  <button
+                    onClick={() => removePages(index)}
+                    className="absolute right-2 top-1 hover:bg-red-600 text-red-500 font-bold hover:text-white w-3 h-3 flex items-center justify-center rounded-full"
+                  >
+                    x
+                  </button>
+                  <PageSetting index={index} func={updatePages} />
+                </div>
+              ))}
+            </div>
+
+            {/* Button add more */}
+            <div className="w-full flex items-center justify-center">
+              <button
+                onClick={addPages}
+                className="bg-blue-500 mt-2 rounded px-6 hover:bg-blue-600"
+              >
+                More setting pages
+              </button>
+            </div>
+          </div>
+
+          {/* After printing */}
           <div className="my-2">
             <h3 className="font-bold">After printing</h3>
             <div className="grid grid-cols-3 gap-1">
@@ -119,7 +239,10 @@ const Package = () => {
                   type="checkbox"
                   name="toPage"
                   min="0"
-                  className="max-w-14 border border-gray-300 rounded p-1 text-center"
+                  className="max-w-11 border border-gray-300 rounded p-1 text-center"
+                  onChange={(event) =>
+                    updateField("cover", event.target.checked)
+                  }
                 />
               </div>
 
@@ -129,7 +252,10 @@ const Package = () => {
                   type="checkbox"
                   name="toPage"
                   min="0"
-                  className="max-w-14 border border-gray-300 rounded p-1 text-center"
+                  className="max-w-11 border border-gray-300 rounded p-1 text-center"
+                  onChange={(event) =>
+                    updateField("binding", event.target.checked)
+                  }
                 />
               </div>
 
@@ -139,12 +265,16 @@ const Package = () => {
                   type="checkbox"
                   name="toPage"
                   min="0"
-                  className="max-w-14 border border-gray-300 rounded p-1 text-center"
+                  onChange={(event) =>
+                    updateField("glass", event.target.checked)
+                  }
+                  className="max-w-11 border border-gray-300 rounded p-1 text-center"
                 />
               </div>
             </div>
           </div>
 
+          {/* Color printing */}
           <div className="my-2">
             <h3 className="font-bold">Color printing</h3>
             <div className="grid grid-cols-3 gap-1">
@@ -154,7 +284,10 @@ const Package = () => {
                   type="checkbox"
                   name="toPage"
                   min="0"
-                  className="max-w-14 border border-gray-300 rounded p-1 text-center"
+                  onChange={(event) =>
+                    updateField("color_all", event.target.checked)
+                  }
+                  className="max-w-11 border border-gray-300 rounded p-1 text-center"
                 />
               </div>
 
@@ -164,7 +297,10 @@ const Package = () => {
                   type="checkbox"
                   name="toPage"
                   min="0"
-                  className="max-w-14 border border-gray-300 rounded p-1 text-center"
+                  onChange={(event) =>
+                    updateField("color_cover", event.target.checked)
+                  }
+                  className="max-w-11 border border-gray-300 rounded p-1 text-center"
                 />
               </div>
             </div>
@@ -173,18 +309,19 @@ const Package = () => {
 
         {/* attachment section */}
         <div className="flex-1">
-          <div class="flex items-center justify-center w-full">
+          <div className="flex items-center justify-center h-full w-full">
             <label
               for="dropzone-file"
-              class="flex flex-col items-center justify-center h-[200px] w-full border-2 border-gray-300 border-dashed rounded-lg cursor-pointer bg-white hover:bg-gray-50 transition duration-200"
+              class="flex flex-col items-center justify-center min-h-[300px] w-full border-2 border-gray-300 border-dashed rounded-lg cursor-pointer bg-white hover:bg-gray-50 transition duration-200"
             >
               <div class="flex flex-col items-center justify-center pt-5 pb-6">
                 <svg
-                  class="w-8 h-8 mb-4 text-gray-600"
-                  aria-hidden="true"
-                  xmlns="http://www.w3.org/2000/svg"
+                  className="icon"
+                  width="18"
+                  height="18"
+                  viewBox="0 0 18 18"
                   fill="none"
-                  viewBox="0 0 20 16"
+                  xmlns="http://www.w3.org/2000/svg"
                 >
                   <path
                     stroke="currentColor"
@@ -202,7 +339,12 @@ const Package = () => {
                   SVG, PNG, JPG or GIF (MAX. 800x400px)
                 </p>
               </div>
-              <input id="dropzone-file" type="file" class="hidden" />
+              <input
+                id="dropzone-file"
+                type="file"
+                class="hidden"
+                onChange={uploadFile}
+              />
             </label>
           </div>
         </div>
@@ -210,12 +352,20 @@ const Package = () => {
 
       {/* FILE PREVIEW */}
       <div className="w-full grid gap-1 mb-4">
-        {/* file */}
-        <FilePreview name="filename.pdf" weight={2} />
-        <FilePreview name="filename.pdf" weight={2} />
+        {fileSelected.map((e, i) => {
+          return (
+            <FilePreview
+              key={i}
+              index={i}
+              name={e.name}
+              weight={e.size}
+              func={removeFile}
+            />
+          );
+        })}
       </div>
     </div>
   );
 };
 
-export default Package;
+export default memo(Package);

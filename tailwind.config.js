@@ -10,6 +10,7 @@ module.exports = {
         'fore-background': '#E8E8E8',
         'main-background': '#FFFFFF',
         'gray-light': '#EAECF0',
+        'light-gray': '#F8F8F8',
 
         'pure-white': '#FCFCFD',
         'deep-blue': '#0070FF',

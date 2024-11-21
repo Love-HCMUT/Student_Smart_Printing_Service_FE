@@ -5,40 +5,43 @@ import Footer from "./components/Footer/footer";
 import Header_Login from "./components/Header/header_login";
 import LoginForm from "./components/Login/login";
 import WelcomeBanner from "./components/Home/home";
-import backgroundImage from './assets/background.jpg';
+import backgroundImage from "./assets/background.jpg";
 import PrinterForm from "./components/Form/Printer_form";
 import PackageForm from "./components/Form/Package_form";
 import InfoCards from "./components/Card/Info_card";
 function HeaderApp() {
   const links = [
-    { label: 'Home', href: '#home' },
-    { label: 'Manage Printer', href: '#manage-printer' },
-    { label: 'Log', href: '#log' },
+    { label: "Home", href: "#home" },
+    { label: "Manage Printer", href: "#manage-printer" },
+    { label: "Log", href: "#log" },
     {
-      label: 'Setting',
-      href: '#setting',
+      label: "Setting",
+      href: "#setting",
       subLinks: [
-        { label: 'Paper', href: '#paper' },
-        { label: 'File', href: '#file' },
+        { label: "Paper", href: "#paper" },
+        { label: "File", href: "#file" },
       ],
     },
-    { label: 'Report', href: '#report' },
+    { label: "Report", href: "#report" },
   ];
 
   const userName = "Phan Tuấn Kiệt";
 
   return (
-    <div className="App flex flex-col min-h-screen"> {/* Set to flex and full height */}
-  {/* Header */}
-  <header className="fixed top-0 left-0 w-full z-50">
-    <Header_APP links={links} userName={userName} />
-  </header>
-
-  {/* Main Content with Background Image */}
-   <main className="flex-grow pt-16"> {/* Allow main to grow and add padding */}
-    {/* Move WelcomeBanner to the left */}
-    <PrinterForm />
-    {/* <PackageForm 
+    <div className="App flex flex-col min-h-screen">
+      {" "}
+      {/* Set to flex and full height */}
+      {/* Header */}
+      <header className="fixed top-0 left-0 w-full z-50">
+        <Header_APP links={links} userName={userName} />
+      </header>
+      {/* Main Content with Background Image */}
+      <main className="flex-grow pt-16">
+        {" "}
+        {/* Allow main to grow and add padding */}
+        {/* Move WelcomeBanner to the left */}
+        <PrinterForm />
+        {/* <PackageForm 
     documents={["Document name.pdf", "Another document.pdf"]} // Pass documents as an array
     papers="10"
     sides="2"
@@ -56,12 +59,7 @@ function HeaderApp() {
     isColorAllPages="True"
     isColorCover="False"
 /> */}
-
-
-
-
-
-    {/* <InfoCards 
+        {/* <InfoCards 
   totalPapers="357" 
   paperSize="A4 - papers" 
   recentTransitions={[
@@ -70,13 +68,10 @@ function HeaderApp() {
     { color: 'green', text: '200 papers at 01/01/2025 ' },
   ]}
 /> */}
-  </main> 
-  
-  {/* Footer Stays at Bottom */}
-  <Footer />
-</div>
-
-
+      </main>
+      {/* Footer Stays at Bottom */}
+      <Footer />
+    </div>
   );
 }
 
