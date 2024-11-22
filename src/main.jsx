@@ -7,9 +7,9 @@ import Home_App from "./pages/Home_page.jsx";
 import Register_page from "./pages/Register_page.jsx";
 createRoot(document.getElementById("root")).render(
   <StrictMode>
-    <HeaderApp />
+    {/* <HeaderApp /> */}
     {/* <Login_page /> */}
     {/* <Home_App/> */}
-    {/* <Register_page/> */}
+    <Register_page/>
   </StrictMode>
 );

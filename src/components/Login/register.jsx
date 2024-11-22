@@ -17,6 +17,7 @@ const RegisterForm = () => {
     setFormData((prevData) => ({ ...prevData, [name]: value }));
   };
 
+
   const handleSubmit = (e) => {
     e.preventDefault();
     console.log("Form Data:", formData); // Thực hiện xử lý đăng ký
@@ -26,6 +27,25 @@ const RegisterForm = () => {
     formData.position === "Printing Staff" || formData.position === "SPSO";
   const isLocationRequired =
     formData.position === "Printing Staff";
+
+    const [phoneNumbers, setPhoneNumbers] = useState([""]);
+
+    const handlePhoneChange = (index, value) => {
+      const updatedPhoneNumbers = [...phoneNumbers];
+      updatedPhoneNumbers[index] = value;
+      setPhoneNumbers(updatedPhoneNumbers);
+    };
+    
+    const addPhoneNumber = () => {
+      setPhoneNumbers([...phoneNumbers, ""]);
+    };
+    
+    const removePhoneNumber = (index) => {
+      const updatedPhoneNumbers = phoneNumbers.filter((_, i) => i !== index);
+      setPhoneNumbers(updatedPhoneNumbers);
+    };
+    
+
 
   return (
     <div className="flex-grow flex items-center justify-center min-h-screen bg-gray-100">
@@ -75,16 +95,36 @@ const RegisterForm = () => {
           </select>
 
           {isPhoneRequired && (
+      <div>
+        {phoneNumbers.map((phoneNumber, index) => (
+          <div key={index} className="flex items-center gap-2 mb-2">
             <input
               type="tel"
-              name="phoneNumber"
-              value={formData.phoneNumber}
-              onChange={handleChange}
+              name={`phoneNumber-${index}`}
+              value={phoneNumber}
+              onChange={(e) => handlePhoneChange(index, e.target.value)}
               placeholder="Phone Number"
               className="w-full px-5 py-2 border border-blue-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500 transition-all"
               required
             />
-          )}
+            <button
+              type="button"
+              onClick={() => removePhoneNumber(index)}
+              className="text-red-500 font-bold"
+            >
+              Delete
+            </button>
+          </div>
+        ))}
+        <button
+          type="button"
+          onClick={addPhoneNumber}
+          className="px-4 py-2 bg-gray-500 text-white rounded-xl text-center w-full font-semibold hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 transition-all"
+        > 
+          + Add Phone
+        </button>
+      </div>
+    )}
 
           {isLocationRequired && (
             <div className="flex space-x-3">
