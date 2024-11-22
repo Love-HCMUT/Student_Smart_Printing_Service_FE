@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import Google from "../../assets/gg.png"
 
 const RegisterForm = () => {
   const [formData, setFormData] = useState({
@@ -48,125 +49,134 @@ const RegisterForm = () => {
 
 
   return (
-    <div className="flex-grow flex items-center justify-center min-h-screen bg-gray-100">
-      <div className="bg-white p-8 rounded-2xl shadow-xl max-w-md w-full">
-        <h2 className="text-3xl font-bold text-center text-blue-800 mb-5">Register</h2>
-        <form className="space-y-5" onSubmit={handleSubmit}>
-          <input
-            type="text"
-            name="fullName"
-            value={formData.fullName}
-            onChange={handleChange}
-            placeholder="Full Name"
-            className="w-full px-5 py-2 border border-blue-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500 transition-all"
-            required
-          />
-          <input
-            type="text"
-            name="username"
-            value={formData.username}
-            onChange={handleChange}
-            placeholder="Username"
-            className="w-full px-5 py-2 border border-blue-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500 transition-all"
-            required
-          />
-          <input
-            type="password"
-            name="password"
-            value={formData.password}
-            onChange={handleChange}
-            placeholder="Password"
-            className="w-full px-5 py-2 border border-blue-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500 transition-all"
-            required
-          />
+    <div className="flex-grow flex items-center justify-center min-h-screen ">
+  <div className="bg-white p-10 rounded-2xl shadow-2xl max-w-lg w-full space-y-8">
+    <h2 className="text-4xl font-extrabold text-center text-blue-800">Register</h2>
+    <form className="space-y-6" onSubmit={handleSubmit}>
+      <input
+        type="text"
+        name="fullName"
+        value={formData.fullName}
+        onChange={handleChange}
+        placeholder="Full Name"
+        className="w-full px-4 py-3 border-2 border-blue-300 rounded-xl focus:outline-none focus:ring-4 focus:ring-blue-400 bg-blue-50 transition-all"
+        required
+      />
+      <input
+        type="text"
+        name="username"
+        value={formData.username}
+        onChange={handleChange}
+        placeholder="Username"
+        className="w-full px-4 py-3 border-2 border-blue-300 rounded-xl focus:outline-none focus:ring-4 focus:ring-blue-400 bg-blue-50 transition-all"
+        required
+      />
+      <input
+        type="password"
+        name="password"
+        value={formData.password}
+        onChange={handleChange}
+        placeholder="Password"
+        className="w-full px-4 py-3 border-2 border-blue-300 rounded-xl focus:outline-none focus:ring-4 focus:ring-blue-400 bg-blue-50 transition-all"
+        required
+      />
+      <select
+        name="position"
+        value={formData.position}
+        onChange={handleChange}
+        className="w-full px-4 py-3 border-2 border-blue-300 rounded-xl focus:outline-none focus:ring-4 focus:ring-blue-400 bg-blue-50 transition-all"
+        required
+      >
+        <option value="">Select Position</option>
+        <option value="Printing Staff">Printing Staff</option>
+        <option value="Student">Student</option>
+        <option value="Lecture">Lecture</option>
+        <option value="SPSO">SPSO</option>
+      </select>
 
-          <select
-            name="position"
-            value={formData.position}
-            onChange={handleChange}
-            className="w-full px-5 py-2 border border-blue-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500 transition-all"
-            required
+      {isPhoneRequired && (
+        <div>
+          {phoneNumbers.map((phoneNumber, index) => (
+            <div key={index} className="flex items-center gap-3 mb-3">
+              <input
+                type="tel"
+                name={`phoneNumber-${index}`}
+                value={phoneNumber}
+                onChange={(e) => handlePhoneChange(index, e.target.value)}
+                placeholder={`Phone Number ${index + 1}`}
+                className="flex-grow px-4 py-2 border-2 border-blue-300 rounded-xl focus:outline-none focus:ring-4 focus:ring-blue-400 bg-blue-50 transition-all"
+                required
+              />
+              <button
+                type="button"
+                onClick={() => removePhoneNumber(index)}
+                className="px-3 py-2 bg-red-500 text-white font-bold rounded-lg shadow hover:bg-red-600 focus:ring-2 focus:ring-red-300"
+              >
+                Delete
+              </button>
+            </div>
+          ))}
+          <button
+            type="button"
+            onClick={addPhoneNumber}
+            className="w-full px-4 py-2 bg-green-500 text-white font-semibold rounded-xl shadow hover:bg-green-600 focus:ring-2 focus:ring-green-300"
           >
-            <option value="">Select Position</option>
-            <option value="Printing Staff">Printing Staff</option>
-            <option value="Student">Student</option>
-            <option value="Lecture">Lecture</option>
-            <option value="SPSO">SPSO</option>
-          </select>
+            + Add Phone
+          </button>
+        </div>
+      )}
 
-          {isPhoneRequired && (
-      <div>
-        {phoneNumbers.map((phoneNumber, index) => (
-          <div key={index} className="flex items-center gap-2 mb-2">
-            <input
-              type="tel"
-              name={`phoneNumber-${index}`}
-              value={phoneNumber}
-              onChange={(e) => handlePhoneChange(index, e.target.value)}
-              placeholder="Phone Number"
-              className="w-full px-5 py-2 border border-blue-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500 transition-all"
-              required
-            />
-            <button
-              type="button"
-              onClick={() => removePhoneNumber(index)}
-              className="text-red-500 font-bold"
-            >
-              Delete
-            </button>
-          </div>
-        ))}
+      {isLocationRequired && (
+        <div className="grid grid-cols-3 gap-4">
+          <input
+            type="text"
+            name="workingLocationCampus"
+            value={formData.workingLocationCampus}
+            onChange={handleChange}
+            placeholder="Campus"
+            className="px-3 py-2 border-2 border-blue-300 rounded-xl focus:outline-none focus:ring-4 focus:ring-blue-400 bg-blue-50 text-center"
+            required
+          />
+          <input
+            type="text"
+            name="workingLocationBuilding"
+            value={formData.workingLocationBuilding}
+            onChange={handleChange}
+            placeholder="Building"
+            className="px-3 py-2 border-2 border-blue-300 rounded-xl focus:outline-none focus:ring-4 focus:ring-blue-400 bg-blue-50 text-center"
+            required
+          />
+          <input
+            type="text"
+            name="workingLocationRoom"
+            value={formData.workingLocationRoom}
+            onChange={handleChange}
+            placeholder="Room"
+            className="px-3 py-2 border-2 border-blue-300 rounded-xl focus:outline-none focus:ring-4 focus:ring-blue-400 bg-blue-50 text-center"
+            required
+          />
+        </div>
+      )}
+
+      <button
+        type="submit"
+        className="w-full py-3 bg-blue-600 text-white font-bold rounded-xl shadow-md hover:bg-blue-700 focus:ring-4 focus:ring-blue-400 transition-all"
+      >
+        Register
+      </button>
+
+      <div className="flex justify-center mt-6">
         <button
           type="button"
-          onClick={addPhoneNumber}
-          className="px-4 py-2 bg-gray-500 text-white rounded-xl text-center w-full font-semibold hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 transition-all"
-        > 
-          + Add Phone
+          className="flex items-center space-x-3 px-6 py-3 bg-white border-2 border-gray-300 rounded-full shadow-md hover:shadow-lg hover:border-blue-400 transition-transform transform hover:-translate-y-1 duration-300"
+        >
+          <img src={Google} alt="Google Logo" className="w-6 h-6" />
+          <span className="text-gray-700 font-medium">Login with Google</span>
         </button>
       </div>
-    )}
-
-          {isLocationRequired && (
-            <div className="flex space-x-3">
-              <input
-                type="text"
-                name="workingLocationCampus"
-                value={formData.workingLocationCampus}
-                onChange={handleChange}
-                placeholder="Campus"
-                className="w-full p-3 border border-blue-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500 transition-all text-center"
-                required
-              />
-              <input
-                type="text"
-                name="workingLocationBuilding"
-                value={formData.workingLocationBuilding}
-                onChange={handleChange}
-                placeholder="Building"
-                className="w-full p-3 border border-blue-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500 transition-all text-center"
-                required
-              />
-              <input
-                type="text"
-                name="workingLocationRoom"
-                value={formData.workingLocationRoom}
-                onChange={handleChange}
-                placeholder="Room"
-                className="w-full p-3 border border-blue-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500 transition-all text-center"
-                required
-              />
-            </div>
-          )}
-
-          <button
-            type="submit"
-            className="w-full py-3 bg-blue-600 text-white font-semibold rounded-xl hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 transition-all"
-          >
-            Register
-          </button>
-        </form>
-      </div>
-    </div>
+    </form>
+  </div>
+</div>
   );
 };
 

@@ -1,6 +1,6 @@
 // Footer.jsx
 import React from 'react';
-import Printer from "../../assets/printer.svg";
+import Printer from "../../assets/footer.svg";
 import Logo from "../../assets/logo.svg";
 
 const Footer = () => {
