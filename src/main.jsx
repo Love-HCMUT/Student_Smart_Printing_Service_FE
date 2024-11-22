@@ -32,6 +32,8 @@ import OrderPage from "./pages/OrderPage.jsx";
 import PrinterTable from "./components/Table/Student/Printer/printer_table.jsx";
 import ConfirmOrderPage from "./pages/ConfirmOrderPage.jsx";
 import PaymentPage from "./pages/PaymentPage.jsx";
+import Register_page from "./pages/Register_page.jsx";
+import RegisterForm from "./components/Login/register.jsx";
 
 const router = createBrowserRouter([
   {
@@ -115,36 +117,24 @@ const router = createBrowserRouter([
         element: <Detail />,
       },
       {
-        path: "/spso/log",
-        element: <SPSOLog />,
-        children: [
-          {
-            path: "/spso/log/printing",
-            element: <PrintingHistoryPayment />,
-          },
-          {
-            path: "/spso/log/payment",
-            element: <PaymentHistoryTable />,
-          },
-        ],
+        path: "/spso/log/printing",
+        element: <PrintingHistoryPayment />,
       },
       {
-        path: "/spso/setting",
-        element: <SPSOSetting />,
-        children: [
-          {
-            path: "/spso/setting/paper",
-            element: <PageSettingTable />,
-          },
-          {
-            path: "/spso/setting/file",
-            element: <Files />,
-          },
-        ],
+        path: "/spso/log/payment",
+        element: <PaymentHistoryTable />,
+      },
+      {
+        path: "/spso/setting/paper",
+        element: <PageSettingTable />,
+      },
+      {
+        path: "/spso/setting/file",
+        element: <Files />,
       },
       {
         path: "/spso/author",
-        element: <AuthorizationTable />,
+        element: <RegisterForm />,
       },
     ],
   },
