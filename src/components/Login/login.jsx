@@ -31,10 +31,9 @@ const LoginForm = () => {
               Login
             </button>
           </div>
-
-            </form>
-          </div>
-          </div>
+        </form>
+      </div>
+    </div>
   );
 };
 

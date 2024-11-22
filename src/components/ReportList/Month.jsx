@@ -12,12 +12,12 @@ export const Month = ({ data = { month: 9, year: 2024 } }) => {
           alt={`T${month}-${year}`}
           title={`T${month}-${year}`}
         />
-        <NavLink
-          to={`detail`}
+        <a
+          href={`detail`}
           className="text-center text-black text-xl font-normal font-['Open Sans']"
         >
           {`Tháng ${month} - ${year}`}
-        </NavLink>
+        </a>
       </div>
     </>
   );

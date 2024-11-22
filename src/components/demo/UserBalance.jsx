@@ -5,10 +5,10 @@ export const UserBalance = () => {
   return (
     <>
       <div className="mt-8 flex flex-col justify-center align-middle items-center">
-        <div className="items-center">
+        <div>
           <InfoCards />
+          <OrdersHistoryPayment />
         </div>
-        <OrdersHistoryPayment />
       </div>
     </>
   );

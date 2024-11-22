@@ -6,9 +6,22 @@ import { NavLink } from "react-router-dom";
 
 // onLogout là function để gửi yêu cầu tới server,.... và chuyển hướng ra trang login
 export default function Header_APP({
-  links,
-  userName,
-  highlightedIndex,
+  links = [
+    { label: "Home", href: "#home" },
+    { label: "Manage Printer", href: "#manage-printer" },
+    { label: "Log", href: "#log" },
+    {
+      label: "Setting",
+      href: "#setting",
+      subLinks: [
+        { label: "Paper", href: "#paper" },
+        { label: "File", href: "#file" },
+      ],
+    },
+    { label: "Report", href: "#report" },
+  ],
+  userName = "Dương Hải Lâm",
+  highlightedIndex = 0,
   onLogout,
 }) {
   const [activeLink, setActiveLink] = useState(null);
@@ -27,18 +40,36 @@ export default function Header_APP({
         <nav className="flex">
           {links.map((link, index) => (
             <div key={link.label} className="relative">
-              <NavLink
-                to={link.href}
-                className={`px-5 py-4 text-white transition-colors ${
-                  index === currentTab ? "bg-[#1488D8]" : "hover:bg-[#1488D8]"
-                } hover:text-black`}
-                onClick={(e) => {
-                  // e.preventDefault();
-                  handleLinkClick(link.label, index);
-                }}
-              >
-                {link.label}
-              </NavLink>
+              {link.subLinks ? (
+                <a
+                  className={`px-5 py-4 text-white transition-colors ${
+                    activeLink === link.label
+                      ? "bg-[#1488D8]"
+                      : "hover:bg-[#1488D8]"
+                  } hover:text-black`}
+                  onClick={(e) => {
+                    // e.preventDefault();
+                    handleLinkClick(link.label);
+                  }}
+                >
+                  {link.label}
+                </a>
+              ) : (
+                <NavLink
+                  to={link.href}
+                  className={`px-5 py-4 text-white transition-colors ${
+                    activeLink === link.label
+                      ? "bg-[#1488D8]"
+                      : "hover:bg-[#1488D8]"
+                  } hover:text-black`}
+                  onClick={(e) => {
+                    // e.preventDefault();
+                    handleLinkClick(link.label);
+                  }}
+                >
+                  {link.label}
+                </NavLink>
+              )}
 
               {link.subLinks && activeLink === link.label && (
                 <div className="absolute left-0 mt-2 bg-[#46A0DE] text-white shadow-lg rounded">

@@ -2,7 +2,7 @@ import { useState } from "react";
 import { Body } from "./Body.jsx";
 import { Foot } from "./Foot.jsx";
 import { Head } from "./Head.jsx";
-export const Files = () => {
+const Files = () => {
   const [types, setTypes] = useState({
     pdf: 1,
     docx: 0,
@@ -27,3 +27,5 @@ export const Files = () => {
     </>
   );
 };
+
+export default Files;

@@ -7,9 +7,12 @@ export const List = ({ names, year }) => {
   return (
     <>
       <div className={`grid grid-cols-${names.length} gap-2`}>
-        {names.map((item) => {
-          console.log(item);
-          return year ? <Year data={item} /> : <Month data={item} />;
+        {names.map((item, index) => {
+          return year ? (
+            <Year key={index} data={item} />
+          ) : (
+            <Month key={index} data={item} />
+          );
         })}
       </div>
     </>

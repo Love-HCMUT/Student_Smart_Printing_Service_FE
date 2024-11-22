@@ -11,12 +11,12 @@ export const Year = ({ data = { year: 2023 } }) => {
           alt={`Năm ${year}`}
           title={`Năm ${year}`}
         />
-        <NavLink
-          to={`detail`}
+        <a
+          href={`detail`}
           className="text-center text-black text-xl font-normal font-['Open Sans']"
         >
           {`Năm ${year}`}
-        </NavLink>
+        </a>
       </div>
     </>
   );

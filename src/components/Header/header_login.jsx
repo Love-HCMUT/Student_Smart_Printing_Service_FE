@@ -3,7 +3,24 @@ import React, { useState } from "react";
 import Logo from "../../assets/login.jpg";
 import { NavLink } from "react-router-dom";
 
-export default function Header_Login({ links, userName, highlightedIndex }) {
+export default function Header_Login({
+  links = [
+    { label: "Home", href: "#home" },
+    { label: "Manage Printer", href: "#manage-printer" },
+    { label: "Log", href: "#log" },
+    {
+      label: "Setting",
+      href: "#setting",
+      subLinks: [
+        { label: "Paper", href: "#paper" },
+        { label: "File", href: "#file" },
+      ],
+    },
+    { label: "Report", href: "#report" },
+  ],
+  userName = "Dương Hải Lâm",
+  highlightedIndex = 0,
+}) {
   const [activeLink, setActiveLink] = useState(null);
 
   const handleLinkClick = (label) => {

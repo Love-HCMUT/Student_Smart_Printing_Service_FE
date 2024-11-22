@@ -1,33 +1,37 @@
 import { StrictMode } from "react";
 import { createRoot } from "react-dom/client";
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
-// import "regenerator-runtime/runtime";
 import "./styles/index.css";
-import LoginForm from "./components/Login/login";
-import { PreLogin } from "./components/demo/PreLogin";
-import { AfterLogin } from "./components/demo/AfterLogin";
-import { UserRoot } from "./components/demo/UserRoot";
-import { StaffRoot } from "./components/demo/StaffRoot";
-import { SPSORoot } from "./components/demo/SPSORoot";
-import { SPSOLog } from "./components/demo/SPSOLog";
-import WelcomeBanner from "./components/Home/home";
-import PrinterManagerTable from "./components/Table/SPSO/PrinterManager/printer_manager_table";
-import { ReportList } from "./components/ReportList/ReportList";
-import PrintingHistoryPayment from "./components/Table/SPSO/PrintingHistory/printing_history_table";
-import PaymentHistoryTable from "./components/Table/SPSO/PaymentHistory/payment_history_table";
-import { SPSOSetting } from "./components/demo/SPSOSetting";
-import { Files } from "./components/Files/Files";
-import PageSettingTable from "./components/Table/SPSO/PageSetting/page_setting_tables";
-import { Printers_list } from "./components/Table/PS/printers_list";
-import { Detail } from "./components/ReportDetail/Detail";
-import InfoCards from "./components/Card/Info_card";
-import OrdersHistoryPayment from "./components/Table/Student/Payment/orders_history_payment";
-import OrdersHistoryTable from "./components/Table/Student/Printing/orders_history_tables";
-import Package from "./components/Order/Package";
-import Note from "./components/Payment/Note";
-import { UserOrder } from "./components/demo/UserOrder";
-import { UserBalance } from "./components/demo/UserBalance";
-import AuthorizationTable from "./components/Table/SPSO/Authorization/authorization_table";
+
+import App from "./App.jsx";
+
+import { PreLogin } from "./components/demo/PreLogin.jsx";
+import LoginPage from "./pages/Login_page.jsx";
+import {
+  HeaderlessLayout,
+  UserLayout,
+  SPSOLayout,
+  StaffLayout,
+} from "./layouts/index.js";
+import WelcomeBanner from "./components/Home/home.jsx";
+import { UserBalance } from "./components/demo/UserBalance.jsx";
+import OrdersHistoryTable from "./components/Table/Student/Printing/orders_history_tables.jsx";
+import { UserOrder } from "./components/demo/UserOrder.jsx";
+import { Printers_list } from "./components/Table/PS/printers_list.jsx";
+import PrinterManagerTable from "./components/Table/SPSO/PrinterManager/printer_manager_table.jsx";
+import { ReportList } from "./components/ReportList/ReportList.jsx";
+import { Detail } from "./components/ReportDetail/Detail.jsx";
+import { SPSOLog } from "./components/demo/SPSOLog.jsx";
+import PrintingHistoryPayment from "./components/Table/SPSO/PrintingHistory/printing_history_table.jsx";
+import PaymentHistoryTable from "./components/Table/SPSO/PaymentHistory/payment_history_table.jsx";
+import { SPSOSetting } from "./components/demo/SPSOSetting.jsx";
+import PageSettingTable from "./components/Table/SPSO/PageSetting/page_setting_tables.jsx";
+import Files from "./components/Files/Files.jsx";
+import AuthorizationTable from "./components/Table/SPSO/Authorization/authorization_table.jsx";
+import OrderPage from "./pages/OrderPage.jsx";
+import PrinterTable from "./components/Table/Student/Printer/printer_table.jsx";
+import ConfirmOrderPage from "./pages/ConfirmOrderPage.jsx";
+import PaymentPage from "./pages/PaymentPage.jsx";
 
 const router = createBrowserRouter([
   {
@@ -36,19 +40,23 @@ const router = createBrowserRouter([
   },
   {
     path: "/login",
-    element: <LoginForm />,
-  },
-  {
-    path: "/login/loginSuccess",
-    element: <AfterLogin />,
+    element: <LoginPage />,
   },
   {
     path: "/user",
-    element: <UserRoot />,
+    element: <UserLayout />,
     children: [
       {
-        path: "/user/home",
+        index: true,
         element: <WelcomeBanner userName={"Dương Hải Lâm"} />,
+      },
+      {
+        path: "/user/balance",
+        element: <UserBalance />,
+      },
+      {
+        path: "/user/balance/deposit",
+        element: <PaymentPage />,
       },
       {
         path: "/user/balance",
@@ -60,16 +68,24 @@ const router = createBrowserRouter([
       },
       {
         path: "/user/order",
-        element: <UserOrder />,
+        element: <OrderPage />,
+      },
+      {
+        path: "/user/order/printer",
+        element: <PrinterTable />,
+      },
+      {
+        path: "/user/order/confirm",
+        element: <ConfirmOrderPage />,
       },
     ],
   },
   {
     path: "/staff",
-    element: <StaffRoot />,
+    element: <StaffLayout />,
     children: [
       {
-        path: "/staff/home",
+        index: true,
         element: <WelcomeBanner userName={"Dương Hải Lâm"} />,
       },
       {
@@ -80,10 +96,10 @@ const router = createBrowserRouter([
   },
   {
     path: "/spso",
-    element: <SPSORoot />,
+    element: <SPSOLayout />,
     children: [
       {
-        path: "/spso/home",
+        index: true,
         element: <WelcomeBanner userName={"Dương Hải Lâm"} />,
       },
       {
@@ -127,7 +143,7 @@ const router = createBrowserRouter([
         ],
       },
       {
-        path: "/spso/auth",
+        path: "/spso/author",
         element: <AuthorizationTable />,
       },
     ],
@@ -140,14 +156,3 @@ createRoot(document.getElementById("root")).render(
     {/* <App /> */}
   </StrictMode>
 );
-// import { StrictMode } from 'react'
-// import { createRoot } from 'react-dom/client'
-// import './styles/index.css'
-// import App from './App.jsx'
-// import TK from './TK-main.jsx'
-
-// createRoot(document.getElementById('root')).render(
-//   <StrictMode>
-//     <TK />
-//   </StrictMode>,
-// )

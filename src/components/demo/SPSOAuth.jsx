@@ -8,15 +8,15 @@ import { SPSOHeaderLog } from "./SPSOHeaderLog";
 import { SPSOHeaderSetting } from "./SPSOHeaderSetting";
 
 export const SPSOSetting = () => {
-    return (
-        <>
-            <div className="flex flex-col w-screen justify-center align-middle items-center">
-                <SPSOHeaderLog />
-                <div className="mt-[40px]">
-                    <Outlet />
-                </div>
-                <Footer />
-            </div>
-        </>
-    );
+  return (
+    <>
+      <div className="flex flex-col w-screen justify-center align-middle items-center">
+        <SPSOHeaderLog />
+        <div className="mt-[40px]">
+          <Outlet />
+        </div>
+        <Footer />
+      </div>
+    </>
+  );
 };
