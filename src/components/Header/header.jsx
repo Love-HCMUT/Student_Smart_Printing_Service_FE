@@ -12,7 +12,7 @@ export default function Header_APP({ links, userName, highlightedIndex, onLogout
   };
 
   return (
-    <header className="w-full fixed top-0 left-0 bg-[#46A0DE] text-white flex items-center justify-between px-4 py-3">
+    <header className="w-full fixed top-0 left-0 bg-[#46A0DE] text-white flex items-center justify-between px-4 py-2">
       <div className="container mx-auto flex items-center">
 
         <div className="flex items-center">
@@ -36,12 +36,12 @@ export default function Header_APP({ links, userName, highlightedIndex, onLogout
               </a>
 
               {link.subLinks && activeLink === link.label && (
-                <div className="absolute left-0 mt-2 bg-[#46A0DE] text-white shadow-lg rounded">
+                <div className="absolute left-0 mt-4 bg-[#46A0DE] text-white shadow-lg">
                   {link.subLinks.map((subLink) => (
                     <a
                       key={subLink.label}
                       href={subLink.href}
-                      className="block px-5 py-3 text-white hover:text-black hover:bg-[#1488D8] transition-colors"
+                      className="block px-6 py-3 text-white hover:text-black hover:bg-[#1488D8] transition-colors"
                     >
                       {subLink.label}
                     </a>

@@ -12,10 +12,14 @@ function Register_page() {
     </header>
   
     {/* Main Content with Background Image */}
-            <main className="pt-20"><RegisterForm/></main>
+            <main className="pt-20 pb-50 "><RegisterForm/></main>
   
     {/* Footer Stays at Bottom */}
+    <footer className="mt-16">
     <Footer />
+
+</footer>
+    
   </div>
   );
 }

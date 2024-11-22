@@ -110,7 +110,7 @@ const RegisterForm = () => {
               <button
                 type="button"
                 onClick={() => removePhoneNumber(index)}
-                className="px-3 py-2 bg-red-500 text-white font-bold rounded-lg shadow hover:bg-red-600 focus:ring-2 focus:ring-red-300"
+                className="px-3 py-2 bg-gradient-to-r from-gray-500 to-gray-600 text-white font-semibold rounded-full shadow-md hover:shadow-lg hover:from-blue-600 hover:to-blue-700 transition-all duration-300 ease-in-out transform hover:-translate-y-0.5 focus:outline-none"
               >
                 Delete
               </button>
@@ -119,7 +119,7 @@ const RegisterForm = () => {
           <button
             type="button"
             onClick={addPhoneNumber}
-            className="w-full px-4 py-2 bg-green-500 text-white font-semibold rounded-xl shadow hover:bg-green-600 focus:ring-2 focus:ring-green-300"
+            className="w-full py-2 bg-gradient-to-r from-gray-500 to-gray-600 text-white font-semibold rounded-full shadow-md hover:shadow-lg hover:from-blue-600 hover:to-blue-700 transition-all duration-300 ease-in-out transform hover:-translate-y-0.5 focus:outline-none"
           >
             + Add Phone
           </button>

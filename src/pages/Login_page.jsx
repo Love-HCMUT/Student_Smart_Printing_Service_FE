@@ -12,10 +12,13 @@ function Login_page() {
     </header>
   
     {/* Main Content with Background Image */}
-            <main><LoginForm/></main>
+            <main pt-50 pb-50><LoginForm/></main>
   
     {/* Footer Stays at Bottom */}
+    <footer className="mt-16">
     <Footer />
+
+</footer>
   </div>
   );
 }
