@@ -19,7 +19,7 @@ const Files = () => {
   });
   return (
     <>
-      <div className="flex flex-col items-center justify-center align-middle">
+      <div className="m-16 flex flex-col items-center justify-center align-middle">
         <Head types={types} setTypes={setTypes} />
         <Body types={types} />
         <Foot />

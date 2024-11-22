@@ -1,8 +1,7 @@
-import prevIcon from "../../assets/prev-icon.svg";
-import nextIcon from "../../assets/next-icon.svg";
 import { useState } from "react";
 import { Year } from "./Year";
 import { Month } from "./Month";
+import { NavLink } from "react-router-dom";
 export const List = ({ names, year }) => {
   return (
     <>

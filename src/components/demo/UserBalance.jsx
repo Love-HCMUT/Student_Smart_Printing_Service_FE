@@ -4,7 +4,7 @@ import OrdersHistoryPayment from "../Table/Student/Payment/orders_history_paymen
 export const UserBalance = () => {
   return (
     <>
-      <div className="mt-8 flex flex-col justify-center align-middle items-center">
+      <div className="m-8 flex flex-col justify-center align-middle items-center">
         <div>
           <InfoCards />
           <OrdersHistoryPayment />

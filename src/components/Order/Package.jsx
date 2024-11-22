@@ -42,6 +42,8 @@ const Package = ({ index, update, remove }) => {
     const file = event.target.files[0];
     if (file) {
       // UPLOAD MIN-IO
+      // Loaf file types from config file types
+      console.log(file);
 
       const newFileSelected = [...fileSelected, file];
       setfileSelected(newFileSelected);
@@ -343,6 +345,7 @@ const Package = ({ index, update, remove }) => {
                 id="dropzone-file"
                 type="file"
                 class="hidden"
+                accept={"application/pdf"} // Load from config
                 onChange={uploadFile}
               />
             </label>

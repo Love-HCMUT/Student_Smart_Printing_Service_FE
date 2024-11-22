@@ -24,14 +24,19 @@ export default function Header_APP({
   highlightedIndex = 0,
   onLogout,
 }) {
-  const [activeLink, setActiveLink] = useState(null);
+  const [activeLink, setActiveLink] = useState("Home");
+  const [showSubLinks, setShowSubLinks] = useState(false);
 
-  const handleLinkClick = (label) => {
-    setActiveLink(activeLink === label ? null : label);
+  const handleLinkClick = (link) => {
+    setActiveLink(link.label);
+    if (link.subLinks) {
+      setShowSubLinks(true);
+    }
+    console.log(showSubLinks, activeLink, link.label);
   };
 
   return (
-    <header className="w-full fixed top-0 left-0 bg-[#46A0DE] text-white flex items-center justify-between px-4 py-3">
+    <header className="w-full fixed top-0 left-0 bg-[#1488D8] text-white flex items-center justify-between px-4 py-3">
       <div className="container mx-auto flex items-center">
         <div className="flex items-center">
           <img src={Logo} alt="Logo" className="h-8" />
@@ -42,14 +47,12 @@ export default function Header_APP({
             <div key={link.label} className="relative">
               {link.subLinks ? (
                 <a
-                  className={`px-5 py-4 text-white transition-colors ${
-                    activeLink === link.label
-                      ? "bg-[#1488D8]"
-                      : "hover:bg-[#1488D8]"
-                  } hover:text-black`}
+                  className={`px-5 py-4 h-[40px] text-white transition-colors ${
+                    activeLink === link.label ? "bg-[#030391]" : "bg-[#1488D8]"
+                  } hover:opacity-50`}
                   onClick={(e) => {
                     // e.preventDefault();
-                    handleLinkClick(link.label);
+                    handleLinkClick(link);
                   }}
                 >
                   {link.label}
@@ -57,27 +60,26 @@ export default function Header_APP({
               ) : (
                 <NavLink
                   to={link.href}
-                  className={`px-5 py-4 text-white transition-colors ${
-                    activeLink === link.label
-                      ? "bg-[#1488D8]"
-                      : "hover:bg-[#1488D8]"
-                  } hover:text-black`}
+                  className={`px-5 py-4 h-[40px] text-white transition-colors ${
+                    activeLink === link.label ? "bg-[#030391]" : "bg-[#1488D8]"
+                  } hover:opacity-50`}
                   onClick={(e) => {
                     // e.preventDefault();
-                    handleLinkClick(link.label);
+                    handleLinkClick(link);
                   }}
                 >
                   {link.label}
                 </NavLink>
               )}
 
-              {link.subLinks && activeLink === link.label && (
-                <div className="absolute left-0 mt-2 bg-[#46A0DE] text-white shadow-lg rounded">
+              {link.subLinks && activeLink === link.label && showSubLinks && (
+                <div className="absolute left-0 mt-2 bg-[#1488D8] text-white shadow-lg rounded">
                   {link.subLinks.map((subLink) => (
                     <NavLink
                       key={subLink.label}
                       to={subLink.href}
                       className="block px-5 py-3 text-white hover:text-black hover:bg-[#1488D8] transition-colors"
+                      onClick={() => setShowSubLinks(false)}
                     >
                       {subLink.label}
                     </NavLink>

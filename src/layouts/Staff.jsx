@@ -14,7 +14,7 @@ function StaffLayout() {
       </header>
 
       {/* Main Content with Background Image */}
-      <main className="mt-10">
+      <main className="mt-[3.5rem] mx-auto min-h-[70vh]">
         <Outlet />
       </main>
 

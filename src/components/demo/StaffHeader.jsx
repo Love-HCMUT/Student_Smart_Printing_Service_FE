@@ -4,7 +4,7 @@ export const StaffHeader = ({
   links = [
     {
       label: "Home",
-      href: "/staff/home",
+      href: "/staff",
     },
     {
       label: "Printing Manager",
