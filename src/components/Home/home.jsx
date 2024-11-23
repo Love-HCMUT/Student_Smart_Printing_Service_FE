@@ -15,7 +15,8 @@ const WelcomeBanner = ({ userName }) => {
         </div>
 
         <div className="flex justify-end">
-          <button className="flex items-center space-x-2 px-4 py-2 bg-[#41CF29] text-white font-semibold rounded-full hover:bg-[#116104] focus:outline-none">
+          <button className="flex items-center space-x-2 px-4 py-2 bg-[#41CF29] hover:bg-[#116104] text-white rounded-full shadow-md
+             hover:shadow-lg transition-all duration-300 ease-in-out transform hover:-translate-y-0.5 ml-4 ">
             <img src={iccon} alt="Plus icon" className="h-5 w-5" />
             <span>New Order</span>
           </button>

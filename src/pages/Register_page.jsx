@@ -17,8 +17,7 @@ function Register_page() {
     {/* Footer Stays at Bottom */}
     <footer className="mt-16">
     <Footer />
-
-</footer>
+  </footer>
     
   </div>
   );
