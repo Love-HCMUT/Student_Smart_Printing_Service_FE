@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import calendarIcon from '../../../../assets/Calendar.svg';
+import calendarIcon from '../../../../assets/calendar.svg';
 export const CustomDateInput = ({ value, onChange, placeholder = "Start Date" }) => {
     const [showDatePicker, setShowDatePicker] = useState(false);
 
