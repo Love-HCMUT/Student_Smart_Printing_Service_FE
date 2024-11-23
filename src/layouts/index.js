@@ -2,3 +2,7 @@
 // This would be things like a sidebar, navbar, etc…
 // If your application only has a layout then you can just place it in the components folder,
 // but if you have multiple different layouts used across your application this is a great place to store them.
+export { HeaderlessLayout } from "./Headerless.jsx";
+export { SPSOLayout } from "./SPSO.jsx";
+export { StaffLayout } from "./Staff.jsx";
+export { UserLayout } from "./User.jsx";

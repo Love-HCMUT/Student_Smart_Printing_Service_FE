@@ -33,10 +33,9 @@ function Home_App() {
   {/* Main Content with Background Image */}
   <main 
     className="flex-grow bg-cover flex items-center justify-start min-h-screen" // Tăng khoảng cách với `pt-20` để tránh bị header che
-    style={{ backgroundImage: `url(${backgroundImage})` }}
   >
     {/* Move WelcomeBanner to the left */}
-    <div className="ml-[100px] mt-[-200px]">
+    <div >
       <WelcomeBanner userName={userName} />
     </div>
   </main>

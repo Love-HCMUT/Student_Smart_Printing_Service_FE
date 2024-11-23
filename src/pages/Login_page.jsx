@@ -15,7 +15,7 @@ function Login_page() {
             <main pt-50 pb-50><LoginForm/></main>
   
     {/* Footer Stays at Bottom */}
-    <footer className="mt-16">
+    <footer >
     <Footer />
 
 </footer>
