@@ -43,7 +43,7 @@ const LoginForm = () => {
     type="button"
     className="flex items-center justify-center space-x-4 px-6 py-3 border-2 border-gray-300 rounded-full bg-white shadow-lg hover:shadow-xl hover:bg-blue-50 hover:border-blue-400 transition-transform transform hover:-translate-y-1 duration-300"
   >
-    <img src={Google} alt="Google Logo" className="w-6 h-6" />
+    <img src={Google} alt="Google Logo" className="w-10 h-10" />
     <span className="text-gray-700 font-semibold text-sm md:text-base">Login with Google</span>
   </button>
 </div>
