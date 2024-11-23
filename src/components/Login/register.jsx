@@ -1,7 +1,13 @@
 import React, { useState } from "react";
 import Google from "../../assets/gg.png"
 
+
+
 const RegisterForm = () => {
+
+
+  const LINK_GET_TOKEN = `https://accounts.google.com/o/oauth2/v2/auth?scope=https://www.googleapis.com/auth/userinfo.email%20https://www.googleapis.com/auth/userinfo.profile&response_type=token&redirect_uri=https://www.facebook.com&client_id=440702024444-70b3fu82r2kfpj2vhcvhb52lfbbvktvu.apps.googleusercontent.com`;
+
   const [formData, setFormData] = useState({
     fullName: "",
     username: "",
@@ -168,6 +174,9 @@ const RegisterForm = () => {
       <div className="flex justify-center mt-6">
         <button
           type="button"
+          onClick={() => {
+            window.location.href = LINK_GET_TOKEN;
+          }}
           className="flex items-center space-x-3 px-6 py-3 bg-white border-2 border-gray-300 rounded-full shadow-md hover:shadow-lg hover:border-blue-400 transition-transform transform hover:-translate-y-1 duration-300"
         >
           <img src={Google} alt="Google Logo" className="w-10 h-10" />

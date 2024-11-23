@@ -11,7 +11,7 @@ createRoot(document.getElementById("root")).render(
     {/* <HeaderApp /> */}
     {/* <Login_page /> */}
     {/* <Home_App/> */}
-    {/* <Register_page/> */}
-    <Register_after_gg/>
+    <Register_page/>
+    {/* <Register_after_gg/> */}
   </StrictMode>
 );
