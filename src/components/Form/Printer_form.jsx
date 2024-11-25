@@ -65,40 +65,57 @@ const PrinterForm = ({ printerId }) => {
   // Hàm xử lý khi form được submit
   const handleSubmit = async (e) => {
     e.preventDefault();
-
+  
     const requestBody = {
-        printerStatus: status,
-        printerDescription: description,
-        resolution: resolution,
-        colorPrinting: color,
-        side: oneTwoSide,
-        price: price,
-        model: model,
-        speed: speed,
-        brand: brand,
-        wireless: wirelessConnection,
-        printingMethod: printingMethod,
-        campus: campus,
-        building: building,
-        room: room
+      printerStatus: status,
+      printerDescription: description,
+      resolution: resolution,
+      colorPrinting: color,
+      side: oneTwoSide,
+      price: price,
+      model: model,
+      speed: speed,
+      brand: brand,
+      wireless: wirelessConnection,
+      printingMethod: printingMethod,
+      campus: campus,
+      building: building,
+      room: room
     };
-    // console.log("RequestBody:   ",requestBody)
-
+  
     try {
-      const response = await axios.put(
-        `http://localhost:5000/api/printer/update/${printerId}`,
-        requestBody,
-        {
-          headers: {
-            'Content-Type': 'application/json',
-          },
-        }
-      );
-      console.log('Update successful:', response);
+      let response;
+      
+      // Kiểm tra nếu printerId khác 0, thực hiện PUT (cập nhật)
+      if (printerId) {
+        response = await axios.put(
+          `http://localhost:5000/api/printer/update/${printerId}`,
+          requestBody,
+          {
+            headers: {
+              'Content-Type': 'application/json',
+            },
+          }
+        );
+        console.log('Update successful:', response);
+      } else {
+        // Nếu printerId là 0, thực hiện POST (thêm mới)
+        response = await axios.post(
+          `http://localhost:5000/api/printer/add`,
+          requestBody,
+          {
+            headers: {
+              'Content-Type': 'application/json',
+            },
+          }
+        );
+        console.log('Add successful:', response);
+      }
     } catch (error) {
-      console.error('Error updating printer data:', error);
+      console.error('Error handling printer data:', error);
     }
   };
+  
 
   return (
     <div className="flex items-center justify-center min-h-screen bg-gray-100">
