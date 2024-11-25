@@ -1,7 +1,6 @@
 import React from "react";
 
 const Note = ({ mess, func }) => {
-  console.log("mess", mess);
   return (
     <div className="w-full">
       <label
