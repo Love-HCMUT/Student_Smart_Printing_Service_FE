@@ -22,8 +22,7 @@ import PrinterManagerTable from "./components/Table/SPSO/PrinterManager/printer_
 import { ReportList } from "./components/ReportList/ReportList.jsx";
 import { Detail } from "./components/ReportDetail/Detail.jsx";
 import { SPSOLog } from "./components/demo/SPSOLog.jsx";
-import PrintingHistoryPayment from "./components/Table/SPSO/PrintingHistory/printing_history_table.jsx";
-import PaymentHistoryTable from "./components/Table/SPSO/PaymentHistory/payment_history_table.jsx";
+
 import { SPSOSetting } from "./components/demo/SPSOSetting.jsx";
 import PageSettingTable from "./components/Table/SPSO/PageSetting/page_setting_tables.jsx";
 import Files from "./components/Files/Files.jsx";
@@ -34,6 +33,9 @@ import ConfirmOrderPage from "./pages/ConfirmOrderPage.jsx";
 import PaymentPage from "./pages/PaymentPage.jsx";
 import Register_page from "./pages/Register_page.jsx";
 import RegisterForm from "./components/Login/register.jsx";
+import TransactionHistoryPage from "./pages/TransactionHistoryPage.jsx";
+import ManagePrinterPage from "./pages/ManagePrinterPage.jsx";
+import ManageTransactionPage from "./pages/ManageTransactionPage.jsx";
 
 const router = createBrowserRouter([
   {
@@ -66,7 +68,7 @@ const router = createBrowserRouter([
       },
       {
         path: "/user/history",
-        element: <OrdersHistoryTable />,
+        element: <TransactionHistoryPage />,
       },
       {
         path: "/user/order",
@@ -118,11 +120,11 @@ const router = createBrowserRouter([
       },
       {
         path: "/spso/log/printing",
-        element: <PrintingHistoryPayment />,
+        element: <ManagePrinterPage />,
       },
       {
         path: "/spso/log/payment",
-        element: <PaymentHistoryTable />,
+        element: <ManageTransactionPage />,
       },
       {
         path: "/spso/setting/paper",

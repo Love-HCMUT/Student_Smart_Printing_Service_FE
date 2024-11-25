@@ -1,29 +1,23 @@
 import React from "react";
-
-const InfoCards = ({
-  totalPapers = 100,
-  paperSize = "A4",
-  recentTransitions = [
-    {
-      color: "blue",
-      text: "400 papers at 12/12/2024 (total 500 papers) ",
-    },
-  ],
-}) => {
+import coin from '../../assets/coin.svg';
+import '../../styles/styles.css'
+const InfoCards = ({ totalCoins, recentTransitions }) => {
   return (
-    <div className="flex gap-6 p-8 justify-between">
-      <div className="flex flex-col justify-between bg-white shadow-md rounded-lg p-6">
+    <div className="flex flex-col md:flex-row gap-6 p-8 justify-between items-start md:items-stretch">
+      <div className="flex flex-col justify-center bg-white shadow-lg rounded-lg p-6 w-full md:w-1/2">
         <div>
-          <h3 className="text-gray-500 text-lg">Total papers</h3>
-          <p className="text-4xl font-bold text-gray-800 mt-2">{totalPapers}</p>
+          <h3 className="text-gray-500 text-lg">Total coins</h3>
+          <p className="text-4xl font-bold text-gray-800 mt-2 ml-16">
+            {totalCoins}
+            <img src={coin} className="w-8 h-8 inline-block ml-2 coin-animation" alt="coin" />
+          </p>
         </div>
-        <p className="text-gray-500 mt-2">{paperSize}</p>
       </div>
 
-      {/* Recent Transition Card */}
-      <div className="flex flex-col bg-white shadow-md rounded-lg p-6">
-        <h3 className="text-gray-500 text-lg">Recent transition</h3>
-        <ul className="mt-4 space-y-2">
+      {/* Recent Transactions Card */}
+      <div className="flex flex-col bg-white shadow-lg rounded-lg p-6 w-full md:w-1/2">
+        <h3 className="text-gray-500 text-lg">Recent Transactions</h3>
+        <ul className="mt-4 space-y-2 overflow-y-auto">
           {recentTransitions.map((transition, index) => (
             <li key={index} className="flex items-center text-gray-600">
               <span className={`text-${transition.color}-500`}>●</span>

@@ -8,156 +8,8 @@ import { SearchBar1 } from "../SearchBar1/searchbar01";
 import { SPSOHeader1 } from "../Header1/Header1";
 import { CustomDateInput } from "../DateInputComponent.jsx/customDateInputComponent";
 
-const MOCK_DATA = [
-    {
-        "user_ID": "USR001",
-        "date_of_transaction": "12/12/2023",
-        "number_of_paper": 50,
-        "charge": "50000 VND",
-        "payment_method": "Credit Card",
-        "note": "Paid in full"
-    },
-    {
-        "user_ID": "USR002",
-        "date_of_transaction": "11/11/2023",
-        "number_of_paper": 30,
-        "charge": "30000 VND",
-        "payment_method": "PayPal",
-        "note": "Pending payment"
-    },
-    {
-        "user_ID": "USR003",
-        "date_of_transaction": "10/10/2023",
-        "number_of_paper": 20,
-        "charge": "20000 VND",
-        "payment_method": "Bank Transfer",
-        "note": "Payment received"
-    },
-    {
-        "user_ID": "USR004",
-        "date_of_transaction": "09/09/2023",
-        "number_of_paper": 40,
-        "charge": "40000 VND",
-        "payment_method": "Credit Card",
-        "note": "Payment failed"
-    },
-    {
-        "user_ID": "USR005",
-        "date_of_transaction": "08/08/2023",
-        "number_of_paper": 60,
-        "charge": "60000 VND",
-        "payment_method": "PayPal",
-        "note": "Paid in full"
-    },
-    {
-        "user_ID": "USR006",
-        "date_of_transaction": "07/07/2023",
-        "number_of_paper": 25,
-        "charge": "25000 VND",
-        "payment_method": "Bank Transfer",
-        "note": "Pending payment"
-    },
-    {
-        "user_ID": "USR007",
-        "date_of_transaction": "06/06/2023",
-        "number_of_paper": 35,
-        "charge": "35000 VND",
-        "payment_method": "Credit Card",
-        "note": "Payment received"
-    },
-    {
-        "user_ID": "USR008",
-        "date_of_transaction": "05/05/2023",
-        "number_of_paper": 45,
-        "charge": "45000 VND",
-        "payment_method": "PayPal",
-        "note": "Payment failed"
-    },
-    {
-        "user_ID": "USR009",
-        "date_of_transaction": "04/04/2023",
-        "number_of_paper": 55,
-        "charge": "55000 VND",
-        "payment_method": "Bank Transfer",
-        "note": "Paid in full"
-    },
-    {
-        "user_ID": "USR010",
-        "date_of_transaction": "03/03/2023",
-        "number_of_paper": 65,
-        "charge": "65000 VND",
-        "payment_method": "Credit Card",
-        "note": "Pending payment"
-    },
-    {
-        "user_ID": "USR001",
-        "date_of_transaction": "12/12/2023",
-        "number_of_paper": 50,
-        "charge": "50000 VND",
-        "payment_method": "Credit Card",
-        "note": "Paid in full"
-    },
-    {
-        "user_ID": "USR002",
-        "date_of_transaction": "11/11/2023",
-        "number_of_paper": 30,
-        "charge": "30000 VND",
-        "payment_method": "PayPal",
-        "note": "Pending payment"
-    },
-    {
-        "user_ID": "USR003",
-        "date_of_transaction": "10/10/2023",
-        "number_of_paper": 20,
-        "charge": "20000 VND",
-        "payment_method": "Bank Transfer",
-        "note": "Payment received"
-    },
-    {
-        "user_ID": "USR004",
-        "date_of_transaction": "09/09/2023",
-        "number_of_paper": 40,
-        "charge": "40000 VND",
-        "payment_method": "Credit Card",
-        "note": "Payment failed"
-    },
-    {
-        "user_ID": "USR005",
-        "date_of_transaction": "08/08/2023",
-        "number_of_paper": 60,
-        "charge": "60000 VND",
-        "payment_method": "PayPal",
-        "note": "Paid in full"
-    },
-    {
-        "user_ID": "USR006",
-        "date_of_transaction": "07/07/2023",
-        "number_of_paper": 25,
-        "charge": "25000 VND",
-        "payment_method": "Bank Transfer",
-        "note": "Pending payment"
-    },
-    {
-        "user_ID": "USR007",
-        "date_of_transaction": "06/06/2023",
-        "number_of_paper": 35,
-        "charge": "35000 VND",
-        "payment_method": "Credit Card",
-        "note": "Payment received"
-    },
-    {
-        "user_ID": "USR008",
-        "date_of_transaction": "05/05/2023",
-        "number_of_paper": 45,
-        "charge": "45000 VND",
-        "payment_method": "PayPal",
-        "note": "Payment failed"
-    },
-]
-
-const PaymentHistoryTable = () => {
+const PaymentHistoryTable = ({ data }) => {
     const columns = useMemo(() => COLUMNS, []);
-    const data = useMemo(() => MOCK_DATA, []);
     const [startDate, setStartDate] = useState(null);
     const [endDate, setEndDate] = useState(null);
     const [searchInput, setSearchInput] = useState("");
@@ -175,8 +27,11 @@ const PaymentHistoryTable = () => {
     const filterDataBySearch = (rows, id, filterValue) => {
         if (!filterValue) return rows;
         return rows.filter(row => {
-            return Object.values(row.original).some(val =>
-                val && String(val).toLowerCase().includes(filterValue.toLowerCase())
+            const { user_ID, printer_ID, printingStaff_ID } = row.original;
+            return (
+                (user_ID && String(user_ID).toLowerCase().includes(filterValue.toLowerCase())) ||
+                (printer_ID && String(printer_ID).toLowerCase().includes(filterValue.toLowerCase())) ||
+                (printingStaff_ID && String(printingStaff_ID).toLowerCase().includes(filterValue.toLowerCase()))
             );
         });
     };
@@ -236,7 +91,7 @@ const PaymentHistoryTable = () => {
     return (
         <div className="container mx-auto px-6 h-fit w-3/5 rounded-lg">
             <div className="">
-                < SearchBar1
+                <SearchBar1
                     value={searchInput}
                     setValue={setSearchInput}
                     setFilter={(value) => setGlobalFilter({ startDate, endDate, searchInput: value })}
@@ -250,7 +105,6 @@ const PaymentHistoryTable = () => {
                         />
                     }
                 />
-
                 <SPSOHeader1 />
             </div>
             <div className="h-[430px] overflow-auto">
@@ -312,6 +166,7 @@ const PaymentHistoryTable = () => {
         </div>
     );
 };
+
 const DateInputComponent = ({ startDate, setStartDate, endDate, setEndDate, setGlobalFilter }) => {
     const handleStartDateChange = (date) => {
         setStartDate(date);
@@ -331,6 +186,4 @@ const DateInputComponent = ({ startDate, setStartDate, endDate, setEndDate, setG
     );
 };
 
-
-
-export default PaymentHistoryTable
+export default PaymentHistoryTable;

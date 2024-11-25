@@ -1,16 +1,16 @@
 export const COLUMNS = [
     {
         Header: 'User ID',
-        accessor: 'user_ID',
+        accessor: 'ID',
         Cell: ({ value }) => (
             <span className="text-xs font-inter text-table-text-color">{value}</span>
         ),
     },
     {
         Header: 'Date of transaction',
-        accessor: 'date_of_transaction',
+        accessor: 'dateOfTransaction',
         Cell: ({ value }) => (
-            <span className="text-xs font-bold text-black">{value}</span>
+            <span className="text-xs font-bold text-black">{new Date(value).toLocaleString()}</span>
         ),
         sortType: (rowA, rowB) => {
             const dateA = new Date(rowA.original.date_of_transaction.split('/').reverse().join('-'));
@@ -20,8 +20,8 @@ export const COLUMNS = [
 
     },
     {
-        Header: 'Number of papers',
-        accessor: 'number_of_paper',
+        Header: 'Coins',
+        accessor: 'coins',
         Cell: ({ value }) => (
             <span className="text-xs font-inter text-table-text-color">{value}</span>
         ),
@@ -35,7 +35,7 @@ export const COLUMNS = [
     },
     {
         Header: 'Payment Methods',
-        accessor: 'payment_method',
+        accessor: 'paymentMethod',
         Cell: ({ value }) => (
             <span className="text-xs font-inter text-table-text-color">{value}</span>
         ),

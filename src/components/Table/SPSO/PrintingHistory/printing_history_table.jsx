@@ -1,65 +1,16 @@
-import React, { useMemo, useState } from "react";
+import React, { useMemo, useState, useEffect } from "react";
 import { useTable, useSortBy, useGlobalFilter, usePagination, useRowSelect } from "react-table";
-import { COLUMNS } from "./printing_history_columns"
+import { COLUMNS } from "./printing_history_columns";
 import arrow from "../../../../assets/arrow-down.svg";
 import Pagination from "../../Table_Lib/Components/Pagination";
 import { SearchBar1 } from "../SearchBar1/searchbar01";
 import { SPSOHeader1 } from "../Header1/Header1";
 import { Checkbox } from "../../Table_Lib/Components/Checkbox";
 import { CustomDateInput } from "../DateInputComponent.jsx/customDateInputComponent";
-// import { IsDateString } from "class-validator";
 
-const MOCK_DATA = [
-    {
-        "user_ID": "USR001",
-        "printer_id": "PRT001",
-        "printing_staff_id": "STF001",
-        "file_name": "document1.pdf",
-        "start_time": "01/11/2024 10:00",
-        "end_time": "01/11/2024 10:30",
-        "number_of_pages": "A4-300"
-    },
-    {
-        "user_ID": "USR002",
-        "printer_id": "PRT002",
-        "printing_staff_id": "STF002",
-        "file_name": "document2.pdf",
-        "start_time": "05/12/2024 10:00",
-        "end_time": "05/12/2024 10:30",
-        "number_of_pages": "A4-300"
-    },
-    {
-        "user_ID": "USR003",
-        "printer_id": "PRT003",
-        "printing_staff_id": "STF003",
-        "file_name": "document3.pdf",
-        "start_time": "10/01/2024 10:00",
-        "end_time": "10/01/2024 10:30",
-        "number_of_pages": "A4-300"
-    },
-    {
-        "user_ID": "USR004",
-        "printer_id": "PRT004",
-        "printing_staff_id": "STF004",
-        "file_name": "document4.pdf",
-        "start_time": "15/02/2024 10:00",
-        "end_time": "15/02/2024 10:30",
-        "number_of_pages": "A4-300"
-    },
-    {
-        "user_ID": "USR005",
-        "printer_id": "PRT004",
-        "printing_staff_id": "STF004",
-        "file_name": "document4.pdf",
-        "start_time": "15/02/2024 11:00",
-        "end_time": "15/02/2024 11:30",
-        "number_of_pages": "A4-300"
-    },
-]
-
-const PrintingHistoryPayment = () => {
+const PrintingHistoryPayment = ({ values }) => {
     const columns = useMemo(() => COLUMNS, []);
-    const data = useMemo(() => MOCK_DATA, []);
+    const data = useMemo(() => values, [values]);
     const [startDate, setStartDate] = useState(null);
     const [endDate, setEndDate] = useState(null);
     const [searchInput, setSearchInput] = useState("");
@@ -83,8 +34,12 @@ const PrintingHistoryPayment = () => {
         const { startDate, endDate } = filterValue;
 
         return rows.filter(row => {
-            const rowStartTime = parseCustomDate(row.original.start_time);
-            const rowEndTime = parseCustomDate(row.original.end_time);
+            const rowStartTime = parseCustomDate(row.original.startTime);
+            const rowEndTime = parseCustomDate(row.original.endTime);
+
+            if (!rowStartTime || !rowEndTime) {
+                return false;
+            }
 
             const rowStartDateOnly = new Date(rowStartTime.getFullYear(), rowStartTime.getMonth(), rowStartTime.getDate());
             const rowEndDateOnly = new Date(rowEndTime.getFullYear(), rowEndTime.getMonth(), rowEndTime.getDate());
@@ -106,8 +61,11 @@ const PrintingHistoryPayment = () => {
     const filterDataBySearch = (rows, id, filterValue) => {
         if (!filterValue) return rows;
         return rows.filter(row => {
-            return Object.values(row.original).some(val =>
-                val && String(val).toLowerCase().includes(filterValue.toLowerCase())
+            const { userID, printerID, printingStaffID } = row.original;
+            return (
+                (userID && String(userID).toLowerCase().includes(filterValue.toLowerCase())) ||
+                (printerID && String(printerID).toLowerCase().includes(filterValue.toLowerCase())) ||
+                (printingStaffID && String(printingStaffID).toLowerCase().includes(filterValue.toLowerCase()))
             );
         });
     };
@@ -181,7 +139,6 @@ const PrintingHistoryPayment = () => {
                         />
                     }
                 />
-
             </div>
             <SPSOHeader1 />
             <div className="h-[430px] overflow-auto">

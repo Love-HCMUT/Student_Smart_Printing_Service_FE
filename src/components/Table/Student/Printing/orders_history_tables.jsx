@@ -1,14 +1,13 @@
 import React, { useMemo } from "react";
 import { useTable, useSortBy, useRowSelect, useGlobalFilter } from "react-table";
-import MOCK_DATA from "../RawData/PrinterRaw.json";
 import { COLUMNS } from "./orders_history_columns";
 import { Checkbox } from "../../Table_Lib/Components/Checkbox";
 import { OrdersHistorySearchTables } from "./orders_history_search";
 import arrow from "../../../../assets/arrow-down.svg";
-
-const OrdersHistoryTable = () => {
+import { cancelOrderByUser } from "../../../../services/user-transaction-api";
+const OrdersHistoryTable = ({ data, onCancelOrder }) => {
     const columns = useMemo(() => COLUMNS, []);
-    const data = useMemo(() => MOCK_DATA, []);
+    const tableData = useMemo(() => data, [data]);
 
     const {
         getTableProps,
@@ -18,10 +17,11 @@ const OrdersHistoryTable = () => {
         prepareRow,
         state,
         setGlobalFilter,
+        selectedFlatRows,
     } = useTable(
         {
             columns,
-            data,
+            data: tableData,
         },
         useGlobalFilter,
         useSortBy,
@@ -48,9 +48,19 @@ const OrdersHistoryTable = () => {
 
     const { globalFilter } = state;
 
+    const handleCancelOrders = async () => {
+        const selectedOrderIds = selectedFlatRows.map(row => row.original.orderID);
+        try {
+            await Promise.all(selectedOrderIds.map(orderID => cancelOrderByUser(orderID)))
+            onCancelOrder(selectedOrderIds);
+        } catch (error) {
+            console.error("Error cancelling orders:", error);
+        }
+    }
+
     return (
         <div className="container mx-auto p-4 mt-8">
-            <OrdersHistorySearchTables filter={globalFilter} setFilter={setGlobalFilter} />
+            <OrdersHistorySearchTables filter={globalFilter} setFilter={setGlobalFilter} onCancelOrder={handleCancelOrders} />
             <OrderPrintingHeader />
             <div className="w-full">
                 <table {...getTableProps()} className="min-w-full bg-white border border-gray-300 rounded-md">
@@ -95,13 +105,23 @@ const OrdersHistoryTable = () => {
                     </tbody>
                 </table>
             </div>
+            {/* <div className="mt-4">
+                <h2 className="text-lg font-bold">Selected Rows</h2>
+                <ul>
+                    {selectedFlatRows.map((row, index) => (
+                        <li key={index} className="text-sm text-gray-700">
+                            {JSON.stringify(row.original)}
+                        </li>
+                    ))}
+                </ul>
+            </div> */}
         </div>
     );
 };
 
 const OrderPrintingHeader = () => {
     return (
-        <div className="p-4 shadow-lg">
+        <div className="p-4">
             <h1 className="text-xl font-bold">Orders History</h1>
             <span className="text-sm text-gray-600">History of your printing orders is stored for 6 months</span>
         </div>

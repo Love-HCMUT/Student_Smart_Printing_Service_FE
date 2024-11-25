@@ -4,20 +4,10 @@ import { COLUMNS } from "./orders_history_payments_columns";
 import { OrdersHistoryPaymentSearch } from "./orders_history_payments_search";
 import arrow from "../../../../assets/arrow-down.svg";
 
-const MOCK_DATA = [
-    {
-        "transaction_date": "12/12/2023",
-        "number_of_papers": 10,
-        "charge": 100000,
-        "payment_methods": "Momo",
-        "combo": "Combo 1",
-        "note": "Note 1"
-    }
-]
 
-const OrdersHistoryPayment = () => {
+const OrdersHistoryPayment = ({ values }) => {
     const columns = useMemo(() => COLUMNS, []);
-    const data = useMemo(() => MOCK_DATA, []);
+    const data = useMemo(() => values || [], [values]);
 
     const {
         getTableProps,

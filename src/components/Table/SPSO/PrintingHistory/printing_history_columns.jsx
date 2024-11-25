@@ -17,51 +17,51 @@ const dateSort = (rowA, rowB, columnId) => {
 export const COLUMNS = [
     {
         Header: 'User ID',
-        accessor: 'user_ID',
+        accessor: 'userID',
         Cell: ({ value }) => (
             <span className="text-xs font-inter text-table-text-color">{value}</span>
         ),
     },
     {
         Header: 'Printer ID',
-        accessor: 'printer_id',
+        accessor: 'printerID',
         Cell: ({ value }) => (
             <span className="text-xs font-bold text-black">{value}</span>
         ),
     },
     {
         Header: 'Printing Staff ID',
-        accessor: 'printing_staff_id',
+        accessor: 'printingStaffID',
         Cell: ({ value }) => (
             <span className="text-xs font-inter text-table-text-color">{value}</span>
         ),
     },
     {
         Header: 'File Name',
-        accessor: 'file_name',
+        accessor: 'fileName',
         Cell: ({ value }) => (
             <span className="text-xs font-inter text-table-text-color overflow-hidden text-ellipsis">{value}</span>
         ),
     },
     {
         Header: 'Start Time',
-        accessor: 'start_time',
+        accessor: 'startTime',
         Cell: ({ value }) => (
-            <span className="text-xs font-inter text-table-text-color">{value}</span>
+            <span className="text-xs font-inter text-table-text-color">{new Date(value).toLocaleString()}</span>
         ),
         sortType: dateSort,
     },
     {
         Header: 'End Time',
-        accessor: 'end_time',
+        accessor: 'endTime',
         Cell: ({ value }) => (
-            <span className="text-xs font-inter text-table-text-color">{value}</span>
+            <span className="text-xs font-inter text-table-text-color">{new Date(value).toLocaleString()}</span>
         ),
         sortType: dateSort,
     },
     {
         Header: 'Number of pages',
-        accessor: 'number_of_pages',
+        accessor: 'numberOfPage',
         Cell: ({ value }) => (
             <span className="text-xs font-inter text-table-text-color">
                 {value}

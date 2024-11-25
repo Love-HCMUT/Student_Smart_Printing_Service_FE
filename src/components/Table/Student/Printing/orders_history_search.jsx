@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import search from '../../../../assets/search.svg';
 import Filter from '../../../../assets/filter.svg';
 
-export const OrdersHistorySearchTables = ({ filter, setFilter }) => {
+export const OrdersHistorySearchTables = ({ filter, setFilter, onCancelOrder = null }) => {
     const [value, setValue] = useState(filter);
 
     useEffect(() => {
@@ -17,7 +17,9 @@ export const OrdersHistorySearchTables = ({ filter, setFilter }) => {
                     <span className="text-gray-600">Filters</span>
                 </div>
 
-                <div className="flex items-center p-3 shadow-md rounded-xl 
+                <div
+                    onClick={onCancelOrder}
+                    className="flex items-center p-3 shadow-md rounded-xl 
                                 border w-fit ml-3 cursor-pointer
                                 bg-deep-blue
                                 hover:bg-dark-blue">

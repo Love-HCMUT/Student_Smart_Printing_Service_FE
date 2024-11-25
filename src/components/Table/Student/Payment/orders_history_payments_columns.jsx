@@ -1,14 +1,14 @@
 export const COLUMNS = [
     {
         Header: 'Date of transaction',
-        accessor: 'transaction_date',
+        accessor: 'date_of_transaction',
         Cell: ({ value }) => (
             <span className="text-xs font-inter font-bold text-black">{value}</span>
         ),
     },
     {
-        Header: 'Number of papers',
-        accessor: 'number_of_papers',
+        Header: 'Number of coins',
+        accessor: 'number_of_coins',
         Cell: ({ value }) => (
             <span className="text-xs font-inter text-table-text-color">{value}</span>
         )
@@ -22,14 +22,14 @@ export const COLUMNS = [
     },
     {
         Header: 'Payment Methods',
-        accessor: 'payment_methods',
+        accessor: 'method',
         Cell: ({ value }) => (
             <span className="text-xs font-inter text-table-text-color">{value}</span>
         ),
     },
     {
         Header: 'Combo',
-        accessor: 'combo',
+        accessor: 'combo_list',
         Cell: ({ value }) => (
             <span className="text-xs font-inter text-table-text-color">{value}</span>
         ),
