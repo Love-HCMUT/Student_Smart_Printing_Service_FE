@@ -12,7 +12,7 @@ function Login_page() {
     </header>
   
     {/* Main Content with Background Image */}
-            <main pt-50 pb-50><LoginForm/></main>
+            <main ><LoginForm/></main>
   
     {/* Footer Stays at Bottom */}
     <footer >
