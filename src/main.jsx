@@ -35,6 +35,7 @@ import ConfirmOrderPage from "./pages/ConfirmOrderPage.jsx";
 import PaymentPage from "./pages/PaymentPage.jsx";
 import Register_page from "./pages/Register_page.jsx";
 import RegisterForm from "./components/Login/register.jsx";
+import SettingPaper from "./pages/SettingPaper.jsx";
 
 const router = createBrowserRouter([
   {
@@ -127,7 +128,7 @@ const router = createBrowserRouter([
       },
       {
         path: "/spso/setting/paper",
-        element: <PageSettingTable />,
+        element: <SettingPaper />,
       },
       {
         path: "/spso/setting/file",
