@@ -1,7 +1,8 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import Google from "../../assets/gg.png"
 import { useNavigate } from "react-router-dom";
 import axios from "axios"
+import CryptoJS from 'crypto-js';
 
 
 
@@ -29,7 +30,42 @@ const RegisterForm = () => {
   const [error, setError] = useState(null);
   const [isLoading, setIsLoading] = useState(false);
 
-  
+   // Lấy token từ URL nếu có
+  useEffect(() => {
+    const hashParams = new URLSearchParams(window.location.hash.slice(1));
+    const token = hashParams.get("access_token");
+    if (token) {
+      fetchGoogleUserInfo(token);
+    }
+  }, []);
+
+  // Lấy thông tin người dùng từ Google API
+  const fetchGoogleUserInfo = async (token) => {
+    try {
+      const response = await axios.get(
+        `https://www.googleapis.com/oauth2/v2/userinfo`,
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
+      const email  = response.data.email;
+      const name  = response.data.name;
+      const hashed = CryptoJS.SHA256(email).toString(CryptoJS.enc.Hex);
+      const pw = hashed.substring(0, 8);
+
+      setFormData((prevData) => ({ ...prevData, 
+        username: email,
+        fullName: name,
+        password: pw,
+        }));  
+    } catch (error) {
+      console.error("Error fetching Google user info:", error);
+      setError("Unable to fetch user info from Google.");
+    }
+  };
+
 
   const handleSubmit = async (e) => {
     e.preventDefault();
