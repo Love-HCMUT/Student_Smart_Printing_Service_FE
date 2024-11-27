@@ -23,8 +23,6 @@ export const Detail = () => {
         data = await getNumberOfOrdersByMonthYear()
         setOrder(data)
 
-        console.log(data)
-
         data = await getNumberOfTransactionsByMonthYear()
         setTransaction(data)
 
@@ -44,8 +42,8 @@ export const Detail = () => {
           <Stats title={"Cancel"} number={total.totalCanceledOrder} icon={cancel} />
         </div>
         <div className="flex gap-16 justify-center align-middle">
-          <Chart title={"Number of Orders"} chartData={order} yLabel={"Order Count"} />
-          <Chart title={"Number of Payments"} chartData={transaction} yLabel={"Transaction Count"} />
+          <Chart title={"Number of Orders"} chartData={order} yLabel={"Order Count"} type="Orders" />
+          <Chart title={"Number of Payments"} chartData={transaction} yLabel={"Transaction Count"} type="Transaction" />
         </div>
       </div>
     </>

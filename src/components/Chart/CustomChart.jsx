@@ -1,7 +1,7 @@
 import React, { useEffect, useRef, useState } from "react";
 import * as d3 from "d3";
 
-const CustomLineChart = ({ data, xAccessor, yAccessor, xLabel, yLabel, gradientColors }) => {
+const CustomLineChart = ({ data, xAccessor, yAccessor, xLabel, yLabel, gradientColors, tooltipLabel = "OrderCount" }) => {
     const chartRef = useRef(null);
     const [dimensions, setDimensions] = useState({ width: 100, height: 100 });
 
@@ -150,7 +150,7 @@ const CustomLineChart = ({ data, xAccessor, yAccessor, xLabel, yLabel, gradientC
                 tooltip.style("display", "block")
                     .html(`
                         <strong>MonthYear:</strong> ${d3.timeFormat("%Y-%m")(xAccessor(d))}<br/>
-                        <strong>OrderCount:</strong> ${yAccessor(d)}
+                        <strong>${tooltipLabel}:</strong> ${yAccessor(d)}
                     `);
                 d3.select(this).attr("fill", "steelblue");
             })

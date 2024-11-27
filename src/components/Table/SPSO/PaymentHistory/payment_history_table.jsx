@@ -105,7 +105,7 @@ const PaymentHistoryTable = ({ data }) => {
                         />
                     }
                 />
-                <SPSOHeader1 />
+                <SPSOHeader1 header="Payment History" content="History of Payment is stored in 120 days " />
             </div>
             <div className="h-[430px] overflow-auto">
                 <table {...getTableProps()} className="mx-auto border rounded-md w-full">
