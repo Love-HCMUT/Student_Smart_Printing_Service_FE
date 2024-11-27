@@ -395,7 +395,7 @@ const PrinterManagerTable = () => {
         <div className="container mx-auto p-4 min-h-screen">
             <div className="w-full rounded-lg mt-6 shadow-lg">
                 <SearchBar1 filter={globalFilter} setFilter={setGlobalFilter} param={
-                    <PrinterManagerControl selectedPrinters={selectedPrinters} />
+                    <PrinterManagerControl selectedPrinters={selectedPrinters} onStatusChange={fetchMOCK_DATA} />
                 } />
                 <SPSOHeader1 />
                 <div className="h-[600px] overflow-auto">
@@ -459,7 +459,7 @@ const PrinterManagerTable = () => {
     );
 };
 
-const PrinterManagerControl = ({ selectedPrinters }) => {
+const PrinterManagerControl = ({ selectedPrinters, onStatusChange }) => {
     const handleStatus = async (status) => {
         if (selectedPrinters.length === 0) {
             alert("No printers selected to update.");
@@ -481,6 +481,7 @@ const PrinterManagerControl = ({ selectedPrinters }) => {
                 }
             );
             alert(`Updated ${selectedPrinters.length} printer(s) to ${status}.`);
+            onStatusChange();
         } catch (error) {
             console.error("Error updating printer status:", error.message);
             alert("Failed to update printer status. Please try again.");
