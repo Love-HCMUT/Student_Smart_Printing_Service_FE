@@ -1,16 +1,16 @@
-import { useState } from "react";
 import { Year } from "./Year";
 import { Month } from "./Month";
-import { NavLink } from "react-router-dom";
-export const List = ({ names, year }) => {
+
+export const List = ({ names, year, data }) => {
+
   return (
     <>
-      <div className={`grid grid-cols-${names.length} gap-2`}>
+      <div className={`grid grid-cols-${names.length} gap-2 w-full`}>
         {names.map((item, index) => {
           return year ? (
-            <Year key={index} data={item} />
+            <Year key={index} data={item} chartData={data} />
           ) : (
-            <Month key={index} data={item} />
+            <Month key={index} data={item} chartData={data[index]} />
           );
         })}
       </div>

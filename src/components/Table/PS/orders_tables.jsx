@@ -56,12 +56,12 @@ export const PSMainTable = ({
                 <table {...getTableProps()} className="border-l border-r border-gray-light w-full">
                     <thead className="top-0 bg-white z-10">
                         {headerGroups.map(headerGroup => (
-                            <tr {...headerGroup.getHeaderGroupProps()} key={headerGroup.id}>
+                            <tr {...headerGroup.getHeaderGroupProps()} key={headerGroup.getHeaderGroupProps().key}>
                                 {headerGroup.headers.map(column => (
                                     <th
                                         {...column.getHeaderProps(column.getSortByToggleProps())}
                                         className="pl-2 cursor-pointer text-center border-t border-b border-gray-light py-2.5 text-gray-dark text-xs font-inter leading-[15px] bg-pure-white flex-row items-center"
-                                        key={column.id}
+                                        key={column.getHeaderProps().key}
                                         scope="col"
                                         aria-sort={column.isSorted ? (column.isSortedDesc ? 'descending' : 'ascending') : 'none'}
                                     >
@@ -86,9 +86,9 @@ export const PSMainTable = ({
                             page.map(row => {
                                 prepareRow(row);
                                 return (
-                                    <tr {...row.getRowProps()} className="py-2.5" key={row.id}>
+                                    <tr {...row.getRowProps()} className="py-2.5" key={row.getRowProps().key}>
                                         {row.cells.map(cell => (
-                                            <td {...cell.getCellProps()} className="px-2 py-1" key={cell.column.id}>
+                                            <td {...cell.getCellProps()} className="px-2 py-1" key={cell.getCellProps().key}>
                                                 {cell.render('Cell')}
                                             </td>
                                         ))}

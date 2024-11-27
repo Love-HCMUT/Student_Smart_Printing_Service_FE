@@ -144,13 +144,13 @@ const PrintingHistoryPayment = ({ values }) => {
             <div className="h-[430px] overflow-auto">
                 <table {...getTableProps()} className="mx-auto border rounded-md w-full">
                     <thead className="bg-gray-light">
-                        {headerGroups.map(headerGroup => (
-                            <tr {...headerGroup.getHeaderGroupProps()} key={headerGroup.id}>
-                                {headerGroup.headers.map(column => (
+                        {headerGroups.map((headerGroup, i) => (
+                            <tr {...headerGroup.getHeaderGroupProps()} key={`headerGroup${i}`}>
+                                {headerGroup.headers.map((column, j) => (
                                     <th
                                         {...column.getHeaderProps(column.getSortByToggleProps())}
                                         className="p-3 text-left text-xs font-medium text-gray-700 tracking-wider cursor-pointer"
-                                        key={column.id}
+                                        key={`header${j}`}
                                     >
                                         <div className="flex items-center">
                                             {column.render('Header')}
@@ -169,12 +169,12 @@ const PrintingHistoryPayment = ({ values }) => {
                         ))}
                     </thead>
                     <tbody {...getTableBodyProps()}>
-                        {page.map(row => {
+                        {page.map((row, i) => {
                             prepareRow(row);
                             return (
-                                <tr {...row.getRowProps()} key={row.id} className="hover:bg-gray-50">
-                                    {row.cells.map(cell => (
-                                        <td {...cell.getCellProps()} className="px-4 py-2 text-sm font-normal text-gray-700 break-words" key={cell.column.id}>
+                                <tr {...row.getRowProps()} key={`row-${i}`} className="hover:bg-gray-50">
+                                    {row.cells.map((cell, j) => (
+                                        <td {...cell.getCellProps()} className="px-4 py-2 text-sm font-normal text-gray-700 break-words" key={`cell-${i}-${j}`}>
                                             {cell.render('Cell')}
                                         </td>
                                     ))}

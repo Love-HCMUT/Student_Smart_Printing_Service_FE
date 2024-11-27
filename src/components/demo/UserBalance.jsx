@@ -3,7 +3,6 @@ import OrdersHistoryPayment from "../Table/Student/Payment/orders_history_paymen
 import { getUserBalance, getRecentTransactions, getPaymentHistory } from "../../services/user-balance-api";
 import { useEffect, useState, useMemo } from "react";
 
-// Custom hook để quản lý dữ liệu người dùng
 const useUserBalanceData = () => {
   const [data, setData] = useState({
     balance: 0,

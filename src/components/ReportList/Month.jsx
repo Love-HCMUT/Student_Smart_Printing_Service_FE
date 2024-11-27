@@ -1,24 +1,30 @@
-import { NavLink } from "react-router-dom";
-import chart from "../../assets/chart.svg";
-export const Month = ({ data = { month: 9, year: 2024 } }) => {
+import CustomBarChart from "../Chart/BarChart";
+import returnValue from "./ReturnValue"
+
+export const Month = ({ data = { month: 9, year: 2024 }, chartData }) => {
   const { month, year } = data;
-  console.log;
-  return (
-    <>
-      <div className="flex flex-col ml-6 my-4 w-fit h-fit min-w-[45%] p-6 bg-white rounded-2xl shadow hover:cursor-pointer hover:opacity-90">
-        <img
-          className="w-full"
-          src={chart}
-          alt={`T${month}-${year}`}
-          title={`T${month}-${year}`}
-        />
-        <NavLink
-          to={"detail"}
-          className="text-center text-black text-xl font-normal font-['Open Sans']"
-        >
-          {`Tháng ${month} - ${year}`}
-        </NavLink>
-      </div>
-    </>
-  );
+
+  if (!chartData) {
+    return returnValue({
+      context: (
+        <div className="flex items-center justify-center">
+          <p className="text-center text-black text-xl font-normal font-['Open Sans']  w-[250px] h-[100px]">
+            ...Loading
+          </p>
+        </div>
+      ),
+      month,
+      year
+    })
+  } else {
+    return returnValue({
+      context: (
+        <CustomBarChart data={chartData} year={year} month={month} />
+      ),
+      month,
+      year
+    })
+  }
 };
+
+export default Month;

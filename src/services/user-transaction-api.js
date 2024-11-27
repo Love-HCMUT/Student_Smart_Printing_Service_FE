@@ -1,7 +1,7 @@
 import axios from "axios";
 
 export const getOrdersHistory = async () => {
-    const userId = localStorage.getItem("userId");
+    const userId = localStorage.getItem("id");
     if (!userId) {
         throw new Error("User ID is missing");
     }
@@ -22,7 +22,6 @@ export const cancelOrderByUser = async (orderId) => {
         if (response.status !== 200) {
             throw new Error("Failed to cancel order");
         }
-        console.log(response.data)
         return response.data;
     } catch (error) {
         console.error("Error canceling order:", error);

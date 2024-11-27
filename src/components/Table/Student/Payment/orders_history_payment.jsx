@@ -4,7 +4,6 @@ import { COLUMNS } from "./orders_history_payments_columns";
 import { OrdersHistoryPaymentSearch } from "./orders_history_payments_search";
 import arrow from "../../../../assets/arrow-down.svg";
 
-
 const OrdersHistoryPayment = ({ values }) => {
     const columns = useMemo(() => COLUMNS, []);
     const data = useMemo(() => values || [], [values]);
@@ -35,13 +34,13 @@ const OrdersHistoryPayment = ({ values }) => {
             <div className="w-full">
                 <table {...getTableProps()} className="min-w-full bg-white border border-gray-300 rounded-md">
                     <thead className="bg-gray-100">
-                        {headerGroups.map(headerGroup => (
-                            <tr {...headerGroup.getHeaderGroupProps()} key={headerGroup.id}>
-                                {headerGroup.headers.map(column => (
+                        {headerGroups.map((headerGroup, i) => (
+                            <tr {...headerGroup.getHeaderGroupProps()} key={`headerGroup-${i}`}>
+                                {headerGroup.headers.map((column, j) => (
                                     <th
                                         {...column.getHeaderProps(column.getSortByToggleProps())}
                                         className="px-4 py-2 text-left text-xs font-medium text-gray-500 tracking-wider cursor-pointer"
-                                        key={column.id}
+                                        key={`header-${j}`}
                                     >
                                         <div className="flex items-center">
                                             {column.render('Header')}
@@ -60,12 +59,12 @@ const OrdersHistoryPayment = ({ values }) => {
                         ))}
                     </thead>
                     <tbody {...getTableBodyProps()}>
-                        {rows.map(row => {
+                        {rows.map((row, i) => {
                             prepareRow(row);
                             return (
-                                <tr {...row.getRowProps()} key={row.id}>
-                                    {row.cells.map(cell => (
-                                        <td {...cell.getCellProps()} className="max-w-40 px-4 py-2 text-sm text-gray-700 break-words" key={cell.column.id}>
+                                <tr {...row.getRowProps()} key={`row-${i}`}>
+                                    {row.cells.map((cell, j) => (
+                                        <td {...cell.getCellProps()} className="max-w-40 px-4 py-2 text-sm text-gray-700 break-words" key={`cell-${i}-${j}`}>
                                             {cell.render('Cell')}
                                         </td>
                                     ))}

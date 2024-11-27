@@ -1,10 +1,12 @@
 import React, { useMemo } from "react";
-import { useTable, useSortBy, useRowSelect, useGlobalFilter } from "react-table";
+import { useTable, useSortBy, useRowSelect, useGlobalFilter, usePagination } from "react-table";
 import { COLUMNS } from "./orders_history_columns";
 import { Checkbox } from "../../Table_Lib/Components/Checkbox";
 import { OrdersHistorySearchTables } from "./orders_history_search";
 import arrow from "../../../../assets/arrow-down.svg";
 import { cancelOrderByUser } from "../../../../services/user-transaction-api";
+import Pagination from "../../Table_Lib/Components/Pagination";
+
 const OrdersHistoryTable = ({ data, onCancelOrder }) => {
     const columns = useMemo(() => COLUMNS, []);
     const tableData = useMemo(() => data, [data]);
@@ -13,18 +15,29 @@ const OrdersHistoryTable = ({ data, onCancelOrder }) => {
         getTableProps,
         getTableBodyProps,
         headerGroups,
-        rows,
+        page, // Instead of rows, use page
         prepareRow,
         state,
         setGlobalFilter,
         selectedFlatRows,
+        canPreviousPage,
+        canNextPage,
+        pageOptions,
+        pageCount,
+        gotoPage,
+        nextPage,
+        previousPage,
+        setPageSize,
+        state: { pageIndex, pageSize },
     } = useTable(
         {
             columns,
             data: tableData,
+            initialState: { pageIndex: 0, pageSize: 10 }, // Set initial page size
         },
         useGlobalFilter,
         useSortBy,
+        usePagination,
         useRowSelect,
         hooks => {
             hooks.visibleColumns.push(columns => [
@@ -56,7 +69,7 @@ const OrdersHistoryTable = ({ data, onCancelOrder }) => {
         } catch (error) {
             console.error("Error cancelling orders:", error);
         }
-    }
+    };
 
     return (
         <div className="container mx-auto p-4 mt-8">
@@ -65,56 +78,65 @@ const OrdersHistoryTable = ({ data, onCancelOrder }) => {
             <div className="w-full">
                 <table {...getTableProps()} className="min-w-full bg-white border border-gray-300 rounded-md">
                     <thead className="bg-gray-100">
-                        {headerGroups.map(headerGroup => (
-                            <tr {...headerGroup.getHeaderGroupProps()} key={headerGroup.id}>
-                                {headerGroup.headers.map(column => (
-                                    <th
-                                        {...column.getHeaderProps(column.getSortByToggleProps())}
-                                        className="px-4 py-2 text-left text-xs font-medium text-gray-500 tracking-wider cursor-pointer"
-                                        key={column.id}
-                                    >
-                                        <div className="flex items-center">
-                                            {column.render('Header')}
-                                            {column.isSorted && (
-                                                <img
-                                                    src={arrow}
-                                                    alt={column.isSortedDesc ? 'desc' : 'asc'}
-                                                    className="ml-1"
-                                                    style={{ transform: column.isSortedDesc ? 'rotate(0deg)' : 'rotate(180deg)', verticalAlign: 'middle' }}
-                                                />
-                                            )}
-                                        </div>
-                                    </th>
-                                ))}
-                            </tr>
-                        ))}
+                        {headerGroups.map(headerGroup => {
+                            const { key, ...restHeaderGroupProps } = headerGroup.getHeaderGroupProps();
+                            return (
+                                <tr key={key} {...restHeaderGroupProps}>
+                                    {headerGroup.headers.map(column => {
+                                        const { key, ...restColumnProps } = column.getHeaderProps(column.getSortByToggleProps());
+                                        return (
+                                            <th key={key} {...restColumnProps} className="px-4 py-2 text-left text-xs font-medium text-gray-500 tracking-wider cursor-pointer">
+                                                <div className="flex items-center">
+                                                    {column.render('Header')}
+                                                    {column.isSorted && (
+                                                        <img
+                                                            src={arrow}
+                                                            alt={column.isSortedDesc ? 'desc' : 'asc'}
+                                                            className="ml-1"
+                                                            style={{ transform: column.isSortedDesc ? 'rotate(0deg)' : 'rotate(180deg)', verticalAlign: 'middle' }}
+                                                        />
+                                                    )}
+                                                </div>
+                                            </th>
+                                        );
+                                    })}
+                                </tr>
+                            );
+                        })}
                     </thead>
                     <tbody {...getTableBodyProps()}>
-                        {rows.map(row => {
+                        {page.map(row => {
                             prepareRow(row);
+                            const { key, ...restRowProps } = row.getRowProps();
                             return (
-                                <tr {...row.getRowProps()} key={row.id}>
-                                    {row.cells.map(cell => (
-                                        <td {...cell.getCellProps()} className="max-w-40 px-4 py-2 text-sm text-gray-700 break-words" key={cell.column.id}>
-                                            {cell.render('Cell')}
-                                        </td>
-                                    ))}
+                                <tr key={key} {...restRowProps}>
+                                    {row.cells.map(cell => {
+                                        const { key, ...restCellProps } = cell.getCellProps();
+                                        return (
+                                            <td key={key} {...restCellProps} className="max-w-40 px-4 py-2 text-sm text-gray-700 break-words">
+                                                {cell.render('Cell')}
+                                            </td>
+                                        );
+                                    })}
                                 </tr>
                             );
                         })}
                     </tbody>
                 </table>
             </div>
-            {/* <div className="mt-4">
-                <h2 className="text-lg font-bold">Selected Rows</h2>
-                <ul>
-                    {selectedFlatRows.map((row, index) => (
-                        <li key={index} className="text-sm text-gray-700">
-                            {JSON.stringify(row.original)}
-                        </li>
-                    ))}
-                </ul>
-            </div> */}
+            <div className="flex justify-center items-center mb-10 mt-4">
+                <Pagination
+                    previousPage={previousPage}
+                    nextPage={nextPage}
+                    gotoPage={gotoPage}
+                    pageIndex={pageIndex}
+                    pageCount={pageCount}
+                    canPreviousPage={canPreviousPage}
+                    canNextPage={canNextPage}
+                    width={'w-8'}
+                    height={'h-8'}
+                />
+            </div>
         </div>
     );
 };
@@ -125,7 +147,7 @@ const OrderPrintingHeader = () => {
             <h1 className="text-xl font-bold">Orders History</h1>
             <span className="text-sm text-gray-600">History of your printing orders is stored for 6 months</span>
         </div>
-    )
-}
+    );
+};
 
 export default OrdersHistoryTable;
