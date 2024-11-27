@@ -97,7 +97,7 @@ const PrinterForm = ({ printerId }) => {
             },
           }
         );
-        console.log('Update successful:', response);
+        confirm('Update successful');
       } else {
         // Nếu printerId là 0, thực hiện POST (thêm mới)
         response = await axios.post(
@@ -109,7 +109,7 @@ const PrinterForm = ({ printerId }) => {
             },
           }
         );
-        console.log('Add successful:', response);
+        confirm('Add successful');
       }
     } catch (error) {
       console.error('Error handling printer data:', error);
