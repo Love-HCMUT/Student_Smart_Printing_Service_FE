@@ -3,7 +3,7 @@ export const COLUMNS = [
         Header: 'Order ID',
         accessor: 'order_id',
         Cell: ({ value }) => (
-            <span className=" text-xs font-inter  font-bold text-black">{value}</span>
+            <span className=" text-xs font-inter  font-bold text-black" >{value}</span>
         ),
     },
     {

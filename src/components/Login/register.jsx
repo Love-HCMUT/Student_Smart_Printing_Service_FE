@@ -1,19 +1,22 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import Google from "../../assets/gg.png"
+import { useNavigate } from "react-router-dom";
+import axios from "axios"
+import CryptoJS from 'crypto-js';
+
 
 
 
 const RegisterForm = () => {
 
-
-  const LINK_GET_TOKEN = `https://accounts.google.com/o/oauth2/v2/auth?scope=https://www.googleapis.com/auth/userinfo.email%20https://www.googleapis.com/auth/userinfo.profile&response_type=token&redirect_uri=https://www.facebook.com&client_id=440702024444-70b3fu82r2kfpj2vhcvhb52lfbbvktvu.apps.googleusercontent.com`;
+  const navigate = useNavigate();
+  const LINK_GET_TOKEN = `https://accounts.google.com/o/oauth2/v2/auth?scope=https://www.googleapis.com/auth/userinfo.email%20https://www.googleapis.com/auth/userinfo.profile&response_type=token&redirect_uri=https://ebc7-171-247-146-191.ngrok-free.app/register&client_id=440702024444-70b3fu82r2kfpj2vhcvhb52lfbbvktvu.apps.googleusercontent.com`;
 
   const [formData, setFormData] = useState({
     fullName: "",
     username: "",
     password: "",
     position: "",
-    phoneNumber: "",
     workingLocationCampus: "",
     workingLocationBuilding: "",
     workingLocationRoom: "",
@@ -24,11 +27,92 @@ const RegisterForm = () => {
     setFormData((prevData) => ({ ...prevData, [name]: value }));
   };
 
+  const [error, setError] = useState(null);
+  const [isLoading, setIsLoading] = useState(false);
 
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    console.log("Form Data:", formData); // Thực hiện xử lý đăng ký
+   // Lấy token từ URL nếu có
+  useEffect(() => {
+    const hashParams = new URLSearchParams(window.location.hash.slice(1));
+    const token = hashParams.get("access_token");
+    if (token) {
+      fetchGoogleUserInfo(token);
+    }
+  }, []);
+
+  // Lấy thông tin người dùng từ Google API
+  const fetchGoogleUserInfo = async (token) => {
+    try {
+      const response = await axios.get(
+        `https://www.googleapis.com/oauth2/v2/userinfo`,
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
+      const email  = response.data.email;
+      const name  = response.data.name;
+      const hashed = CryptoJS.SHA256(email).toString(CryptoJS.enc.Hex);
+      const pw = hashed.substring(0, 8);
+
+      setFormData((prevData) => ({ ...prevData, 
+        username: email,
+        fullName: name,
+        password: pw,
+        }));  
+    } catch (error) {
+      console.error("Error fetching Google user info:", error);
+      setError("Unable to fetch user info from Google.");
+    }
   };
+
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    setIsLoading(true);
+    setError(null);
+  
+    // Construct the request body
+    const requestBody = {
+      username: formData.username,
+      password: formData.password,
+      fullName: formData.fullName,
+      roles: formData.position,  // Assuming "position" is equivalent to "roles"
+      phoneNumber: phoneNumbers,
+      campus: formData.workingLocationCampus,
+      building: formData.workingLocationBuilding,
+      room: formData.workingLocationRoom,
+    };
+  
+    console.log(requestBody);
+  
+    // Send the POST request
+    try {
+      const response = await axios.post(
+        "http://localhost:5000/api/account/register",
+        requestBody, // Pass the requestBody directly
+        {
+          headers: {
+            "Content-Type": "application/json", // Ensure the correct content type
+          },
+        }
+      );
+  
+      if (response.status === 201 && response.data.status) {
+        confirm("Register successful")
+        navigate("/login")
+        console.log("Register successful:", response.data);
+      } else {
+        setError(response.data.message || "Register failed. Please try again.");
+      }
+    } catch (error) {
+      // Handle error response from axios
+       setError("Error during registration:", error.response ? error.response.data : error.message);
+    } finally {
+      setIsLoading(false);
+    }
+  };
+  
 
   const isPhoneRequired =
     formData.position === "Printing Staff" || formData.position === "SPSO";
@@ -167,9 +251,12 @@ const RegisterForm = () => {
       <button
         type="submit"
         className="w-full py-3 bg-blue-600 text-white font-bold rounded-xl shadow-md hover:bg-blue-700 focus:ring-4 focus:ring-blue-400 transition-all"
+        disabled={isLoading}
       >
-        Register
+        {isLoading ? "Registering in ..." : "Register"}
       </button>
+
+      {error && <p className="text-red-500 text-center mt-4">{error}</p>}
 
       <div className="flex justify-center mt-6">
         <button
