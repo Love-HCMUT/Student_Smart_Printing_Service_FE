@@ -287,6 +287,7 @@ import axios from "axios";
 //         "location": "Room 110",
 //         "year_of_manufacture": "25-06-2017",
 //         "status": true
+            
 //     }
 // ]
 
@@ -491,6 +492,7 @@ const PrinterManagerControl = ({ selectedPrinters, onStatusChange }) => {
     return (
         <div className="flex items-center space-x-2 p-4 w-[22rem]">
             <button
+                
                 className="bg-button-blue hover:bg-button-blue-hover
                            text-white text-sm px-4 py-2 rounded-full flex items-center space-x-1"
             >

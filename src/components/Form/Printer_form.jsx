@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import axios from "axios";
 
-const PrinterForm = ({ printerId }) => {
+const PrinterForm = ({ printerId, onChange }) => {
   const [brand, setBrand] = useState('');
   const [model, setModel] = useState('');
   const [status, setStatus] = useState('');
@@ -98,6 +98,7 @@ const PrinterForm = ({ printerId }) => {
           }
         );
         confirm('Update successful');
+        onChange();
       } else {
         // Nếu printerId là 0, thực hiện POST (thêm mới)
         response = await axios.post(
@@ -110,6 +111,7 @@ const PrinterForm = ({ printerId }) => {
           }
         );
         confirm('Add successful');
+        onChange();
       }
     } catch (error) {
       console.error('Error handling printer data:', error);

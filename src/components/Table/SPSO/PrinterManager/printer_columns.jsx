@@ -1,3 +1,4 @@
+import PrinterForm from "../../../Form/Printer_form";
 export const COLUMNS = [
     {
         Header: 'Printer ID',
@@ -58,15 +59,15 @@ export const COLUMNS = [
             </span>
         ),
     },
-    {
-        Header: '',
-        accessor: 'link_to_printer',
-        Cell: ({ value }) => (
-            <a
-                href={`${value}`}
-                className="text-xs font-inter text-table-text-color underline">
-                Edit
-            </a>
-        ),
-    }
+    // {
+    //     Header: '',
+    //     accessor: 'printer_id',
+    //     Cell: ({ value }) => (
+    //         <a
+    //             onClick={<PrinterForm printerId={value}/>}
+    //             className="text-xs font-inter text-table-text-color underline">
+    //             Edit
+    //         </a>
+    //     ),
+    // }
 ];
