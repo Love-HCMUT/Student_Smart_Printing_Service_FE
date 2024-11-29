@@ -6,66 +6,80 @@ const parseDate = (dateString) => {
 };
 
 const dateSort = (rowA, rowB, columnId) => {
-    const dateA = parseDate(rowA.original[columnId]);
-    const dateB = parseDate(rowB.original[columnId]);
-
-    if (dateA < dateB) return -1;
-    if (dateA > dateB) return 1;
-    return 0;
+    console.log(rowA.original[columnId]);
+    const dateA = new Date(rowA.original[columnId])
+    const dateB = new Date(rowB.original[columnId])
+    return dateA - dateB
 };
 
 export const COLUMNS = [
     {
         Header: 'User ID',
-        accessor: 'user_ID',
+        accessor: 'userID',
         Cell: ({ value }) => (
-            <span className="text-xs font-inter text-table-text-color">{value}</span>
+            <span className="text-base font-inter text-table-text-color">{value}</span>
         ),
     },
     {
         Header: 'Printer ID',
-        accessor: 'printer_id',
+        accessor: 'printerID',
         Cell: ({ value }) => (
-            <span className="text-xs font-bold text-black">{value}</span>
+            <span className="text-base font-inter text-table-text-color">{value}</span>
         ),
     },
     {
         Header: 'Printing Staff ID',
-        accessor: 'printing_staff_id',
+        accessor: 'printingStaffID',
         Cell: ({ value }) => (
-            <span className="text-xs font-inter text-table-text-color">{value}</span>
+            <span className="text-base font-inter text-table-text-color">{value}</span>
         ),
     },
     {
         Header: 'File Name',
-        accessor: 'file_name',
+        accessor: 'fileName',
         Cell: ({ value }) => (
-            <span className="text-xs font-inter text-table-text-color overflow-hidden text-ellipsis">{value}</span>
+            <span className="text-base font-inter text-table-text-color overflow-hidden text-ellipsis">{value}</span>
         ),
     },
     {
         Header: 'Start Time',
-        accessor: 'start_time',
+        accessor: 'startTime',
         Cell: ({ value }) => (
-            <span className="text-xs font-inter text-table-text-color">{value}</span>
+            <span className="text-base font-inter text-table-text-color">{new Date(value).toLocaleString()}</span>
         ),
         sortType: dateSort,
     },
     {
         Header: 'End Time',
-        accessor: 'end_time',
+        accessor: 'endTime',
         Cell: ({ value }) => (
-            <span className="text-xs font-inter text-table-text-color">{value}</span>
+            <span className="text-base font-inter text-table-text-color">{new Date(value).toLocaleString()}</span>
         ),
         sortType: dateSort,
     },
     {
         Header: 'Number of pages',
-        accessor: 'number_of_pages',
+        accessor: 'numberOfPage',
         Cell: ({ value }) => (
-            <span className="text-xs font-inter text-table-text-color">
+            <span className="text-base font-inter text-table-text-color">
                 {value}
             </span>
         )
+    },
+    {
+        Header: 'Status',
+        accessor: 'status',
+        Cell: ({ value }) => (
+            <span className={`flex items-center justify-center p-2 rounded-full text-base font-inter text-center
+                ${value === "Completed" ? 'bg-status-green-background text-status-green-text' :
+                    value === "Cancelled" ? 'bg-status-red-background text-status-red-text ' :
+                        'bg-status-gray-background text-status-gray-text'}`}>
+                <span className={`inline-block w-2 h-2 rounded-full mr-2
+                    ${value === "Completed" ? 'bg-status-green-dot' :
+                        value === "Cancelled" ? 'bg-status-red-text' :
+                            'text-status-gray-dot'}`}></span>
+                {value}
+            </span>
+        ),
     }
 ];

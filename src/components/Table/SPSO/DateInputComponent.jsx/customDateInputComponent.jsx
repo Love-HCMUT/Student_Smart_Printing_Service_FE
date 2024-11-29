@@ -4,11 +4,11 @@ export const CustomDateInput = ({ value, onChange, placeholder = "Start Date" })
     const [showDatePicker, setShowDatePicker] = useState(false);
 
     return (
-        <div className="flex flex-col items-center p-2 text-sm text-table-text-color">
+        <div className="flex flex-col items-center p-2 text-sm text-table-text-colo">
             {!showDatePicker && (
                 <button
                     onClick={() => setShowDatePicker(!showDatePicker)}
-                    className="flex items-center border border-gray-300 rounded-md px-4 py-2 w-32"
+                    className="flex items-center border border-gray-300 rounded-md px-4 py-2 w-32 bg-white"
                 >
                     <span className={`text-sm ml-1 ${!value ? 'text-gray-400' : 'text-gray-700'}`}>
                         {value ? new Date(value).toLocaleDateString() : placeholder}

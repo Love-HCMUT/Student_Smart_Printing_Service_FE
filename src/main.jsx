@@ -23,8 +23,7 @@ import PrinterManagerTable from "./components/Table/SPSO/PrinterManager/printer_
 import { ReportList } from "./components/ReportList/ReportList.jsx";
 import { Detail } from "./components/ReportDetail/Detail.jsx";
 import { SPSOLog } from "./components/demo/SPSOLog.jsx";
-import PrintingHistoryPayment from "./components/Table/SPSO/PrintingHistory/printing_history_table.jsx";
-import PaymentHistoryTable from "./components/Table/SPSO/PaymentHistory/payment_history_table.jsx";
+
 import { SPSOSetting } from "./components/demo/SPSOSetting.jsx";
 import PageSettingTable from "./components/Table/SPSO/PageSetting/page_setting_tables.jsx";
 import Files from "./components/Files/Files.jsx";
@@ -36,6 +35,11 @@ import PaymentPage from "./pages/PaymentPage.jsx";
 import Register_page from "./pages/Register_page.jsx";
 import RegisterForm from "./components/Login/register.jsx";
 import SettingPaper from "./pages/SettingPaper.jsx";
+import TransactionHistoryPage from "./pages/TransactionHistoryPage.jsx";
+import ManagePrinterPage from "./pages/ManagePrinterPage.jsx";
+import ManageTransactionPage from "./pages/ManageTransactionPage.jsx";
+import RegisterFormSPSO from "./components/Login/register-spso.jsx"
+
 
 const router = createBrowserRouter([
   {
@@ -47,12 +51,16 @@ const router = createBrowserRouter([
     element: <LoginPage />,
   },
   {
+    path: "/register",
+    element: <Register_page />,
+  },
+  {
     path: "/user",
     element: <UserLayout />,
     children: [
       {
         index: true,
-        element: <WelcomeBanner userName={"Dương Hải Lâm"} />,
+        element: <WelcomeBanner />,
       },
       {
         path: "/user/balance",
@@ -68,7 +76,7 @@ const router = createBrowserRouter([
       },
       {
         path: "/user/history",
-        element: <OrdersHistoryTable />,
+        element: <TransactionHistoryPage />,
       },
       {
         path: "/user/order",
@@ -90,7 +98,7 @@ const router = createBrowserRouter([
     children: [
       {
         index: true,
-        element: <WelcomeBanner userName={"Dương Hải Lâm"} />,
+        element: <WelcomeBanner />,
       },
       {
         path: "/staff/printing",
@@ -104,7 +112,7 @@ const router = createBrowserRouter([
     children: [
       {
         index: true,
-        element: <WelcomeBanner userName={"Dương Hải Lâm"} />,
+        element: <WelcomeBanner />,
       },
       {
         path: "/spso/printer",
@@ -120,11 +128,11 @@ const router = createBrowserRouter([
       },
       {
         path: "/spso/log/printing",
-        element: <PrintingHistoryPayment />,
+        element: <ManagePrinterPage />,
       },
       {
         path: "/spso/log/payment",
-        element: <PaymentHistoryTable />,
+        element: <ManageTransactionPage />,
       },
       {
         path: "/spso/setting/paper",
@@ -136,7 +144,7 @@ const router = createBrowserRouter([
       },
       {
         path: "/spso/author",
-        element: <RegisterForm />,
+        element: <RegisterFormSPSO />,
       },
     ],
   },
@@ -148,3 +156,25 @@ createRoot(document.getElementById("root")).render(
     {/* <App /> */}
   </StrictMode>
 );
+
+
+
+
+
+// import { StrictMode } from "react";
+// import { createRoot } from "react-dom/client";
+// import "./styles/index.css";
+// import  HeaderApp  from "./App.jsx";
+// import Login_page from "./pages/Login_page.jsx";
+// import Home_App from "./pages/Home_page.jsx";
+// import Register_page from "./pages/Register_page.jsx";
+
+// createRoot(document.getElementById("root")).render(
+//   <StrictMode>
+//     <HeaderApp />
+//     {/* <Login_page /> */}
+//     {/* <Home_App/> */}
+//     {/* <Register_page/> */}
+//     {/* <Register_after_gg/> */}
+//   </StrictMode>
+// );

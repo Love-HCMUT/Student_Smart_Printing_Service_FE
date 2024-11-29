@@ -1,10 +1,10 @@
 // src/components/Header.jsx
 import React, { useState } from "react";
+import { NavLink, useNavigate } from "react-router-dom";
+import axios from "axios";
 import Logo from "../../assets/logo.svg";
 import Avarta from "../../assets/avarta.svg";
-import { NavLink } from "react-router-dom";
 
-// onLogout là function để gửi yêu cầu tới server,.... và chuyển hướng ra trang login
 export default function Header_APP({
   links = [
     { label: "Home", href: "#home" },
@@ -21,18 +21,44 @@ export default function Header_APP({
     { label: "Report", href: "#report" },
   ],
   userName = "Dương Hải Lâm",
-  highlightedIndex = 0,
-  onLogout,
 }) {
+  const navigate = useNavigate();
   const [activeLink, setActiveLink] = useState("Home");
   const [showSubLinks, setShowSubLinks] = useState(false);
+
+  const handleLogout = async () => {
+    localStorage.clear()
+    try {
+      const host = import.meta.env.VITE_HOST
+      const response = await axios.post(
+        `${host}/api/account/logout`,
+        {},
+        {
+          withCredentials: true,
+          headers: {
+            "Content-Type": "application/json", // Đảm bảo định dạng đúng
+          },
+        }
+      );
+
+      if (response.status === 200) {
+        console.log("Logout successfully", response);
+        navigate("/login"); // Redirect to login page
+      } else {
+        console.error("Logout failed");
+      }
+    } catch (error) {
+      console.error("Error during logout:", error);
+    }
+  };
 
   const handleLinkClick = (link) => {
     setActiveLink(link.label);
     if (link.subLinks) {
       setShowSubLinks(true);
+    } else {
+      setShowSubLinks(false); // Hide sub-links when clicking on a non-parent link
     }
-    console.log(showSubLinks, activeLink, link.label);
   };
 
   return (
@@ -43,30 +69,22 @@ export default function Header_APP({
         </div>
 
         <nav className="flex">
-          {links.map((link, index) => (
+          {links.map((link) => (
             <div key={link.label} className="relative">
               {link.subLinks ? (
                 <a
-                  className={`px-5 py-4 h-[40px] text-white transition-colors ${
-                    activeLink === link.label ? "bg-[#030391]" : "bg-[#1488D8]"
-                  } hover:opacity-50`}
-                  onClick={(e) => {
-                    // e.preventDefault();
-                    handleLinkClick(link);
-                  }}
+                  className={`px-5 py-4 h-[40px] text-white transition-colors ${activeLink === link.label ? "bg-[#030391]" : "bg-[#1488D8]"
+                    } hover:opacity-50`}
+                  onClick={() => handleLinkClick(link)}
                 >
                   {link.label}
                 </a>
               ) : (
                 <NavLink
                   to={link.href}
-                  className={`px-5 py-4 h-[40px] text-white transition-colors ${
-                    activeLink === link.label ? "bg-[#030391]" : "bg-[#1488D8]"
-                  } hover:opacity-50`}
-                  onClick={(e) => {
-                    // e.preventDefault();
-                    handleLinkClick(link);
-                  }}
+                  className={`px-5 py-4 h-[40px] text-white transition-colors ${activeLink === link.label ? "bg-[#030391]" : "bg-[#1488D8]"
+                    } hover:opacity-50`}
+                  onClick={() => handleLinkClick(link)}
                 >
                   {link.label}
                 </NavLink>
@@ -98,7 +116,7 @@ export default function Header_APP({
             className="h-8 w-8 rounded-full p-1"
           />
           <button
-            onClick={onLogout}
+            onClick={handleLogout}
             className="px-4 py-2 bg-gradient-to-r from-red-500 to-red-600 hover:from-red-600 hover:to-red-700 text-white rounded-full shadow-md hover:shadow-lg transition-all duration-300 ease-in-out transform hover:-translate-y-0.5 ml-4"
           >
             Log Out

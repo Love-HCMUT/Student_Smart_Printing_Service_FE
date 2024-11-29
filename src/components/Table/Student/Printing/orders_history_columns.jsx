@@ -1,16 +1,16 @@
 export const COLUMNS = [
     {
         Header: 'Order ID',
-        accessor: 'order_id',
+        accessor: 'orderID',
         Cell: ({ value }) => (
             <span className="text-xs font-inter font-bold text-black">{value}</span>
         ),
     },
     {
         Header: 'Date of order',
-        accessor: 'order_date',
+        accessor: 'orderDate',
         Cell: ({ value }) => (
-            <span className="text-xs font-inter text-table-text-color">{value}</span>
+            <span className="text-xs font-inter text-table-text-color">{new Date(value).toLocaleDateString()}</span>
         ),
         sortType: (rowA, rowB) => {
             const dateA = new Date(rowA.original.order_date.split(' ')[1].split('/').reverse().join('-') + 'T' + rowA.original.order_date.split(' ')[0]);
@@ -19,29 +19,27 @@ export const COLUMNS = [
         },
     },
     {
-        Header: 'Location',
-        accessor: 'location',
-        Cell: ({ value }) => (
-            <span className="text-xs font-inter text-table-text-color">{value}</span>
-        ),
-    },
-    {
         Header: 'Status',
-        accessor: 'status',
+        accessor: 'orderStatus',
         Cell: ({ value }) => (
             <span className={`flex items-center p-2 rounded-full text-xs font-inter text-left w-fit px-3
-                ${value === 'Done' ? 'bg-status-green-background text-status-green-text' : value === 'Pending' ? 'bg-status-gray-background text-status-gray-text' : 'bg-status-yellow-background text-status-yellow-text'}`}>
+                ${value === 'Completed' ? 'bg-status-green-background text-status-green-text' : value === 'Pending' ?
+                    'bg-status-gray-background text-status-gray-text' : value === 'Cancelled' ?
+                        'bg-status-red-background text-status-red-text' :
+                        'bg-status-yellow-background text-status-yellow-text'}`}>
                 <span className={`inline-block w-2 h-2 rounded-full mr-2
-                    ${value === 'Done' ? 'bg-status-green-dot' : value === 'Pending' ? 'bg-status-gray-dot' : 'bg-status-yellow-dot'}`}></span>
+                    ${value === 'Completed' ? 'bg-status-green-dot' : value === 'Pending'
+                        ? 'bg-status-gray-dot' : value === 'Cancelled'
+                            ? 'bg-status-red-text' : 'bg-status-yellow-dot'}`}></span>
                 {value}
             </span>
         ),
     },
     {
         Header: 'Complete at',
-        accessor: 'complete_at',
+        accessor: 'completeAt',
         Cell: ({ value }) => (
-            <span className="text-xs font-inter text-table-text-color">{value}</span>
+            <span className="text-xs font-inter text-table-text-color">{new Date(value).toLocaleString()}</span>
         ),
         sortType: (rowA, rowB) => {
             const dateA = new Date(rowA.original.order_date.split(' ')[1].split('/').reverse().join('-') + 'T' + rowA.original.order_date.split(' ')[0]);

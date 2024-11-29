@@ -1,166 +1,37 @@
-import React, { useMemo, useState } from "react";
+import React, { useMemo, useState, useEffect } from "react";
 import { useTable, useSortBy, useGlobalFilter, useRowSelect, usePagination } from "react-table";
 import { COLUMNS } from "./payment_columns";
 import arrow from "../../../../assets/arrow-down.svg";
 import { Checkbox } from "../../Table_Lib/Components/Checkbox";
-import Pagination from "../../Table_Lib/Components/Pagination";
 import { SearchBar1 } from "../SearchBar1/searchbar01";
 import { SPSOHeader1 } from "../Header1/Header1";
 import { CustomDateInput } from "../DateInputComponent.jsx/customDateInputComponent";
-
-const MOCK_DATA = [
-    {
-        "user_ID": "USR001",
-        "date_of_transaction": "12/12/2023",
-        "number_of_paper": 50,
-        "charge": "50000 VND",
-        "payment_method": "Credit Card",
-        "note": "Paid in full"
-    },
-    {
-        "user_ID": "USR002",
-        "date_of_transaction": "11/11/2023",
-        "number_of_paper": 30,
-        "charge": "30000 VND",
-        "payment_method": "PayPal",
-        "note": "Pending payment"
-    },
-    {
-        "user_ID": "USR003",
-        "date_of_transaction": "10/10/2023",
-        "number_of_paper": 20,
-        "charge": "20000 VND",
-        "payment_method": "Bank Transfer",
-        "note": "Payment received"
-    },
-    {
-        "user_ID": "USR004",
-        "date_of_transaction": "09/09/2023",
-        "number_of_paper": 40,
-        "charge": "40000 VND",
-        "payment_method": "Credit Card",
-        "note": "Payment failed"
-    },
-    {
-        "user_ID": "USR005",
-        "date_of_transaction": "08/08/2023",
-        "number_of_paper": 60,
-        "charge": "60000 VND",
-        "payment_method": "PayPal",
-        "note": "Paid in full"
-    },
-    {
-        "user_ID": "USR006",
-        "date_of_transaction": "07/07/2023",
-        "number_of_paper": 25,
-        "charge": "25000 VND",
-        "payment_method": "Bank Transfer",
-        "note": "Pending payment"
-    },
-    {
-        "user_ID": "USR007",
-        "date_of_transaction": "06/06/2023",
-        "number_of_paper": 35,
-        "charge": "35000 VND",
-        "payment_method": "Credit Card",
-        "note": "Payment received"
-    },
-    {
-        "user_ID": "USR008",
-        "date_of_transaction": "05/05/2023",
-        "number_of_paper": 45,
-        "charge": "45000 VND",
-        "payment_method": "PayPal",
-        "note": "Payment failed"
-    },
-    {
-        "user_ID": "USR009",
-        "date_of_transaction": "04/04/2023",
-        "number_of_paper": 55,
-        "charge": "55000 VND",
-        "payment_method": "Bank Transfer",
-        "note": "Paid in full"
-    },
-    {
-        "user_ID": "USR010",
-        "date_of_transaction": "03/03/2023",
-        "number_of_paper": 65,
-        "charge": "65000 VND",
-        "payment_method": "Credit Card",
-        "note": "Pending payment"
-    },
-    {
-        "user_ID": "USR001",
-        "date_of_transaction": "12/12/2023",
-        "number_of_paper": 50,
-        "charge": "50000 VND",
-        "payment_method": "Credit Card",
-        "note": "Paid in full"
-    },
-    {
-        "user_ID": "USR002",
-        "date_of_transaction": "11/11/2023",
-        "number_of_paper": 30,
-        "charge": "30000 VND",
-        "payment_method": "PayPal",
-        "note": "Pending payment"
-    },
-    {
-        "user_ID": "USR003",
-        "date_of_transaction": "10/10/2023",
-        "number_of_paper": 20,
-        "charge": "20000 VND",
-        "payment_method": "Bank Transfer",
-        "note": "Payment received"
-    },
-    {
-        "user_ID": "USR004",
-        "date_of_transaction": "09/09/2023",
-        "number_of_paper": 40,
-        "charge": "40000 VND",
-        "payment_method": "Credit Card",
-        "note": "Payment failed"
-    },
-    {
-        "user_ID": "USR005",
-        "date_of_transaction": "08/08/2023",
-        "number_of_paper": 60,
-        "charge": "60000 VND",
-        "payment_method": "PayPal",
-        "note": "Paid in full"
-    },
-    {
-        "user_ID": "USR006",
-        "date_of_transaction": "07/07/2023",
-        "number_of_paper": 25,
-        "charge": "25000 VND",
-        "payment_method": "Bank Transfer",
-        "note": "Pending payment"
-    },
-    {
-        "user_ID": "USR007",
-        "date_of_transaction": "06/06/2023",
-        "number_of_paper": 35,
-        "charge": "35000 VND",
-        "payment_method": "Credit Card",
-        "note": "Payment received"
-    },
-    {
-        "user_ID": "USR008",
-        "date_of_transaction": "05/05/2023",
-        "number_of_paper": 45,
-        "charge": "45000 VND",
-        "payment_method": "PayPal",
-        "note": "Payment failed"
-    },
-]
+import { getAllTransactionPagination, countTransactions } from "../../../../services/spso-get-all-api";
+import CustomPagination from "../../Table_Lib/Components/Pagination2";
 
 const PaymentHistoryTable = () => {
     const columns = useMemo(() => COLUMNS, []);
-    const data = useMemo(() => MOCK_DATA, []);
     const [startDate, setStartDate] = useState(null);
     const [endDate, setEndDate] = useState(null);
     const [searchInput, setSearchInput] = useState("");
+    const [data, setData] = useState([]);
+    const [totalTransactions, setTotalTransactions] = useState(0);
+    const [currentPage, setCurrentPage] = useState(0);
+    useEffect(() => {
+        const fetchData = async () => {
+            try {
+                const result = await getAllTransactionPagination(currentPage + 1, 10);
+                setData(Array.isArray(result) ? result : []);
+
+                const totalTransactions = await countTransactions();
+                setTotalTransactions(totalTransactions.totalTransaction);
+            } catch (error) {
+                console.error("Error fetching data:", error);
+                setData([]);
+            }
+        };
+        fetchData();
+    }, [currentPage]);
 
     const filterDataByDate = (rows, id, filterValue) => {
         const { startDate, endDate } = filterValue;
@@ -175,8 +46,11 @@ const PaymentHistoryTable = () => {
     const filterDataBySearch = (rows, id, filterValue) => {
         if (!filterValue) return rows;
         return rows.filter(row => {
-            return Object.values(row.original).some(val =>
-                val && String(val).toLowerCase().includes(filterValue.toLowerCase())
+            const { user_ID, printer_ID, printingStaff_ID } = row.original;
+            return (
+                (user_ID && String(user_ID).toLowerCase().includes(filterValue.toLowerCase())) ||
+                (printer_ID && String(printer_ID).toLowerCase().includes(filterValue.toLowerCase())) ||
+                (printingStaff_ID && String(printingStaff_ID).toLowerCase().includes(filterValue.toLowerCase()))
             );
         });
     };
@@ -233,10 +107,36 @@ const PaymentHistoryTable = () => {
         }
     );
 
+    const handleGoToPage = (page) => {
+        setCurrentPage(page);
+    };
+
+    const handlePreviousPage = () => {
+        if (currentPage > 0) {
+            previousPage();
+            setCurrentPage(currentPage - 1);
+        }
+    };
+
+    const handleNextPage = () => {
+        if (currentPage < pageCount - 1) {
+            nextPage();
+            setCurrentPage(currentPage + 1);
+        }
+    };
+
+    const canPreviousPage2 = () => {
+        return (currentPage > 0)
+    }
+
+    const canNextPage2 = () => {
+        return (currentPage < pageCount - 1)
+    }
+
     return (
-        <div className="container mx-auto px-6 h-fit w-3/5 rounded-lg">
-            <div className="">
-                < SearchBar1
+        <div className="container mx-auto px-6 w-4/5">
+            <div className="flex flex-col gap-4 mb-4">
+                <SearchBar1
                     value={searchInput}
                     setValue={setSearchInput}
                     setFilter={(value) => setGlobalFilter({ startDate, endDate, searchInput: value })}
@@ -250,21 +150,20 @@ const PaymentHistoryTable = () => {
                         />
                     }
                 />
-
-                <SPSOHeader1 />
             </div>
-            <div className="h-[430px] overflow-auto">
-                <table {...getTableProps()} className="mx-auto border rounded-md w-full">
+            <div className="shadow-md rounded-lg p-4 bg-white">
+                <SPSOHeader1 header="Payment History" content="History of Payment is stored in 120 days " />
+                <table {...getTableProps()} className="mx-auto w-full">
                     <thead className="bg-gray-light">
-                        {headerGroups.map(headerGroup => (
-                            <tr {...headerGroup.getHeaderGroupProps()} key={headerGroup.id}>
-                                {headerGroup.headers.map(column => (
+                        {headerGroups.map((headerGroup, i) => (
+                            <tr {...headerGroup.getHeaderGroupProps()} key={`headerGroup-${i}`}>
+                                {headerGroup.headers.map((column, j) => (
                                     <th
                                         {...column.getHeaderProps(column.getSortByToggleProps())}
-                                        className="p-3 text-left text-xs font-medium text-gray-700 tracking-wider cursor-pointer"
-                                        key={column.id}
+                                        className="p-4 text-base font-medium text-gray-700 tracking-wider cursor-pointer"
+                                        key={`header${j}`}
                                     >
-                                        <div className="flex items-center">
+                                        <div className="flex">
                                             {column.render('Header')}
                                             {column.isSorted && (
                                                 <img
@@ -281,12 +180,12 @@ const PaymentHistoryTable = () => {
                         ))}
                     </thead>
                     <tbody {...getTableBodyProps()}>
-                        {page.map(row => {
+                        {page.map((row, i) => {
                             prepareRow(row);
                             return (
-                                <tr {...row.getRowProps()} key={row.id} className="hover:bg-gray-50">
-                                    {row.cells.map(cell => (
-                                        <td {...cell.getCellProps()} className="px-4 py-2 text-sm font-normal text-gray-700 break-words" key={cell.column.id}>
+                                <tr {...row.getRowProps()} key={`row-${i}`} className="hover:bg-gray-50">
+                                    {row.cells.map((cell, j) => (
+                                        <td {...cell.getCellProps()} className="px-4 py-2 mt-4" key={`cell-${i}-${j}`}>
                                             {cell.render('Cell')}
                                         </td>
                                     ))}
@@ -296,22 +195,23 @@ const PaymentHistoryTable = () => {
                     </tbody>
                 </table>
             </div>
-            <div className="flex justify-center items-center mb-10">
-                <Pagination
-                    previousPage={previousPage}
-                    nextPage={nextPage}
-                    gotoPage={gotoPage}
-                    pageIndex={pageIndex}
-                    pageCount={pageCount}
-                    canPreviousPage={canPreviousPage}
-                    canNextPage={canNextPage}
-                    width={'w-8'}
-                    height={'h-8'}
+            <div className="flex justify-center items-center mb-10 mt-10">
+                <CustomPagination
+                    previousPage={handlePreviousPage}
+                    nextPage={handleNextPage}
+                    gotoPage={handleGoToPage}
+                    pageIndex={currentPage}
+                    pageCount={Math.ceil(totalTransactions / 10)}
+                    canPreviousPage={canPreviousPage2}
+                    canNextPage={canNextPage2}
+                    width={'w-12'}
+                    height={'h-12'}
                 />
             </div>
         </div>
     );
 };
+
 const DateInputComponent = ({ startDate, setStartDate, endDate, setEndDate, setGlobalFilter }) => {
     const handleStartDateChange = (date) => {
         setStartDate(date);
@@ -331,6 +231,4 @@ const DateInputComponent = ({ startDate, setStartDate, endDate, setEndDate, setG
     );
 };
 
-
-
-export default PaymentHistoryTable
+export default PaymentHistoryTable;

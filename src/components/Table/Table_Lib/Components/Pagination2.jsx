@@ -1,6 +1,6 @@
-import React, { useState, useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 
-const Pagination = ({
+const CustomPagination = ({
     previousPage,
     nextPage,
     gotoPage,
@@ -33,12 +33,12 @@ const Pagination = ({
     };
 
     return (
-        <div className="flex items-center text-black text-xs font-inter gap-1">
+        <div className="flex items-center text-black text-base font-inter gap-1">
             <button
                 onClick={previousPage}
-                disabled={!canPreviousPage}
+                disabled={(!canPreviousPage())}
                 className={`${width} ${height} bg-white 
-                rounded-md text-[10px] 
+                rounded-md
                 border border-gray-300 
                 hover:bg-gray-400 
                 focus:outline-none 
@@ -54,7 +54,7 @@ const Pagination = ({
             <button
                 onClick={() => gotoPage(0)}
                 className={`${width} ${height} bg-white 
-               rounded-md text-[10px] 
+               rounded-md
                border border-gray-300 
                hover:bg-gray-400 
                focus:outline-none 
@@ -77,7 +77,7 @@ const Pagination = ({
                         className={`w-10 ${height} p-1 border rounded-md 
                      border-gray-300 focus:ring-2 
                      focus:ring-gray-500 focus:outline-none 
-                     text-center text-[10px]`}
+                     text-center`}
                     />
                 ) : (
                     <button
@@ -85,7 +85,7 @@ const Pagination = ({
                         className={`${width} ${height} bg-white 
                                     rounded-md
                                     border border-gray-300  text-gray-400 
-                     flex items-center justify-center text-[10px]`}
+                     flex items-center justify-center`}
                     >
                         ...
                     </button>
@@ -96,7 +96,7 @@ const Pagination = ({
                 <button
                     onClick={() => gotoPage(pageCount === 2 ? 1 : pageCount - 2)}
                     className={`${width} ${height} bg-white 
-                   rounded-md text-[10px] 
+                   rounded-md
                    border border-gray-300 
                    hover:bg-gray-400 
                    focus:outline-none 
@@ -111,7 +111,7 @@ const Pagination = ({
                 <button
                     onClick={() => gotoPage(pageCount - 1)}
                     className={`${width} ${height} bg-white 
-                   rounded-md text-[10px] 
+                   rounded-md
                    border border-gray-300 
                    hover:bg-gray-400 
                    focus:outline-none 
@@ -124,9 +124,9 @@ const Pagination = ({
 
             <button
                 onClick={nextPage}
-                disabled={!canNextPage}
+                disabled={!canNextPage()}
                 className={`${width} ${height} bg-white 
-                rounded-md text-[10px] 
+                rounded-md
                 border border-gray-300 
                 hover:bg-gray-400 
                 focus:outline-none 
@@ -142,4 +142,4 @@ const Pagination = ({
     );
 };
 
-export default Pagination;
+export default CustomPagination;

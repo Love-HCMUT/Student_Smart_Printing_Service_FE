@@ -32,7 +32,7 @@ function Home_App() {
 
   {/* Main Content with Background Image */}
   <main 
-    className="flex-grow bg-cover flex items-center justify-start min-h-screen" // Tăng khoảng cách với `pt-20` để tránh bị header che
+    className="flex-grow bg-cover flex items-center justify-start min-h-screen" 
   >
     {/* Move WelcomeBanner to the left */}
     <div >
