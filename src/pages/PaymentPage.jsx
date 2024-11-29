@@ -102,6 +102,28 @@ const PaymentPage = () => {
             const checkstatus = await axios.get(`${host}/payment/status/${orderId}`)
             ///handle config 
             console.log(checkstatus)
+
+            const combo = JSON.parse(checkstatus.data.data.extraData)
+            const body = {
+                resultCode: checkstatus.data.data.resultCode,
+                extraData: combo,
+                orderInfo: note,
+                amount: checkstatus.data.data.amount,
+                id: localStorage.getItem('id')
+            }
+            console.log(body)
+
+            const updatePaymentLog = await axios.post(`${host}/payment/result`, body, { headers })
+
+            console.log("update paymen log successfully", updatePaymentLog)
+
+            const updateCoins = await axios.patch(`${host}/payment/balance`, {
+                id: localStorage.getItem('id'),
+                money: checkstatus.data.data.amount,
+            }, { headers })
+
+            console.log("update balance successfully ", updateCoins)
+
         } catch (error) {
             console.error('Transaction failed:', error);
         }
