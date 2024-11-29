@@ -54,7 +54,7 @@ export const COLUMNS = [
             <span className={`flex items-center justify-center p-2 rounded-full text-xs font-inter text-center
                 ${value === "true" ? 'bg-status-green-background text-status-green-text' : 'bg-status-gray-background text-status-gray-text'}`}>
                 <span className={`inline-block w-2 h-2 rounded-full mr-2
-                    ${value === "true"? 'bg-status-green-dot' : 'bg-status-gray-dot'}`}></span>
+                    ${value === "true" ? 'bg-status-green-dot' : 'bg-status-gray-dot'}`}></span>
                 {value === "true" ? 'Active' : 'Inactive'}
             </span>
         ),

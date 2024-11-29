@@ -7,12 +7,12 @@ import { SPSOHeader1 } from "../Header1/Header1";
 import { Checkbox } from "../../Table_Lib/Components/Checkbox";
 import { CustomDateInput } from "../DateInputComponent.jsx/customDateInputComponent";
 import { countOrders, getAllOrderPagination } from "../../../../services/spso-get-all-api";
-
+import CustomPagination from "../../Table_Lib/Components/Pagination2";
 const PrintingHistoryPayment = () => {
     const columns = useMemo(() => COLUMNS, []);
 
-    const [startDate, setStartDate] = useState(null);
-    const [endDate, setEndDate] = useState(null);
+    const [startDate, setStartDate] = useState(new Date());
+    const [endDate, setEndDate] = useState(new Date());
     const [searchInput, setSearchInput] = useState("");
     const [currentPage, setCurrentPage] = useState(0);
     const [totalOrders, setTotalOrders] = useState(0);
@@ -34,48 +34,21 @@ const PrintingHistoryPayment = () => {
         fetchData();
     }, [currentPage]);
 
-    const parseCustomDate = (DateString) => {
-        if (DateString) {
-            const [datePart, hourPart] = DateString.split(" ");
-            if (datePart && hourPart) {
-                const [day, month, year] = datePart.split("/");
-                const [hour, minute] = hourPart.split(":");
-
-                if (day && month && year && hour && minute) {
-                    return new Date(year, month - 1, day, hour, minute);
-                }
-            }
-        }
-        return null;
-    };
-
-    const filterDataByDateRange = (rows, id, filterValue) => {
-        const { startDate, endDate } = filterValue;
+    const filterValueByDate = (rows, id, filterValue, start) => {
+        const [year, month, day] = filterValue.split("-");
+        const date = new Date(year, month - 1, day);
 
         return rows.filter(row => {
-            const rowStartTime = parseCustomDate(row.original.startTime);
-            const rowEndTime = parseCustomDate(row.original.endTime);
+            const { startTime, endTime } = row.original;
+            const rowDate = new Date(start ? startTime : endTime);
 
-            if (!rowStartTime || !rowEndTime) {
-                return false;
+            if (start) {
+                return rowDate >= date;
+            } else {
+                return rowDate <= date;
             }
-
-            const rowStartDateOnly = new Date(rowStartTime.getFullYear(), rowStartTime.getMonth(), rowStartTime.getDate());
-            const rowEndDateOnly = new Date(rowEndTime.getFullYear(), rowEndTime.getMonth(), rowEndTime.getDate());
-
-            if (startDate) {
-                const startOnly = new Date(new Date(startDate).getFullYear(), new Date(startDate).getMonth(), new Date(startDate).getDate());
-                if (rowStartDateOnly < startOnly) return false;
-            }
-
-            if (endDate) {
-                const endOnly = new Date(new Date(endDate).getFullYear(), new Date(endDate).getMonth(), new Date(endDate).getDate());
-                if (rowEndDateOnly > endOnly) return false;
-            }
-
-            return true;
         });
-    };
+    }
 
     const filterDataBySearch = (rows, id, filterValue) => {
         if (!filterValue) return rows;
@@ -91,9 +64,16 @@ const PrintingHistoryPayment = () => {
 
     const combinedFilter = (rows, id, filterValue) => {
         const { startDate, endDate, searchInput } = filterValue;
-        let filteredRows = filterDataByDateRange(rows, id, { startDate, endDate });
-        filteredRows = filterDataBySearch(filteredRows, id, searchInput);
-        return filteredRows;
+        if (!startDate && !endDate && !searchInput) return rows;
+        if (searchInput) rows = filterDataBySearch(rows, id, searchInput);
+
+        if (startDate) {
+            rows = filterValueByDate(rows, id, startDate, true);
+        } else if (endDate) {
+            rows = filterValueByDate(rows, id, endDate, false);
+        }
+
+        return rows
     };
 
     const {
@@ -243,148 +223,6 @@ const PrintingHistoryPayment = () => {
                     height={'h-12'}
                 />
             </div>
-        </div>
-    );
-};
-
-const CustomPagination = ({
-    previousPage,
-    nextPage,
-    gotoPage,
-    pageIndex,
-    pageCount,
-    canPreviousPage,
-    canNextPage,
-    width = 'w-6',
-    height = 'h-6'
-}) => {
-    const [isInputVisible, setInputVisible] = useState(false);
-    const [inputValue, setInputValue] = useState(pageIndex + 1);
-    useEffect(() => {
-        setInputValue(pageIndex + 1);
-    }, [pageIndex]);
-
-    const handlePageInput = (e) => {
-        const value = e.target.value;
-        setInputValue(value);
-    };
-
-    const handlePageSubmit = () => {
-        const page = Math.max(0, Math.min(pageCount - 1, Number(inputValue) - 1));
-        gotoPage(page);
-        setInputVisible(false);
-    };
-
-    const handleBlur = () => {
-        setInputVisible(false);
-    };
-
-    return (
-        <div className="flex items-center text-black text-base font-inter gap-1">
-            <button
-                onClick={previousPage}
-                disabled={(!canPreviousPage())}
-                className={`${width} ${height} bg-white 
-                rounded-md
-                border border-gray-300 
-                hover:bg-gray-400 
-                focus:outline-none 
-                focus:ring-2 focus:ring-gray-500 
-                focus:ring-opacity-50 
-                disabled:bg-gray-200 
-                disabled:cursor-not-allowed 
-                disabled:text-gray-400 flex items-center justify-center`}
-            >
-                {'<'}
-            </button>
-
-            <button
-                onClick={() => gotoPage(0)}
-                className={`${width} ${height} bg-white 
-               rounded-md
-               border border-gray-300 
-               hover:bg-gray-400 
-               focus:outline-none 
-               focus:ring-2 focus:ring-gray-500 
-               focus:ring-opacity-50 flex items-center justify-center`}
-            >
-                {'1'}
-            </button>
-
-            {pageCount > 3 && (
-                isInputVisible ? (
-                    <input
-                        type="number"
-                        min={1}
-                        max={pageCount}
-                        value={inputValue}
-                        onChange={handlePageInput}
-                        onBlur={handleBlur}
-                        onKeyDown={(e) => e.key === 'Enter' && handlePageSubmit()}
-                        className={`w-10 ${height} p-1 border rounded-md 
-                     border-gray-300 focus:ring-2 
-                     focus:ring-gray-500 focus:outline-none 
-                     text-center`}
-                    />
-                ) : (
-                    <button
-                        onClick={() => setInputVisible(true)}
-                        className={`${width} ${height} bg-white 
-                                    rounded-md
-                                    border border-gray-300  text-gray-400 
-                     flex items-center justify-center`}
-                    >
-                        ...
-                    </button>
-                )
-            )}
-
-            {pageCount > 1 && (
-                <button
-                    onClick={() => gotoPage(pageCount === 2 ? 1 : pageCount - 2)}
-                    className={`${width} ${height} bg-white 
-                   rounded-md
-                   border border-gray-300 
-                   hover:bg-gray-400 
-                   focus:outline-none 
-                   focus:ring-2 focus:ring-gray-500 
-                   focus:ring-opacity-50 flex items-center justify-center`}
-                >
-                    {pageCount === 2 ? '2' : pageCount - 1}
-                </button>
-            )}
-
-            {pageCount > 2 && (
-                <button
-                    onClick={() => gotoPage(pageCount - 1)}
-                    className={`${width} ${height} bg-white 
-                   rounded-md
-                   border border-gray-300 
-                   hover:bg-gray-400 
-                   focus:outline-none 
-                   focus:ring-2 focus:ring-gray-500 
-                   focus:ring-opacity-50 flex items-center justify-center`}
-                >
-                    {pageCount}
-                </button>
-            )}
-
-            <button
-                onClick={nextPage}
-                disabled={!canNextPage()}
-                className={`${width} ${height} bg-white 
-                rounded-md
-                border border-gray-300 
-                hover:bg-gray-400 
-                focus:outline-none 
-                focus:ring-2 focus:ring-gray-500 
-                focus:ring-opacity-50 
-                disabled:bg-gray-200 
-                disabled:cursor-not-allowed 
-                disabled:text-gray-400 flex items-center justify-center`}
-            >
-                {'>'}
-            </button>
         </div>
     );
 };

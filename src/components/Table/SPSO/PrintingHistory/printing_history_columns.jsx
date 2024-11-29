@@ -6,12 +6,10 @@ const parseDate = (dateString) => {
 };
 
 const dateSort = (rowA, rowB, columnId) => {
-    const dateA = parseDate(rowA.original[columnId]);
-    const dateB = parseDate(rowB.original[columnId]);
-
-    if (dateA < dateB) return -1;
-    if (dateA > dateB) return 1;
-    return 0;
+    console.log(rowA.original[columnId]);
+    const dateA = new Date(rowA.original[columnId])
+    const dateB = new Date(rowB.original[columnId])
+    return dateA - dateB
 };
 
 export const COLUMNS = [
