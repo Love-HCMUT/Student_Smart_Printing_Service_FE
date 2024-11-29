@@ -1,7 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import axios from "axios";
 
-const PrinterForm = ({ printerId, onChange }) => {
+const PrinterForm = ({ printerId, Id, onChange }) => {
+
   const [brand, setBrand] = useState('');
   const [model, setModel] = useState('');
   const [status, setStatus] = useState('');
@@ -102,7 +103,7 @@ const PrinterForm = ({ printerId, onChange }) => {
       } else {
         // Nếu printerId là 0, thực hiện POST (thêm mới)
         response = await axios.post(
-          `http://localhost:5000/api/printer/add`,
+          `http://localhost:5000/api/printer/add?spsoID=${Id}`,
           requestBody,
           {
             headers: {

@@ -7,6 +7,7 @@ import Pagination from "../../Table_Lib/Components/Pagination";
 import { SearchBar1 } from "../SearchBar1/searchbar01";
 import group from "../../../../assets/group.svg";
 import { SPSOHeader1 } from "../Header1/Header1";
+import PrinterForm from '../../../Form/Printer_form';
 import axios from "axios";
 // const MOCK_DATA = [
 //     {
@@ -292,7 +293,12 @@ import axios from "axios";
 // ]
 
 const PrinterManagerTable = () => {
-
+    const spsoEx = 1;
+    const [OL, setOL] =useState(false); 
+    const handleOL = (b) => {
+        setOL(b);
+    }
+    const [PrinterId, setPrinterId] = useState(null);
     const [MOCK_DATA, setMOCK_DATA] = useState([]); // Dùng để lưu dữ liệu từ API
     const [loading, setLoading] = useState(true); // Để hiển thị trạng thái tải dữ liệu
     const [selectedPrinters, setSelectedPrinters] = useState([]); 
@@ -304,7 +310,7 @@ const PrinterManagerTable = () => {
             //         console.error("spsoID not found in localStorage");
             //          return { error: "spsoID is required" };
             //      }
-            const spsoEx = 1; // Giá trị mẫu
+             // Giá trị mẫu
             const response = await axios.get(
                 `http://localhost:5000/api/printer/get_printer?spsoID=${spsoEx}`,
                 {
@@ -393,10 +399,13 @@ const PrinterManagerTable = () => {
     }
 
     return (
+        <div>
+        
+        
         <div className="container mx-auto p-4 min-h-screen">
             <div className="w-full rounded-lg mt-6 shadow-lg">
                 <SearchBar1 filter={globalFilter} setFilter={setGlobalFilter} param={
-                    <PrinterManagerControl selectedPrinters={selectedPrinters} onStatusChange={fetchMOCK_DATA} />
+                    <PrinterManagerControl selectedPrinters={selectedPrinters} onStatusChange={fetchMOCK_DATA} Id={spsoEx}/>
                 } />
                 <SPSOHeader1 />
                 <div className="h-[600px] overflow-auto">
@@ -433,7 +442,18 @@ const PrinterManagerTable = () => {
                                     <tr {...row.getRowProps()} key={row.id} className="hover:bg-gray-50">
                                         {row.cells.map(cell => (
                                             <td {...cell.getCellProps()} className="px-4 py-2 text-sm font-normal text-gray-700 break-words" key={cell.column.id}>
-                                                {cell.render('Cell')}
+                                                {
+                                                        cell.column.id === 'edit' ?
+                                                            (
+                                                                <div onClick={() => {
+                                                                setPrinterId(row.original.printer_id); 
+                                                                handleOL(!OL)}}>
+                                                                    {cell.render('Cell')}
+                                                                </div>
+                                                            ) : (
+                                                                cell.render('Cell')
+                                                            )
+                                                    }
                                             </td>
                                         ))}
                                     </tr>
@@ -457,10 +477,27 @@ const PrinterManagerTable = () => {
                 </div>
             </div>
         </div>
+        {OL && (
+            <div
+                className="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center z-50"
+                onClick={() => setOL(false)}
+            >
+                <div
+                    onClick={(e) => e.stopPropagation()} 
+                >
+                    <PrinterForm printerId={PrinterId} onChange={fetchMOCK_DATA} Id={spsoEx} />
+                </div>
+            </div>
+        )}
+        </div>
     );
 };
 
-const PrinterManagerControl = ({ selectedPrinters, onStatusChange }) => {
+const PrinterManagerControl = ({ selectedPrinters, onStatusChange , Id}) => {
+    const [OL, setOL] =useState(false); 
+    const handleOL = (b) => {
+        setOL(b);
+    }
     const handleStatus = async (status) => {
         if (selectedPrinters.length === 0) {
             alert("No printers selected to update.");
@@ -492,7 +529,7 @@ const PrinterManagerControl = ({ selectedPrinters, onStatusChange }) => {
     return (
         <div className="flex items-center space-x-2 p-4 w-[22rem]">
             <button
-                
+                onClick={() => handleOL(!OL)}
                 className="bg-button-blue hover:bg-button-blue-hover
                            text-white text-sm px-4 py-2 rounded-full flex items-center space-x-1"
             >
@@ -505,17 +542,32 @@ const PrinterManagerControl = ({ selectedPrinters, onStatusChange }) => {
             </button>
             <button
                 className="bg-button-green hover:bg-button-green-hover text-white text-sm px-4 py-2 rounded-full"
-                onClick={() => handleStatus("true")} // Gọi hàm với trạng thái "Enable"
+                onClick={() => handleStatus("Available")} // Gọi hàm với trạng thái "Enable"
             >
                 Enable
             </button>
             <button
                 className="bg-button-red hover:bg-button-red-hover text-white text-sm px-4 py-2 rounded-full"
-                onClick={() => handleStatus("false")} // Gọi hàm với trạng thái "Disable"
+                onClick={() => handleStatus("Unavailable")} // Gọi hàm với trạng thái "Disable"
             >
                 Disable
             </button>
+
+            {OL && (
+    <div
+        className="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center z-50"
+        onClick={() => setOL(false)}
+    >
+        <div
+            onClick={(e) => e.stopPropagation()} 
+        >
+            <PrinterForm onChange={onStatusChange} Id={Id}/>
         </div>
+    </div>
+)}
+
+        </div>
+       
     );
 };
 
