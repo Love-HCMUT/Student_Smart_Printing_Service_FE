@@ -1,18 +1,35 @@
-import React, { useMemo, useState } from "react";
+import React, { useMemo, useState, useEffect } from "react";
 import { useTable, useSortBy, useGlobalFilter, useRowSelect, usePagination } from "react-table";
 import { COLUMNS } from "./payment_columns";
 import arrow from "../../../../assets/arrow-down.svg";
 import { Checkbox } from "../../Table_Lib/Components/Checkbox";
-import Pagination from "../../Table_Lib/Components/Pagination";
 import { SearchBar1 } from "../SearchBar1/searchbar01";
 import { SPSOHeader1 } from "../Header1/Header1";
 import { CustomDateInput } from "../DateInputComponent.jsx/customDateInputComponent";
-
-const PaymentHistoryTable = ({ data }) => {
+import { getAllTransactionPagination, countTransactions } from "../../../../services/spso-get-all-api";
+const PaymentHistoryTable = () => {
     const columns = useMemo(() => COLUMNS, []);
     const [startDate, setStartDate] = useState(null);
     const [endDate, setEndDate] = useState(null);
     const [searchInput, setSearchInput] = useState("");
+    const [data, setData] = useState([]);
+    const [totalTransactions, setTotalTransactions] = useState(0);
+    const [currentPage, setCurrentPage] = useState(0);
+    useEffect(() => {
+        const fetchData = async () => {
+            try {
+                const result = await getAllTransactionPagination(currentPage + 1, 10);
+                setData(Array.isArray(result) ? result : []);
+
+                const totalTransactions = await countTransactions();
+                setTotalTransactions(totalTransactions.totalTransaction);
+            } catch (error) {
+                console.error("Error fetching data:", error);
+                setData([]);
+            }
+        };
+        fetchData();
+    }, [currentPage]);
 
     const filterDataByDate = (rows, id, filterValue) => {
         const { startDate, endDate } = filterValue;
@@ -88,9 +105,35 @@ const PaymentHistoryTable = ({ data }) => {
         }
     );
 
+    const handleGoToPage = (page) => {
+        setCurrentPage(page);
+    };
+
+    const handlePreviousPage = () => {
+        if (currentPage > 0) {
+            previousPage();
+            setCurrentPage(currentPage - 1);
+        }
+    };
+
+    const handleNextPage = () => {
+        if (currentPage < pageCount - 1) {
+            nextPage();
+            setCurrentPage(currentPage + 1);
+        }
+    };
+
+    const canPreviousPage2 = () => {
+        return (currentPage > 0)
+    }
+
+    const canNextPage2 = () => {
+        return (currentPage < pageCount - 1)
+    }
+
     return (
-        <div className="container mx-auto px-6 h-fit w-3/5 rounded-lg">
-            <div className="">
+        <div className="container mx-auto px-6 w-4/5">
+            <div className="flex flex-col gap-4 mb-4">
                 <SearchBar1
                     value={searchInput}
                     setValue={setSearchInput}
@@ -105,20 +148,20 @@ const PaymentHistoryTable = ({ data }) => {
                         />
                     }
                 />
-                <SPSOHeader1 header="Payment History" content="History of Payment is stored in 120 days " />
             </div>
-            <div className="h-[430px] overflow-auto">
-                <table {...getTableProps()} className="mx-auto border rounded-md w-full">
+            <div className="shadow-md rounded-lg p-4 bg-white">
+                <SPSOHeader1 header="Payment History" content="History of Payment is stored in 120 days " />
+                <table {...getTableProps()} className="mx-auto w-full">
                     <thead className="bg-gray-light">
                         {headerGroups.map((headerGroup, i) => (
                             <tr {...headerGroup.getHeaderGroupProps()} key={`headerGroup-${i}`}>
                                 {headerGroup.headers.map((column, j) => (
                                     <th
                                         {...column.getHeaderProps(column.getSortByToggleProps())}
-                                        className="p-3 text-left text-xs font-medium text-gray-700 tracking-wider cursor-pointer"
+                                        className="p-4 text-base font-medium text-gray-700 tracking-wider cursor-pointer"
                                         key={`header${j}`}
                                     >
-                                        <div className="flex items-center">
+                                        <div className="flex">
                                             {column.render('Header')}
                                             {column.isSorted && (
                                                 <img
@@ -140,7 +183,7 @@ const PaymentHistoryTable = ({ data }) => {
                             return (
                                 <tr {...row.getRowProps()} key={`row-${i}`} className="hover:bg-gray-50">
                                     {row.cells.map((cell, j) => (
-                                        <td {...cell.getCellProps()} className="px-4 py-2 text-sm font-normal text-gray-700 break-words" key={`cell-${i}-${j}`}>
+                                        <td {...cell.getCellProps()} className="px-4 py-2 mt-4" key={`cell-${i}-${j}`}>
                                             {cell.render('Cell')}
                                         </td>
                                     ))}
@@ -150,17 +193,17 @@ const PaymentHistoryTable = ({ data }) => {
                     </tbody>
                 </table>
             </div>
-            <div className="flex justify-center items-center mb-10">
-                <Pagination
-                    previousPage={previousPage}
-                    nextPage={nextPage}
-                    gotoPage={gotoPage}
-                    pageIndex={pageIndex}
-                    pageCount={pageCount}
-                    canPreviousPage={canPreviousPage}
-                    canNextPage={canNextPage}
-                    width={'w-8'}
-                    height={'h-8'}
+            <div className="flex justify-center items-center mb-10 mt-10">
+                <CustomPagination
+                    previousPage={handlePreviousPage}
+                    nextPage={handleNextPage}
+                    gotoPage={handleGoToPage}
+                    pageIndex={currentPage}
+                    pageCount={Math.ceil(totalTransactions / 10)}
+                    canPreviousPage={canPreviousPage2}
+                    canNextPage={canNextPage2}
+                    width={'w-12'}
+                    height={'h-12'}
                 />
             </div>
         </div>
@@ -182,6 +225,148 @@ const DateInputComponent = ({ startDate, setStartDate, endDate, setEndDate, setG
         <div className="flex items-center gap-1">
             <CustomDateInput value={startDate} onChange={handleStartDateChange} placeholder="Start Date" />
             <CustomDateInput value={endDate} onChange={handleEndDateChange} placeholder="End Date" />
+        </div>
+    );
+};
+
+const CustomPagination = ({
+    previousPage,
+    nextPage,
+    gotoPage,
+    pageIndex,
+    pageCount,
+    canPreviousPage,
+    canNextPage,
+    width = 'w-6',
+    height = 'h-6'
+}) => {
+    const [isInputVisible, setInputVisible] = useState(false);
+    const [inputValue, setInputValue] = useState(pageIndex + 1);
+    useEffect(() => {
+        setInputValue(pageIndex + 1);
+    }, [pageIndex]);
+
+    const handlePageInput = (e) => {
+        const value = e.target.value;
+        setInputValue(value);
+    };
+
+    const handlePageSubmit = () => {
+        const page = Math.max(0, Math.min(pageCount - 1, Number(inputValue) - 1));
+        gotoPage(page);
+        setInputVisible(false);
+    };
+
+    const handleBlur = () => {
+        setInputVisible(false);
+    };
+
+    return (
+        <div className="flex items-center text-black text-base font-inter gap-1">
+            <button
+                onClick={previousPage}
+                disabled={(!canPreviousPage())}
+                className={`${width} ${height} bg-white 
+                rounded-md
+                border border-gray-300 
+                hover:bg-gray-400 
+                focus:outline-none 
+                focus:ring-2 focus:ring-gray-500 
+                focus:ring-opacity-50 
+                disabled:bg-gray-200 
+                disabled:cursor-not-allowed 
+                disabled:text-gray-400 flex items-center justify-center`}
+            >
+                {'<'}
+            </button>
+
+            <button
+                onClick={() => gotoPage(0)}
+                className={`${width} ${height} bg-white 
+               rounded-md
+               border border-gray-300 
+               hover:bg-gray-400 
+               focus:outline-none 
+               focus:ring-2 focus:ring-gray-500 
+               focus:ring-opacity-50 flex items-center justify-center`}
+            >
+                {'1'}
+            </button>
+
+            {pageCount > 3 && (
+                isInputVisible ? (
+                    <input
+                        type="number"
+                        min={1}
+                        max={pageCount}
+                        value={inputValue}
+                        onChange={handlePageInput}
+                        onBlur={handleBlur}
+                        onKeyDown={(e) => e.key === 'Enter' && handlePageSubmit()}
+                        className={`w-10 ${height} p-1 border rounded-md 
+                     border-gray-300 focus:ring-2 
+                     focus:ring-gray-500 focus:outline-none 
+                     text-center`}
+                    />
+                ) : (
+                    <button
+                        onClick={() => setInputVisible(true)}
+                        className={`${width} ${height} bg-white 
+                                    rounded-md
+                                    border border-gray-300  text-gray-400 
+                     flex items-center justify-center`}
+                    >
+                        ...
+                    </button>
+                )
+            )}
+
+            {pageCount > 1 && (
+                <button
+                    onClick={() => gotoPage(pageCount === 2 ? 1 : pageCount - 2)}
+                    className={`${width} ${height} bg-white 
+                   rounded-md
+                   border border-gray-300 
+                   hover:bg-gray-400 
+                   focus:outline-none 
+                   focus:ring-2 focus:ring-gray-500 
+                   focus:ring-opacity-50 flex items-center justify-center`}
+                >
+                    {pageCount === 2 ? '2' : pageCount - 1}
+                </button>
+            )}
+
+            {pageCount > 2 && (
+                <button
+                    onClick={() => gotoPage(pageCount - 1)}
+                    className={`${width} ${height} bg-white 
+                   rounded-md
+                   border border-gray-300 
+                   hover:bg-gray-400 
+                   focus:outline-none 
+                   focus:ring-2 focus:ring-gray-500 
+                   focus:ring-opacity-50 flex items-center justify-center`}
+                >
+                    {pageCount}
+                </button>
+            )}
+
+            <button
+                onClick={nextPage}
+                disabled={!canNextPage()}
+                className={`${width} ${height} bg-white 
+                rounded-md
+                border border-gray-300 
+                hover:bg-gray-400 
+                focus:outline-none 
+                focus:ring-2 focus:ring-gray-500 
+                focus:ring-opacity-50 
+                disabled:bg-gray-200 
+                disabled:cursor-not-allowed 
+                disabled:text-gray-400 flex items-center justify-center`}
+            >
+                {'>'}
+            </button>
         </div>
     );
 };

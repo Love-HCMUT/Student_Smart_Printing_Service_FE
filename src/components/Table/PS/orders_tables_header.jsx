@@ -1,7 +1,8 @@
-import React, { useState } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import Pagination from '../Table_Lib/Components/Pagination';
-
+import PrinterForm from '../../Form/Printer_form';
 export const PSOrderHeader = ({
+    printer_id = 1,
     printer_name = "Printer 1A",
     printer_status = "Ready",
     previousPage,
@@ -62,14 +63,8 @@ export const PSOrderHeader = ({
                 </div>
             </div>
             {isOverlayVisible && (
-                <div
-                    className="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center z-50"
-                    onClick={handleOverlayClick}
-                >
-                    <div className="bg-white p-8 rounded shadow-lg">
-                        <h2 className="text-xl font-bold mb-4">Overlay Content</h2>
-                        <p>Click anywhere to close this overlay.</p>
-                    </div>
+                <div className="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center z-50">
+                    <PrinterForm printerId={printer_id} onChange={handleOverlayClick} />
                 </div>
             )}
         </div>

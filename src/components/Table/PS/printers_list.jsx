@@ -30,7 +30,6 @@ const StaffHeader = ({ prop = null }) => {
                 <span className="text-sm text-table-text-color">Printer Information</span>
             </div>
             <div className="mt-4 md:mt-0 flex items-center space-x-4">
-                {/* <button className="bg-blue-500 text-white px-4 py-2 rounded-md hover:bg-blue-600">Add Printer</button> */}
                 {prop}
             </div>
         </div>

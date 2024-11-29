@@ -306,7 +306,7 @@ const PrinterManagerTable = () => {
             //      }
             const spsoEx = 1; // Giá trị mẫu
             const response = await axios.get(
-                `http://localhost:5000/api/printer/get_printer?spsoID=${spsoEx}`,
+                `http://localhost:3000/api/printer/get_printer?spsoID=${spsoEx}`,
                 {
                     withCredentials: true,
                     headers: {

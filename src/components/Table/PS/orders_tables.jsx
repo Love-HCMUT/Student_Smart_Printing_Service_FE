@@ -1,4 +1,4 @@
-import React, { useMemo } from 'react';
+import React, { useMemo, useState } from 'react';
 import { useTable, useSortBy, usePagination } from 'react-table';
 import arrow from '../../../assets/arrow-down.svg';
 import { COLUMNS } from './orders_columns';
@@ -7,9 +7,17 @@ import { PSOrderHeader } from './orders_tables_header';
 export const PSMainTable = ({
     data, printer
 }) => {
+    const [overlay, setOverlay] = useState(false)
     const columns = COLUMNS
     const memoizedColumns = useMemo(() => columns, [columns]);
     const memoizedData = useMemo(() => data, [data]);
+
+    const handleButtonClick = () => {
+        setOverlay(true)
+    }
+    const handleOverlayClick = () => {
+        setOverlay(false)
+    }
 
     const {
         getTableProps,
@@ -35,10 +43,10 @@ export const PSMainTable = ({
         useSortBy,
         usePagination
     );
-
     return (
         <div>
             <PSOrderHeader
+                printer_id={printer.printer_ID}
                 printer_name={printer.printer_name}
                 printer_status={printer.printer_status}
                 previousPage={previousPage}
@@ -89,7 +97,16 @@ export const PSMainTable = ({
                                     <tr {...row.getRowProps()} className="py-2.5" key={row.getRowProps().key}>
                                         {row.cells.map(cell => (
                                             <td {...cell.getCellProps()} className="px-2 py-1" key={cell.getCellProps().key}>
-                                                {cell.render('Cell')}
+                                                {
+                                                    cell.column.id === 'order_id' ?
+                                                        (
+                                                            <div onClick={handleButtonClick}>
+                                                                {cell.render('Cell')}
+                                                            </div>
+                                                        ) : (
+                                                            cell.render('Cell')
+                                                        )
+                                                }
                                             </td>
                                         ))}
                                     </tr>
@@ -105,6 +122,16 @@ export const PSMainTable = ({
                     </tbody>
                 </table>
             </div>
-        </div>
+
+            {
+                overlay && (
+                    <div className="fixed inset-0 bg-black bg-opacity-50
+                                    flex justify-center items-center z-50"
+                        onClick={handleOverlayClick}>
+                    </div>
+                )
+            }
+        </div >
+
     );
 };

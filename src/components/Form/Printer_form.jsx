@@ -21,12 +21,11 @@ const PrinterForm = ({ printerId, onChange }) => {
   useEffect(() => {
     const fetchPrinterData = async () => {
       if (!printerId) return;
-
       try {
         const request = {
           ids: [printerId]
         }
-        const response = await axios.post(`http://localhost:5000/api/printer/update_printer`,
+        const response = await axios.post(`http://localhost:3000/api/printer/update_printer`,
           request, // Pass the requestBody directly
           {
             headers: {
@@ -65,7 +64,7 @@ const PrinterForm = ({ printerId, onChange }) => {
   // Hàm xử lý khi form được submit
   const handleSubmit = async (e) => {
     e.preventDefault();
-  
+
     const requestBody = {
       printerStatus: status,
       printerDescription: description,
@@ -82,14 +81,14 @@ const PrinterForm = ({ printerId, onChange }) => {
       building: building,
       room: room
     };
-  
+
     try {
       let response;
-      
+
       // Kiểm tra nếu printerId khác 0, thực hiện PUT (cập nhật)
       if (printerId) {
         response = await axios.put(
-          `http://localhost:5000/api/printer/update/${printerId}`,
+          `http://localhost:3000/api/printer/update/${printerId}`,
           requestBody,
           {
             headers: {
@@ -102,7 +101,7 @@ const PrinterForm = ({ printerId, onChange }) => {
       } else {
         // Nếu printerId là 0, thực hiện POST (thêm mới)
         response = await axios.post(
-          `http://localhost:5000/api/printer/add`,
+          `http://localhost:3000/api/printer/add`,
           requestBody,
           {
             headers: {
@@ -117,13 +116,13 @@ const PrinterForm = ({ printerId, onChange }) => {
       console.error('Error handling printer data:', error);
     }
   };
-  
+
 
   return (
     <div className="flex items-center justify-center min-h-screen bg-gray-100">
       <div className="bg-white rounded-lg p-8 shadow-lg w-full max-w-2xl h-max max-h-screen overflow-y-auto">
         <h2 className="text-center text-gray-600 text-lg font-semibold mb-6">PRINTER INFORMATION</h2>
-        
+
         <form className="space-y-4" onSubmit={handleSubmit}>
           <input
             type="text"
@@ -132,7 +131,7 @@ const PrinterForm = ({ printerId, onChange }) => {
             readOnly
             className="w-full p-3 border border-gray-300 rounded-md text-black text-center"
           />
-          
+
           <div className="relative">
             <select
               value={status}
@@ -177,7 +176,7 @@ const PrinterForm = ({ printerId, onChange }) => {
             onChange={(e) => setBrand(e.target.value)}
             className="w-full p-3 border border-gray-300 rounded-md text-black text-center"
           />
-          
+
           <div className="flex space-x-4">
             <input
               type="text"

@@ -13,7 +13,6 @@ const Pagination = ({
 }) => {
     const [isInputVisible, setInputVisible] = useState(false);
     const [inputValue, setInputValue] = useState(pageIndex + 1);
-
     useEffect(() => {
         setInputValue(pageIndex + 1);
     }, [pageIndex]);
