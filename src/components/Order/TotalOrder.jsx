@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import Announce from "./Announce";
+import { useNavigate } from "react-router-dom";
 
 const SERVICE_COST_PERCENT = 0.1;
 const DISCOUNT_PERCENT = 0.05;
@@ -12,6 +13,7 @@ const TotalOrder = ({
   note,
   printer,
 }) => {
+  const navigate = useNavigate();
   const [balance, setBalance] = useState(0);
   const handleOnClick = async () => {
     //getBalance
@@ -54,7 +56,10 @@ const TotalOrder = ({
       body: formData,
     })
       .then((res) => res.json())
-      .then((data) => console.log(data))
+      .then((data) => {
+        console.log(data);
+        navigate("/user");
+      })
       .catch((err) => console.log(err));
   };
 
