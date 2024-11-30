@@ -32,7 +32,7 @@ export default function Header_APP({
     if (link.subLinks) {
       setShowSubLinks(true);
     }
-    console.log(showSubLinks, activeLink, link.label);
+    // console.log(showSubLinks, activeLink, link.label);
   };
 
   return (

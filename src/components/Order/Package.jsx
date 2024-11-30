@@ -7,7 +7,7 @@ const Package = ({ index, update, remove }) => {
     copy: 1,
     sides: 2,
     paper: "A4",
-    paper_per_sheet: 1,
+    pages_per_sheet: 1,
     scale: 1,
     cover: true,
     binding: true,
@@ -16,26 +16,20 @@ const Package = ({ index, update, remove }) => {
     color_cover: false,
   });
 
-  const [pages, setPages] = useState([
-    {
-      from_to: "begin-end",
-      color: false,
-      orientation: "landscape",
-    },
-  ]);
+  const [pages, setPages] = useState([]);
 
   //handle file, we need to upload file to MinIO and only store filename, filesize, fileURL in to object
   const [fileSelected, setfileSelected] = useState([]);
-  console.log("listfile: ", fileSelected);
+  // console.log("listfile: ", fileSelected);
 
   useEffect(() => {
     update(index, { ...config, pages: pages, files: fileSelected });
   }, [pages, config, fileSelected]);
 
-  const removeFile = (index) => {
-    const newfileSelected = fileSelected.filter((_, i) => i !== index);
+  const removeFile = (fileIndex) => {
+    const newfileSelected = fileSelected.filter((_, i) => i !== fileIndex);
     setfileSelected(newfileSelected);
-    console.log("remove ", index);
+    console.log("remove ", fileIndex, index);
   };
 
   const uploadFile = (event) => {
@@ -43,7 +37,6 @@ const Package = ({ index, update, remove }) => {
     if (file) {
       // UPLOAD MIN-IO
       // Loaf file types from config file types
-      console.log(file);
 
       const newFileSelected = [...fileSelected, file];
       setfileSelected(newFileSelected);
@@ -57,8 +50,8 @@ const Package = ({ index, update, remove }) => {
     }));
   };
 
-  const removePages = (index) => {
-    setPages((page) => page.filter((_, i) => i !== index));
+  const removePages = (pageIndex) => {
+    setPages((page) => page.filter((_, i) => i !== pageIndex));
   };
 
   const addPages = () => {
@@ -70,11 +63,11 @@ const Package = ({ index, update, remove }) => {
     setPages((prev) => [...prev, newpages]);
   };
 
-  const updatePages = (index, fieldname, value) => {
+  const updatePages = (pageIndex, fieldname, value) => {
     setPages((prev) => {
       const updatedConfig = [...prev];
-      updatedConfig[index] = {
-        ...updatedConfig[index],
+      updatedConfig[pageIndex] = {
+        ...updatedConfig[pageIndex],
         [fieldname]: value,
       };
       return updatedConfig;
@@ -144,6 +137,7 @@ const Package = ({ index, update, remove }) => {
                   type="number"
                   name="copies"
                   min="1"
+                  value={config.copy}
                   onChange={(event) => updateField("copy", event.target.value)}
                   className="max-w-11 border border-gray-300 rounded p-1 text-center"
                 />
@@ -154,6 +148,7 @@ const Package = ({ index, update, remove }) => {
                 <input
                   type="number"
                   name="toPage"
+                  value={config.sides}
                   min="1"
                   max="2"
                   onChange={(event) => updateField("sides", event.target.value)}
@@ -180,10 +175,11 @@ const Package = ({ index, update, remove }) => {
                 <input
                   type="number"
                   name="toPage"
+                  value={config.pages_per_sheet}
                   min="1"
                   className="max-w-11 border border-gray-300 rounded p-1 text-center"
                   onChange={(event) =>
-                    updateField("paper_per_sheet", event.target.value)
+                    updateField("pages_per_sheet", event.target.value)
                   }
                 />
               </div>
@@ -196,6 +192,7 @@ const Package = ({ index, update, remove }) => {
                   min="0"
                   max="1"
                   step="0.1"
+                  value={config.scale}
                   className="max-w-11 border border-gray-300 rounded p-1 text-center"
                   onChange={(event) => updateField("scale", event.target.value)}
                 />
@@ -207,28 +204,32 @@ const Package = ({ index, update, remove }) => {
           <div className="">
             <h3 className="font-bold mb-1">Pages</h3>
             <div>
-              {pages.map((e, index) => (
-                <div key={index} className="relative">
+              {pages.map((e, pageIndex) => (
+                <div key={pageIndex} className="relative">
                   <button
-                    onClick={() => removePages(index)}
+                    onClick={() => removePages(pageIndex)}
                     className="absolute right-2 top-1 hover:bg-red-600 text-red-500 font-bold hover:text-white w-3 h-3 flex items-center justify-center rounded-full"
                   >
                     x
                   </button>
-                  <PageSetting index={index} func={updatePages} />
+                  <PageSetting index={pageIndex} func={updatePages} />
                 </div>
               ))}
             </div>
 
             {/* Button add more */}
-            <div className="w-full flex items-center justify-center">
-              <button
-                onClick={addPages}
-                className="bg-blue-500 mt-2 rounded px-6 hover:bg-blue-600"
-              >
-                More setting pages
-              </button>
-            </div>
+            {pages.length ? (
+              <></>
+            ) : (
+              <div className="w-full flex items-center justify-center">
+                <button
+                  onClick={addPages}
+                  className="bg-blue-500 mt-2 rounded px-6 hover:bg-blue-600"
+                >
+                  Custom Printing Pages
+                </button>
+              </div>
+            )}
           </div>
 
           {/* After printing */}
@@ -240,6 +241,7 @@ const Package = ({ index, update, remove }) => {
                 <input
                   type="checkbox"
                   name="toPage"
+                  checked={config.cover}
                   min="0"
                   className="max-w-11 border border-gray-300 rounded p-1 text-center"
                   onChange={(event) =>
@@ -253,6 +255,7 @@ const Package = ({ index, update, remove }) => {
                 <input
                   type="checkbox"
                   name="toPage"
+                  checked={config.binding}
                   min="0"
                   className="max-w-11 border border-gray-300 rounded p-1 text-center"
                   onChange={(event) =>
@@ -266,6 +269,7 @@ const Package = ({ index, update, remove }) => {
                 <input
                   type="checkbox"
                   name="toPage"
+                  checked={config.glass}
                   min="0"
                   onChange={(event) =>
                     updateField("glass", event.target.checked)
@@ -285,6 +289,7 @@ const Package = ({ index, update, remove }) => {
                 <input
                   type="checkbox"
                   name="toPage"
+                  checked={config.color_all}
                   min="0"
                   onChange={(event) =>
                     updateField("color_all", event.target.checked)
@@ -298,6 +303,7 @@ const Package = ({ index, update, remove }) => {
                 <input
                   type="checkbox"
                   name="toPage"
+                  checked={config.color_cover}
                   min="0"
                   onChange={(event) =>
                     updateField("color_cover", event.target.checked)
@@ -313,10 +319,10 @@ const Package = ({ index, update, remove }) => {
         <div className="flex-1">
           <div className="flex items-center justify-center h-full w-full">
             <label
-              for="dropzone-file"
-              class="flex flex-col items-center justify-center min-h-[300px] w-full border-2 border-gray-300 border-dashed rounded-lg cursor-pointer bg-white hover:bg-gray-50 transition duration-200"
+              htmlFor={`dropzone-file-${index}`}
+              className="flex flex-col items-center justify-center min-h-[300px] w-full border-2 border-gray-300 border-dashed rounded-lg cursor-pointer bg-white hover:bg-gray-50 transition duration-200"
             >
-              <div class="flex flex-col items-center justify-center pt-5 pb-6">
+              <div className="flex flex-col items-center justify-center pt-5 pb-6">
                 <svg
                   className="icon"
                   width="18"
@@ -327,24 +333,24 @@ const Package = ({ index, update, remove }) => {
                 >
                   <path
                     stroke="currentColor"
-                    stroke-linecap="round"
-                    stroke-linejoin="round"
-                    stroke-width="2"
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth="2"
                     d="M13 13h3a3 3 0 0 0 0-6h-.025A5.56 5.56 0 0 0 16 6.5 5.5 5.5 0 0 0 5.207 5.021C5.137 5.017 5.071 5 5 5a4 4 0 0 0 0 8h2.167M10 15V6m0 0L8 8m2-2 2 2"
                   />
                 </svg>
-                <p class="mb-2 text-sm text-gray-700">
-                  <span class="font-semibold">Click to upload</span> or drag and
-                  drop
+                <p className="mb-2 text-sm text-gray-700">
+                  <span className="font-semibold">Click to upload</span> or drag
+                  and drop
                 </p>
-                <p class="text-xs text-gray-600">
+                <p className="text-xs text-gray-600">
                   SVG, PNG, JPG or GIF (MAX. 800x400px)
                 </p>
               </div>
               <input
-                id="dropzone-file"
+                id={`dropzone-file-${index}`}
                 type="file"
-                class="hidden"
+                className="hidden"
                 accept={"application/pdf"} // Load from config
                 onChange={uploadFile}
               />

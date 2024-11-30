@@ -2,7 +2,7 @@ import dotenv from "dotenv";
 dotenv.config();
 
 const config = {
-  API: process.env.API,
+  HOST: process.env.HOST,
 };
 
 export default config;
