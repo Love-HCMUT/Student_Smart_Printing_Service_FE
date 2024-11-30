@@ -89,8 +89,9 @@ const PrinterForm = ({ printerId, Id, onChange }) => {
       const host = import.meta.env.VITE_HOST
       // Kiểm tra nếu printerId khác 0, thực hiện PUT (cập nhật)
       if (printerId) {
+        console.log(requestBody)
         response = await axios.put(
-          `${host}/api/printer/update/${printerId}`,
+          `${host}/api/printer/update/${Id}/${printerId}`,
           requestBody,
           {
             headers: {

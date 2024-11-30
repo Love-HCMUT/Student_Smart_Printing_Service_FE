@@ -228,7 +228,7 @@ const PrinterManagerControl = ({ selectedPrinters, onStatusChange, Id }) => {
         try {
             const host = import.meta.env.VITE_HOST
             await axios.put(
-                `${host}/api/printer/update-status`,
+                `${host}/api/printer/update-status?spsoID=${Id}`,
                 {
                     printerStatus: status,
                     printerIds: selectedPrinters, // Truyền danh sách các máy in
