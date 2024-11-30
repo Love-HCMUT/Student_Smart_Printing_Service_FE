@@ -76,7 +76,7 @@ export const UserBalance = () => {
   }
 
   return (
-    <div className="flex flex-col justify-center align-middle items-center">
+    <div className="bg-slate-100 flex flex-col justify-center align-middle items-center">
       <div className="w-2/5">
         <InfoCards totalCoins={balance} recentTransitions={recentTransitionsData} />
       </div>

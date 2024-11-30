@@ -80,7 +80,7 @@ const OrdersHistoryPayment = ({ values }) => {
 
 const OrderPrintingHeader = () => {
     return (
-        <div className="p-4 shadow-lg">
+        <div className="bg-white rounded p-4 shadow-lg">
             <h1 className="text-xl font-bold">Payment History</h1>
             <span className="text-sm text-gray-600">History of your payment is stored in 120 days </span>
         </div>
