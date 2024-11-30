@@ -102,6 +102,8 @@ const PaymentPage = () => {
             const checkstatus = await axios.get(`${host}/payment/status/${orderId}`)
             ///handle config 
             console.log(checkstatus)
+            if (checkstatus.data.data.resultCode === 0) alert("Your payment is successfull")
+            else alert("your payment is fail, money will be refunded")
 
             const combo = JSON.parse(checkstatus.data.data.extraData)
             const body = {
