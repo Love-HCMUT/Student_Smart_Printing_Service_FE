@@ -39,6 +39,7 @@ import TransactionHistoryPage from "./pages/TransactionHistoryPage.jsx";
 import ManagePrinterPage from "./pages/ManagePrinterPage.jsx";
 import ManageTransactionPage from "./pages/ManageTransactionPage.jsx";
 import RegisterFormSPSO from "./components/Login/register-spso.jsx"
+import ProtectedRoute from "./helpers/index.jsx";
 
 
 const router = createBrowserRouter([
@@ -60,35 +61,35 @@ const router = createBrowserRouter([
     children: [
       {
         index: true,
-        element: <WelcomeBanner />,
+        element: <ProtectedRoute element={<WelcomeBanner/>} requiredRole="User"   />,
       },
       {
         path: "/user/balance",
-        element: <UserBalance />,
+        element:  <ProtectedRoute element={<UserBalance />} requiredRole="User"   />,
       },
       {
         path: "/user/balance/deposit",
-        element: <PaymentPage />,
+        element: <ProtectedRoute element={<PaymentPage />} requiredRole="User"   />,
       },
       {
         path: "/user/balance",
-        element: <UserBalance />,
+        element:  <ProtectedRoute element={<UserBalance />} requiredRole="User"   />,
       },
       {
         path: "/user/history",
-        element: <TransactionHistoryPage />,
+        element: <ProtectedRoute element={<TransactionHistoryPage />} requiredRole="User"   />,
       },
       {
         path: "/user/order",
-        element: <OrderPage />,
+        element: <ProtectedRoute element={<OrderPage />} requiredRole="User"   />,
       },
       {
         path: "/user/order/printer",
-        element: <PrinterTable />,
+        element: <ProtectedRoute element={<PrinterTable />} requiredRole="User"   />,
       },
       {
         path: "/user/order/confirm",
-        element: <ConfirmOrderPage />,
+        element: <ProtectedRoute element={<ConfirmOrderPage />} requiredRole="User"   />,
       },
     ],
   },
@@ -98,11 +99,11 @@ const router = createBrowserRouter([
     children: [
       {
         index: true,
-        element: <WelcomeBanner />,
+        element: <ProtectedRoute element={<WelcomeBanner />} requiredRole="Staff"   />,
       },
       {
         path: "/staff/printing",
-        element: <Printers_list />,
+        element: <ProtectedRoute element={<Printers_list />} requiredRole="Staff"   />,
       },
     ],
   },
@@ -112,39 +113,39 @@ const router = createBrowserRouter([
     children: [
       {
         index: true,
-        element: <WelcomeBanner />,
+        element:  <ProtectedRoute element={<WelcomeBanner />} requiredRole="SPSO"   />,
       },
       {
         path: "/spso/printer",
-        element: <PrinterManagerTable />,
+        element: <ProtectedRoute element={<PrinterManagerTable />} requiredRole="SPSO"   />,
       },
       {
         path: "/spso/report",
-        element: <ReportList />,
+        element: <ProtectedRoute element={<ReportList />} requiredRole="SPSO"   />,
       },
       {
         path: "/spso/report/detail",
-        element: <Detail />,
+        element: <ProtectedRoute element={<Detail />} requiredRole="SPSO"   />,
       },
       {
         path: "/spso/log/printing",
-        element: <ManagePrinterPage />,
+        element: <ProtectedRoute element={<ManagePrinterPage />} requiredRole="SPSO"   />,
       },
       {
         path: "/spso/log/payment",
-        element: <ManageTransactionPage />,
+        element: <ProtectedRoute element={<ManageTransactionPage />} requiredRole="SPSO"   />,
       },
       {
         path: "/spso/setting/paper",
-        element: <SettingPaper />,
+        element: <ProtectedRoute element={<SettingPaper />} requiredRole="SPSO"   />,
       },
       {
         path: "/spso/setting/file",
-        element: <Files />,
+        element: <ProtectedRoute element={<Files />} requiredRole="SPSO"   />,
       },
       {
         path: "/spso/author",
-        element: <RegisterFormSPSO />,
+        element: <ProtectedRoute element={<RegisterFormSPSO />} requiredRole="SPSO"   />,
       },
     ],
   },
