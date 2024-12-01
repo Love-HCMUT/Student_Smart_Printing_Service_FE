@@ -57,7 +57,6 @@ const TotalOrder = ({
     // })
     //   .then((res) => res.json())
     //   .then((data) => {
-    //     console.log(data);
     //     navigate("/user");
     //   })
     //   .catch((err) => console.log(err));
@@ -74,9 +73,6 @@ const TotalOrder = ({
   }, [totalPackages]);
 
   useEffect(() => {
-    console.log("balance", balance);
-    console.log("totalCost", totalCost);
-    console.log(localStorage.getItem("id"));
     if (balance > totalCost) {
       const arr = order.map((p) => {
         const { files, ...config } = p;
@@ -112,7 +108,6 @@ const TotalOrder = ({
       })
         .then((res) => res.json())
         .then((data) => {
-          console.log(data);
           navigate("/user");
         })
         .catch((err) => console.log(err));
@@ -125,7 +120,6 @@ const TotalOrder = ({
   //     const { files, ...config } = p;
   //     return { files, config };
   //   });
-  //   console.log(arr);
   //   const formData = new FormData();
   //   // return;
   //   arr.forEach(({ files, config }, index) => {

@@ -8,8 +8,6 @@ const OrderPage = () => {
   const [packages, setPackages] = useState([{}]);
   const [message, setMessage] = useState("");
 
-  console.log(packages)
-
   const addMorePackage = () => {
     const newpackages = [...packages, {}];
     setPackages(newpackages);
@@ -21,7 +19,6 @@ const OrderPage = () => {
   };
 
   const updatePackage = (index, value) => {
-    console.log("index package: ", index)
     const newpackages = packages.map((e, i) => {
       if (i === index) return value;
       else return e;

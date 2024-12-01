@@ -90,8 +90,6 @@ const RegisterForm = () => {
       room: formData.workingLocationRoom,
     };
 
-    console.log(requestBody);
-
     // Send the POST request
     const host = import.meta.env.VITE_HOST;
     try {
@@ -108,7 +106,6 @@ const RegisterForm = () => {
       if (response.status === 201 && response.data.status) {
         confirm("Register successful");
         navigate("/login");
-        console.log("Register successful:", response.data);
       } else {
         setError(response.data.message || "Register failed. Please try again.");
       }

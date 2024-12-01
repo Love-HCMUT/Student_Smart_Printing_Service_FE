@@ -55,8 +55,6 @@ export const PSMainTable = ({ data, printer }) => {
     setOL(status);
   };
 
-  console.log(packages);
-
   const staffID = parseInt(localStorage.getItem("id")); // Local storage
 
   const handleDecline = (orderID, staffID) => {
@@ -234,11 +232,13 @@ export const PSMainTable = ({ data, printer }) => {
       </div>
       {OL && (
         <div
-          className="fixed top-0 left-0 right-0 bottom-0 w-full h-full bg-black bg-opacity-50 flex justify-center items-center z-50"
+          className="fixed top-0 left-0 right-0 bottom-0 w-full h-full bg-black bg-opacity-50 z-50 overflow-auto"
+          // classNmae="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center z-50 overflow-auto"
           onClick={() => setOL(false)}
         >
           <div
-            className="mb-96 max-h-[80%] relative top-0"
+            // className="mb-96 max-h-[80%] relative top-0"
+            className="bg-white rounded-lg shadow-lg max-w-full w-[90%] md:w-[50%] max-h-full overflow-auto p-6 mx-auto"
             onClick={(e) => e.stopPropagation()}
           >
             {packages.length ? <PackageForm data={packages[0]} /> : <></>}

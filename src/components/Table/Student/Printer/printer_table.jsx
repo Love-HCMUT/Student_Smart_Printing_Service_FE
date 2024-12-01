@@ -38,7 +38,6 @@ const PrinterTable = () => {
   const location = useLocation();
   const { packages, message } = location.state || [];
   useEffect(() => {
-    console.log(new Date(), packages);
     // sides
     const s = packages.map((p) => p.sides);
     const condition = { side: s.some((side) => side == 2) ? 2 : 1 };

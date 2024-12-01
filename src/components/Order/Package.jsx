@@ -3,7 +3,6 @@ import FilePreview from "./FilePreview";
 import PageSetting from "./PageSetting";
 
 const Package = ({ index, update, remove }) => {
-
   const [config, setConfig] = useState({
     copy: 1,
     sides: 2,
@@ -21,18 +20,14 @@ const Package = ({ index, update, remove }) => {
 
   //handle file, we need to upload file to MinIO and only store filename, filesize, fileURL in to object
   const [fileSelected, setfileSelected] = useState([]);
-  // console.log("listfile: ", fileSelected);
 
   useEffect(() => {
-    console.log("useeffect ", index)
     update(index, { ...config, pages: pages, files: fileSelected });
   }, [index, pages, config, fileSelected]);
-
 
   const removeFile = (fileIndex) => {
     const newfileSelected = fileSelected.filter((_, i) => i !== fileIndex);
     setfileSelected(newfileSelected);
-    console.log("remove ", fileIndex, index);
   };
 
   const uploadFile = (event, index) => {
@@ -42,8 +37,7 @@ const Package = ({ index, update, remove }) => {
       // Loaf file types from config file types
 
       const newFileSelected = [...fileSelected, file];
-      console.log("new list file update ", newFileSelected)
-      setfileSelected(prev => [...prev, file]);
+      setfileSelected((prev) => [...prev, file]);
     }
   };
 

@@ -54,7 +54,6 @@ const LoginForm = () => {
 
       try {
         // Gửi yêu cầu POST tới API
-        console.log(formData);
         const host = import.meta.env.VITE_HOST;
         const response = await axios.post(
           `${host}/api/account/login_gg`,
@@ -105,7 +104,6 @@ const LoginForm = () => {
 
     try {
       // Gửi yêu cầu POST tới API
-      console.log(formData);
       const host = import.meta.env.VITE_HOST;
       const response = await axios.post(
         `${host}/api/account/login`,

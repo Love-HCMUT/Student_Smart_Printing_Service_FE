@@ -45,7 +45,6 @@ const PrinterManagerTable = () => {
           },
         }
       );
-      console.log("Response:   ", response.data.data);
       setMOCK_DATA(response.data.data); // Cập nhật state với dữ liệu từ API
       setLoading(false); // Kết thúc trạng thái tải
     } catch (error) {
@@ -61,8 +60,6 @@ const PrinterManagerTable = () => {
 
   const columns = useMemo(() => COLUMNS, []);
   const data = MOCK_DATA;
-  // console.log("Mock: " , MOCK_DATA)
-  // console.log("data: " , data)
 
   const {
     getTableProps,
@@ -116,7 +113,6 @@ const PrinterManagerTable = () => {
     setSelectedPrinters(validSelectedPrinters);
 
     // Log danh sách máy in được chọn
-    console.log("Selected Printers:", validSelectedPrinters);
   }, [selectedRowIds, MOCK_DATA]);
 
   if (loading) {
