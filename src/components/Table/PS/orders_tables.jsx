@@ -57,7 +57,7 @@ export const PSMainTable = ({ data, printer }) => {
 
   console.log(packages);
 
-  const staffID = 3; // Local storage
+  const staffID = parseInt(localStorage.getItem("id")); // Local storage
 
   const handleDecline = (orderID, staffID) => {
     console.log(orderID, staffID);

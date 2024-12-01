@@ -96,7 +96,10 @@ const TotalOrder = ({
 
       formData.append("note", JSON.stringify(note));
 
-      formData.append("customerID", JSON.stringify(localStorage.getItem("id")));
+      formData.append(
+        "customerID",
+        JSON.stringify(parseInt(localStorage.getItem("id")))
+      );
 
       formData.append("totalCost", JSON.stringify(totalCost));
 
