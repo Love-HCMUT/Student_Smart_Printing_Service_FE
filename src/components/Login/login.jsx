@@ -8,6 +8,15 @@ import axios from "axios";
 const LoginForm = () => {
   const navigate = useNavigate();
 
+  const r = localStorage.getItem('roles');
+  if (r === "User") {
+    navigate("/user")
+  } else if (r === "SPSO") {
+    navigate("/spso")
+  } else if (r === "Staff") {
+    navigate("/staff")
+  }
+
   const [formData, setFormData] = useState({
     username: "",
     password: "",
@@ -23,8 +32,8 @@ const LoginForm = () => {
 
 
 
-   // Lấy token từ URL nếu có
-   useEffect(() => {
+  // Lấy token từ URL nếu có
+  useEffect(() => {
     const hashParams = new URLSearchParams(window.location.hash.slice(1));
     const token = hashParams.get("access_token");
     if (token) {
@@ -43,13 +52,14 @@ const LoginForm = () => {
           },
         }
       );
-      const email  = response.data.email;
+      const email = response.data.email;
 
       try {
         // Gửi yêu cầu POST tới API
         console.log(formData)
+        const host = import.meta.env.VITE_HOST
         const response = await axios.post(
-          "http://localhost:5000/api/account/login_gg",
+          `${host}/api/account/login_gg`,
           {
             username: email,
           }
@@ -61,7 +71,7 @@ const LoginForm = () => {
             },
           }
         );
-  
+
         if (response.status === 200 && response.data.status) {
           localStorage.setItem("id", response.data.data.id);
           localStorage.setItem("username", response.data.data.username);
@@ -69,25 +79,25 @@ const LoginForm = () => {
           const roles = response.data.data.roles; // roles là "SPSO"
           if (roles === "User") {
             navigate("/user")
-          } else if(roles === "SPSO") {
+          } else if (roles === "SPSO") {
             navigate("/spso")
           } else {
             navigate("/staff")
           }
           console.log("Login successful:", response.data);
-  
+
         } else {
           setError(response.data.message || "Login failed. Please try again.");
         }
       } catch (err) {
         console.error("Login error:", err);
-  
+
         setError("An error occurred while logging in.");
       } finally {
         setIsLoading(false);
       }
 
- 
+
     } catch (error) {
       console.error("Error fetching Google user info:", error);
       setError("Unable to fetch user info from Google.");
@@ -106,8 +116,9 @@ const LoginForm = () => {
     try {
       // Gửi yêu cầu POST tới API
       console.log(formData)
+      const host = import.meta.env.VITE_HOST
       const response = await axios.post(
-        "http://localhost:5000/api/account/login",
+        `${host}/api/account/login`,
         {
           username: formData.username,
           password: formData.password,
@@ -128,7 +139,7 @@ const LoginForm = () => {
         const roles = response.data.data.roles; // roles là "SPSO"
         if (roles === "User") {
           navigate("/user")
-        } else if(roles === "SPSO") {
+        } else if (roles === "SPSO") {
           navigate("/spso")
         } else {
           navigate("/staff")
@@ -147,7 +158,7 @@ const LoginForm = () => {
     }
   };
 
-  
+
   const LINK_GET_TOKEN = `https://accounts.google.com/o/oauth2/v2/auth?scope=https://www.googleapis.com/auth/userinfo.email%20https://www.googleapis.com/auth/userinfo.profile&response_type=token&redirect_uri=https://ebc7-171-247-146-191.ngrok-free.app/login&client_id=440702024444-70b3fu82r2kfpj2vhcvhb52lfbbvktvu.apps.googleusercontent.com`;
   return (
     <div className="flex-grow flex items-center justify-center min-h-screen bg-gray-100">

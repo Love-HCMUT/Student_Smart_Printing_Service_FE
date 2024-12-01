@@ -1,9 +1,16 @@
 // WelcomeBanner.jsx
-import React from "react";
+import React, { useEffect, useState } from "react";
 import iccon from "../../assets/iccon.svg";
 import background from "../../assets/background.jpg";
 
-const WelcomeBanner = ({ userName }) => {
+const WelcomeBanner = () => {
+
+  const [userName, set] = useState('')
+  useEffect(() => {
+    const un = localStorage.getItem('username')
+    set(un)
+  }, [])
+
   return (
     <div
       style={{ backgroundImage: `url(${background})` }}

@@ -27,9 +27,11 @@ export default function Header_APP({
   const [showSubLinks, setShowSubLinks] = useState(false);
 
   const handleLogout = async () => {
+    localStorage.clear()
     try {
+      const host = import.meta.env.VITE_HOST
       const response = await axios.post(
-        "http://localhost:5000/api/account/logout",
+        `${host}/api/account/logout`,
         {},
         {
           withCredentials: true,
@@ -71,9 +73,8 @@ export default function Header_APP({
             <div key={link.label} className="relative">
               {link.subLinks ? (
                 <a
-                  className={`px-5 py-4 h-[40px] text-white transition-colors ${
-                    activeLink === link.label ? "bg-[#030391]" : "bg-[#1488D8]"
-                  } hover:opacity-50`}
+                  className={`px-5 py-4 h-[40px] text-white transition-colors ${activeLink === link.label ? "bg-[#030391]" : "bg-[#1488D8]"
+                    } hover:opacity-50`}
                   onClick={() => handleLinkClick(link)}
                 >
                   {link.label}
@@ -81,9 +82,8 @@ export default function Header_APP({
               ) : (
                 <NavLink
                   to={link.href}
-                  className={`px-5 py-4 h-[40px] text-white transition-colors ${
-                    activeLink === link.label ? "bg-[#030391]" : "bg-[#1488D8]"
-                  } hover:opacity-50`}
+                  className={`px-5 py-4 h-[40px] text-white transition-colors ${activeLink === link.label ? "bg-[#030391]" : "bg-[#1488D8]"
+                    } hover:opacity-50`}
                   onClick={() => handleLinkClick(link)}
                 >
                   {link.label}

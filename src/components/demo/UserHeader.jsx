@@ -1,3 +1,4 @@
+import { useEffect, useState } from "react";
 import Header_APP from "../Header/header";
 
 export const UserHeader = ({
@@ -19,13 +20,20 @@ export const UserHeader = ({
       href: "order",
     },
   ],
-  userName = "Dương Hải Lâm",
   highlightedIndex = 0,
 }) => {
+
+  const [usename, setUsername] = useState('')
+
+  useEffect(() => {
+    const un = localStorage.getItem('username')
+    setUsername(un)
+  }, [])
+
   return (
     <Header_APP
       links={links}
-      userName={userName}
+      userName={usename}
       highlightedIndex={highlightedIndex}
     />
   );

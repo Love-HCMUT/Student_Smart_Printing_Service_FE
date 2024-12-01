@@ -1,11 +1,13 @@
 import axios from 'axios';
 
+const host = import.meta.env.VITE_HOST
+
 export const getUserBalance = async () => {
     const userId = localStorage.getItem('id');
     if (!userId) {
         throw new Error('User ID is missing');
     }
-    const API_BASE_URL = `http://localhost:3000/payment/get-balance/${userId}`;
+    const API_BASE_URL = `${host}/payment/get-balance/${userId}`;
 
     try {
         const response = await axios.get(API_BASE_URL);
@@ -21,7 +23,7 @@ export const getRecentTransactions = async () => {
     if (!userId) {
         throw new Error('User ID is missing');
     }
-    const API_BASE_URL = `http://localhost:3000/payment/get-recent-transition/${userId}`;
+    const API_BASE_URL = `${host}/payment/get-recent-transition/${userId}`;
 
     try {
         const response = await axios.get(API_BASE_URL);
@@ -39,7 +41,7 @@ export const getPaymentHistory = async () => {
         throw new Error('User ID is missing');
     }
 
-    const API_BASE_URL = `http://localhost:3000/payment/get-payment-history/${userId}`;
+    const API_BASE_URL = `${host}/payment/get-payment-history/${userId}`;
 
     try {
         const response = await axios.get(API_BASE_URL);

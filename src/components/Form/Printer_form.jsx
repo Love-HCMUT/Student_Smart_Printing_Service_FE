@@ -26,7 +26,8 @@ const PrinterForm = ({ printerId, Id, onChange }) => {
         const request = {
           ids: [printerId]
         }
-        const response = await axios.post(`http://localhost:3000/api/printer/update_printer`,
+        const host = import.meta.env.VITE_HOST
+        const response = await axios.post(`${host}/api/printer/update_printer`,
           request, // Pass the requestBody directly
           {
             headers: {
@@ -85,11 +86,12 @@ const PrinterForm = ({ printerId, Id, onChange }) => {
 
     try {
       let response;
-
+      const host = import.meta.env.VITE_HOST
       // Kiểm tra nếu printerId khác 0, thực hiện PUT (cập nhật)
       if (printerId) {
+        console.log(requestBody)
         response = await axios.put(
-          `http://localhost:3000/api/printer/update/${printerId}`,
+          `${host}/api/printer/update/${Id}/${printerId}`,
           requestBody,
           {
             headers: {
@@ -100,9 +102,10 @@ const PrinterForm = ({ printerId, Id, onChange }) => {
         confirm('Update successful');
         onChange();
       } else {
+        const host = import.meta.env.VITE_HOST
         // Nếu printerId là 0, thực hiện POST (thêm mới)
         response = await axios.post(
-          `http://localhost:3000/api/printer/add?spsoID=${Id}`,
+          `${host}/api/printer/add?spsoID=${Id}`,
           requestBody,
           {
             headers: {

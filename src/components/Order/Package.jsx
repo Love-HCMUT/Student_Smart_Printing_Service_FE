@@ -3,6 +3,7 @@ import FilePreview from "./FilePreview";
 import PageSetting from "./PageSetting";
 
 const Package = ({ index, update, remove }) => {
+
   const [config, setConfig] = useState({
     copy: 1,
     sides: 2,
@@ -26,11 +27,14 @@ const Package = ({ index, update, remove }) => {
 
   //handle file, we need to upload file to MinIO and only store filename, filesize, fileURL in to object
   const [fileSelected, setfileSelected] = useState([]);
+
   console.log("listfile: ", fileSelected);
 
   useEffect(() => {
+    console.log("useeffect ", index)
     update(index, { ...config, pages: pages, files: fileSelected });
-  }, [pages, config, fileSelected]);
+  }, [index, pages, config, fileSelected]);
+
 
   const removeFile = (index) => {
     const newfileSelected = fileSelected.filter((_, i) => i !== index);
@@ -38,15 +42,17 @@ const Package = ({ index, update, remove }) => {
     console.log("remove ", index);
   };
 
-  const uploadFile = (event) => {
+  const uploadFile = (event, index) => {
     const file = event.target.files[0];
     if (file) {
       // UPLOAD MIN-IO
       // Loaf file types from config file types
       console.log(file);
+      console.log("index", index)
 
       const newFileSelected = [...fileSelected, file];
-      setfileSelected(newFileSelected);
+      console.log("new list file update ", newFileSelected)
+      setfileSelected(prev => [...prev, file]);
     }
   };
 
@@ -313,7 +319,7 @@ const Package = ({ index, update, remove }) => {
         <div className="flex-1">
           <div className="flex items-center justify-center h-full w-full">
             <label
-              for="dropzone-file"
+              htmlFor={`dropzone-file-${index}`}
               class="flex flex-col items-center justify-center min-h-[300px] w-full border-2 border-gray-300 border-dashed rounded-lg cursor-pointer bg-white hover:bg-gray-50 transition duration-200"
             >
               <div class="flex flex-col items-center justify-center pt-5 pb-6">
@@ -342,9 +348,9 @@ const Package = ({ index, update, remove }) => {
                 </p>
               </div>
               <input
-                id="dropzone-file"
+                id={`dropzone-file-${index}`}
                 type="file"
-                class="hidden"
+                className="hidden"
                 accept={"application/pdf"} // Load from config
                 onChange={uploadFile}
               />
@@ -371,4 +377,4 @@ const Package = ({ index, update, remove }) => {
   );
 };
 
-export default memo(Package);
+export default Package;

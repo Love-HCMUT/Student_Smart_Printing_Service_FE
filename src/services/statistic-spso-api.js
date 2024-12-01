@@ -1,7 +1,9 @@
 import axios from "axios";
 
+const host = import.meta.env.VITE_HOST
+
 export const getRecentlyMonthlyOrder = async () => {
-    const API_BASE_URL = 'http://localhost:3000/statistic/spso/get-recently-monthly-order';
+    const API_BASE_URL = `${host}/statistic/spso/get-recently-monthly-order`;
     try {
         const response = await axios.post(API_BASE_URL);
         if (response.status === 200) {
@@ -16,7 +18,7 @@ export const getRecentlyMonthlyOrder = async () => {
 };
 
 export const getTotalCountService = async () => {
-    const API_BASE_URL = 'http://localhost:3000/statistic/spso/get-total-count';
+    const API_BASE_URL = `${host}/statistic/spso/get-total-count`;
 
     try {
         const response = await axios.post(API_BASE_URL);
@@ -33,7 +35,7 @@ export const getTotalCountService = async () => {
 }
 
 export const getNumberOfOrdersByMonthYear = async () => {
-    const API_BASE_URL = `http://localhost:3000/statistic/spso/get-number-of-orders-by-month-year`;
+    const API_BASE_URL = `${host}/statistic/spso/get-number-of-orders-by-month-year`;
     try {
         const response = await axios.post(API_BASE_URL)
         if (response.status === 200) {
@@ -48,7 +50,7 @@ export const getNumberOfOrdersByMonthYear = async () => {
 }
 
 export const getNumberOfTransactionsByMonthYear = async () => {
-    const API_BASE_URL = `http://localhost:3000/statistic/spso/get-number-of-transaction-by-month-year`
+    const API_BASE_URL = `${host}/statistic/spso/get-number-of-transaction-by-month-year`
     try {
         const response = await axios.post(API_BASE_URL)
         if (response.status === 200) {

@@ -1,10 +1,12 @@
 import Header_APP from "../Header/header";
+import { useEffect, useState } from "react";
+
 
 export const SPSOHeader = ({
   links = [
     {
       label: "Home",
-      href: "/spso",
+      href: "/spso",  
     },
     {
       label: "Manage Printer",
@@ -35,13 +37,20 @@ export const SPSOHeader = ({
       href: "author",
     },
   ],
-  userName = "Dương Hải Lâm",
   highlightedIndex = 0,
 }) => {
+
+  const [usename, setUsername] = useState('')
+
+  useEffect(() => {
+    const un = localStorage.getItem('username')
+    setUsername(un)
+  }, [])
+
   return (
     <Header_APP
       links={links}
-      userName={userName}
+      userName={usename}
       highlightedIndex={highlightedIndex}
     />
   );

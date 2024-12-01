@@ -11,7 +11,13 @@ import PrinterForm from '../../../Form/Printer_form';
 import axios from "axios";
 
 const PrinterManagerTable = () => {
-    const spsoEx = 1;
+    //const spsoEx = 1;
+    const spsoEx = localStorage.getItem("id");
+    if (!spsoEx) {
+        console.error("spsoID not found in localStorage");
+        return { error: "spsoID is required" };
+    }
+    // Giá trị mẫu
     const [OL, setOL] = useState(false);
     const handleOL = (b) => {
         setOL(b);
@@ -23,14 +29,10 @@ const PrinterManagerTable = () => {
     // Hàm lấy dữ liệu từ API
     const fetchMOCK_DATA = async () => {
         try {
-            // const spsoId = localStorage.getItem("id");
-            // if (!spsoId) {
-            //         console.error("spsoID not found in localStorage");
-            //          return { error: "spsoID is required" };
-            //      }
-            // Giá trị mẫu
+
+            const host = import.meta.env.VITE_HOST
             const response = await axios.get(
-                `http://localhost:3000/api/printer/get_printer?spsoID=${spsoEx}`,
+                `${host}/api/printer/get_printer?spsoID=${spsoEx}`,
                 {
                     withCredentials: true,
                     headers: {
@@ -224,8 +226,9 @@ const PrinterManagerControl = ({ selectedPrinters, onStatusChange, Id }) => {
         }
 
         try {
+            const host = import.meta.env.VITE_HOST
             await axios.put(
-                `http://localhost:5000/api/printer/update-status`,
+                `${host}/api/printer/update-status?spsoID=${Id}`,
                 {
                     printerStatus: status,
                     printerIds: selectedPrinters, // Truyền danh sách các máy in

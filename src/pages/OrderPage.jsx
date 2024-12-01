@@ -8,17 +8,20 @@ const OrderPage = () => {
   const [packages, setPackages] = useState([{}]);
   const [message, setMessage] = useState("");
 
+  console.log(packages)
+
   const addMorePackage = () => {
     const newpackages = [...packages, {}];
     setPackages(newpackages);
   };
 
   const removePackage = (index) => {
-    const newpackages = packages.filter((e, i) => i != index);
+    const newpackages = packages.filter((e, i) => i !== index);
     setPackages(newpackages);
   };
 
   const updatePackage = (index, value) => {
+    console.log("index package: ", index)
     const newpackages = packages.map((e, i) => {
       if (i === index) return value;
       else return e;
@@ -45,7 +48,7 @@ const OrderPage = () => {
       <div className="p-10 border bg-light-gray h-full w-2/3 shadow-xl flex flex-col justify-center items-center gap-10">
         {/* package */}
         {packages.map((e, i) => (
-          <Package index={i} update={updatePackage} remove={removePackage} />
+          <Package key={i} index={i} update={updatePackage} remove={removePackage} />
         ))}
 
         <div className="col-span-1 flex items-end justify-end">
