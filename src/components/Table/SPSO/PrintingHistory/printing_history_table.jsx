@@ -11,8 +11,8 @@ import CustomPagination from "../../Table_Lib/Components/Pagination2";
 const PrintingHistoryPayment = () => {
     const columns = useMemo(() => COLUMNS, []);
 
-    const [startDate, setStartDate] = useState(new Date());
-    const [endDate, setEndDate] = useState(new Date());
+    const [startDate, setStartDate] = useState(null);
+    const [endDate, setEndDate] = useState(null);
     const [searchInput, setSearchInput] = useState("");
     const [currentPage, setCurrentPage] = useState(0);
     const [totalOrders, setTotalOrders] = useState(0);
@@ -34,21 +34,27 @@ const PrintingHistoryPayment = () => {
         fetchData();
     }, [currentPage]);
 
-    const filterValueByDate = (rows, id, filterValue, start) => {
-        const [year, month, day] = filterValue.split("-");
-        const date = new Date(year, month - 1, day);
-
+    const filterDataByDate = (rows, id, filterValue) => {
+        let { startDate, endDate } = filterValue;
+        if (!startDate && !endDate) return rows;
+        startDate = new Date(startDate).toISOString();
+        endDate = new Date(endDate).toISOString();
         return rows.filter(row => {
-            const { startTime, endTime } = row.original;
-            const rowDate = new Date(start ? startTime : endTime);
+            const rowStartDate = new Date(row.original.startTime).toISOString();
+            const rowEndDate = new Date(row.original.endTime).toISOString();
 
-            if (start) {
-                return rowDate >= date;
-            } else {
-                return rowDate <= date;
+            if (startDate && endDate) {
+                return rowStartDate >= startDate && rowEndDate <= endDate
             }
+            if (startDate) {
+                return rowStartDate >= startDate
+            }
+            if (endDate) {
+                return rowEndDate <= endDate
+            }
+            return true;
         });
-    }
+    };
 
     const filterDataBySearch = (rows, id, filterValue) => {
         if (!filterValue) return rows;
@@ -64,16 +70,9 @@ const PrintingHistoryPayment = () => {
 
     const combinedFilter = (rows, id, filterValue) => {
         const { startDate, endDate, searchInput } = filterValue;
-        if (!startDate && !endDate && !searchInput) return rows;
-        if (searchInput) rows = filterDataBySearch(rows, id, searchInput);
-
-        if (startDate) {
-            rows = filterValueByDate(rows, id, startDate, true);
-        } else if (endDate) {
-            rows = filterValueByDate(rows, id, endDate, false);
-        }
-
-        return rows
+        let filteredRows = filterDataBySearch(rows, id, searchInput);
+        filteredRows = filterDataByDate(filteredRows, id, { startDate, endDate });
+        return filteredRows;
     };
 
     const {

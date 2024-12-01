@@ -1,3 +1,10 @@
+const dateSort = (rowA, rowB, columnId) => {
+    console.log(rowA.original[columnId]);
+    const dateA = new Date(rowA.original[columnId])
+    const dateB = new Date(rowB.original[columnId])
+    return dateA - dateB
+};
+
 export const COLUMNS = [
     {
         Header: 'User ID',
@@ -10,14 +17,9 @@ export const COLUMNS = [
         Header: 'Date of transaction',
         accessor: 'dateOfTransaction',
         Cell: ({ value }) => (
-            <span className="text-base font-bold text-black">{new Date(value).toLocaleString()}</span>
+            <span className="text-base font-inter text-table-text-color">{new Date(value).toLocaleString()}</span>
         ),
-        sortType: (rowA, rowB) => {
-            const dateA = new Date(rowA.original.date_of_transaction.split('/').reverse().join('-'));
-            const dateB = new Date(rowB.original.date_of_transaction.split('/').reverse().join('-'));
-            return dateA - dateB;
-        },
-
+        sortType: dateSort,
     },
     {
         Header: 'Coins',

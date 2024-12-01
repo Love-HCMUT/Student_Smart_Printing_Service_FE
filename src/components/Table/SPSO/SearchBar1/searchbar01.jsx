@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import search from '../../../../assets/search.svg';
 import Filter from '../../../../assets/filter.svg';
 
-export const SearchBar1 = ({ filter, setFilter, param = null }) => {
+export const SearchBar1 = ({ filter, setFilter, param = null, placeholder = "Search" }) => {
     const [value, setValue] = useState(filter);
 
     useEffect(() => {
@@ -18,8 +18,8 @@ export const SearchBar1 = ({ filter, setFilter, param = null }) => {
                 </div>
 
             </div>
-            <div className="flex items-center bg-gray-100 border shadow-md
-                          border-gray-300 rounded-lg w-full p-2">
+            <div className={`flex items-center ${value ? 'bg-white' : 'bg-gray-100'}  border shadow-md
+                            border-gray-300 rounded-lg w-full p-2`}>
                 <img
                     src={search}
                     alt="search"
@@ -31,8 +31,8 @@ export const SearchBar1 = ({ filter, setFilter, param = null }) => {
                         setValue(e.target.value);
                         setFilter(e.target.value);
                     }}
-                    placeholder="Search"
-                    className="text-sm bg-gray-100 focus:outline-none w-full"
+                    placeholder={placeholder}
+                    className={`text-sm ${value ? 'bg-white' : 'bg-gray-100'} focus:outline-none w-full`}
                 />
             </div>
             <div>{param}</div>
