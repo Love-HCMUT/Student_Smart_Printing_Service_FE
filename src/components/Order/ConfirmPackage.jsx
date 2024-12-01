@@ -1,14 +1,89 @@
-import React, { useLayoutEffect, useState } from "react";
+import React, { useEffect, useLayoutEffect, useState } from "react";
 import FilePreview from "./FilePreview";
+import { getNumPages } from "../../helpers/pdfManipulation";
 
-const ConfirmPackage = ({ index, data, func, removefile, updatecopy }) => {
+const getTotalPage = (pages) => {
+  const arr = pages.split(", ");
+  const totalPage = arr.reduce((result, item) => {
+    const [start, end] = item.split("-").map(Number);
+    return result + 1 + (end ? end - start : 0);
+  }, 0);
+  return totalPage;
+};
+
+const ConfirmPackage = ({
+  index,
+  data,
+  location,
+  coinPerPaper,
+  func,
+  removefile,
+  updatecopy,
+  setTotalPackages,
+  setOrder,
+}) => {
   const [format, setFormat] = useState("");
-  const [location, setLocation] = useState("null");
   const [specificPages, setSpecificPages] = useState([]);
+  const [totalPage, setTotalPage] = useState(0);
+  const [totalPaper, setTotalPaper] = useState(0);
+  const [total, setTotal] = useState(0);
 
   const handleRemoveFile = (idx) => {
     removefile(index, idx);
   };
+
+  useEffect(() => {
+    const func = async () => {
+      const pages = await Promise.all(
+        data.files.map(async (file) => {
+          const numPages = await getNumPages(file);
+          file.pages = numPages;
+          return numPages;
+        })
+      );
+
+      if (!data.pages.length) {
+        setTotalPage(
+          pages.reduce((total, page) => page * data.copy + total, 0)
+        );
+        setTotalPaper(
+          pages.reduce(
+            (total, page) =>
+              Math.ceil(Math.ceil(page / data.pages_per_sheet) / data.sides) *
+                data.copy +
+              total,
+            0
+          )
+        );
+      } else {
+        const packagePages = getTotalPage(data.pages[0].from_to);
+        setTotalPage(packagePages * data.files.length * data.copy);
+        setTotalPaper(
+          Math.ceil(
+            Math.ceil(packagePages / data.pages_per_sheet) / data.sides
+          ) *
+            data.copy *
+            data.files.length
+        );
+      }
+    };
+    func();
+    setOrder((prev) => prev.map((p, idx) => (idx === index ? data : p)));
+  }, []);
+
+  useEffect(() => {
+    setTotalPackages((prev) => {
+      if (prev.length === index) return [...prev, total];
+      const newTotalPackages = prev.map((item, idx) => {
+        return idx === index ? total : item;
+      });
+      return newTotalPackages;
+    });
+  }, [total]);
+
+  useEffect(() => {
+    setTotal(totalPaper * coinPerPaper);
+  }, [totalPaper]);
 
   useLayoutEffect(() => {
     const formatData = Object.entries(data)
@@ -23,8 +98,6 @@ const ConfirmPackage = ({ index, data, func, removefile, updatecopy }) => {
         .join(", ");
     });
     setSpecificPages(pages);
-
-    console.log("data ", data);
   }, []);
 
   return (
@@ -32,7 +105,7 @@ const ConfirmPackage = ({ index, data, func, removefile, updatecopy }) => {
       <div className="flex px-2">
         <div className="w-full font-bold text-center flex justify-center items-center">
           <h3 className="w-2/3 text-center bg-blue-400 rounded-md">
-            Package 1
+            Package {index + 1}
           </h3>
         </div>
         <button onClick={() => func(index)} className="">
@@ -95,21 +168,25 @@ const ConfirmPackage = ({ index, data, func, removefile, updatecopy }) => {
               <span className="text-blue-500 font-bold">Location:</span>{" "}
               {location}
             </p>
-            <p>
-              <span className="text-blue-500 font-bold">Specific pages:</span>
-              <br></br>
-              {specificPages.map((e, i) => (
-                <React.Fragment key={i}>
-                  {e}
-                  <br />
-                </React.Fragment>
-              ))}
-            </p>
+            {specificPages.length ? (
+              <p>
+                <span className="text-blue-500 font-bold">Specific pages:</span>
+                <br></br>
+                {specificPages.map((e, i) => (
+                  <React.Fragment key={i}>
+                    {e}
+                    <br />
+                  </React.Fragment>
+                ))}
+              </p>
+            ) : (
+              <></>
+            )}
           </div>
         </div>
 
         {/* COPY */}
-        <div className="flex items-center my-2">
+        {/* <div className="flex items-center my-2">
           <span className="font-bold mr-3">Copy</span>
 
           <div class="relative flex items-center max-w-[6rem]">
@@ -139,7 +216,7 @@ const ConfirmPackage = ({ index, data, func, removefile, updatecopy }) => {
               <span onClick={() => updatecopy(index, 1)}>+</span>
             </button>
           </div>
-        </div>
+        </div> */}
 
         {/* FILE */}
         <div>
@@ -162,92 +239,29 @@ const ConfirmPackage = ({ index, data, func, removefile, updatecopy }) => {
       <div class="h-0.5 bg-gray-400 my-4"></div>
 
       <div className="grid grid-cols-7 gap-2">
-        <span className="font-bold col-span-2">Cost paper:</span>
-        <span className="col-span-5">100</span>
+        <span className="font-bold col-span-2">Total pages:</span>
+        {totalPage ? (
+          <span className="col-span-5">{totalPage}</span>
+        ) : (
+          <span className="col-span-5">Calculating...</span>
+        )}
 
-        <span className="font-bold col-span-2">Cost service:</span>
-        <span className="col-span-5">100</span>
+        <span className="font-bold col-span-2">Total papers:</span>
+        {totalPaper ? (
+          <span className="col-span-5">{totalPaper}</span>
+        ) : (
+          <span className="col-span-5">Calculating...</span>
+        )}
 
-        <span className="font-bold col-span-2">Total:</span>
-        <span className="col-span-5">100</span>
-      </div>
+        {/* <span className="font-bold col-span-2">Cost service:</span>
+        <span className="col-span-5">100</span> */}
 
-      {/* SUMMARY */}
-      <div>
-        {/* INFOMATION */}
-        <div className="my-2">
-          <span className="font-bold">Infomation</span>
-          <div className="px-4 flex flex-col gap-1">
-            <p>
-              <span className="text-blue-500 font-bold">Format:</span>{" "}
-              ansfkasflkaslfasfgklaslkm
-            </p>
-            <p>
-              <span className="text-blue-500 font-bold">Location:</span>{" "}
-              ansfkasflkaslfasfgklaslkm
-            </p>
-            <p>
-              <span className="text-blue-500 font-bold">Color:</span>{" "}
-              ansfkasflkaslfasfgklaslkm
-            </p>
-          </div>
-        </div>
-
-        {/* COPY */}
-        <div className="flex items-center my-2">
-          <span className="font-bold mr-3">Copy</span>
-
-          <div class="relative flex items-center max-w-[6rem]">
-            <button
-              type="button"
-              id="decrement-button"
-              data-input-counter-decrement="quantity-input"
-              class="flex items-center justify-center bg-white border border-gray-300 rounded-l-lg p-1 h-8 text-xl text-gray-800 hover:bg-gray-100 focus:ring-2 focus:ring-blue-500 focus:outline-none"
-            >
-              <span>-</span>
-            </button>
-            <input
-              type="text"
-              id="quantity-input"
-              data-input-counter
-              aria-describedby="helper-text-explanation"
-              class="bg-white border border-gray-300 h-8 text-center text-gray-900 text-lg focus:ring-blue-500 focus:border-blue-500 block w-full py-1 placeholder-gray-500"
-              placeholder="999"
-              required
-            />
-            <button
-              type="button"
-              id="increment-button"
-              data-input-counter-increment="quantity-input"
-              class="flex items-center justify-center bg-white border border-gray-300 rounded-r-lg p-1 h-8 text-xl text-gray-800 hover:bg-gray-100 focus:ring-2 focus:ring-blue-500 focus:outline-none"
-            >
-              <span>+</span>
-            </button>
-          </div>
-        </div>
-
-        {/* FILE */}
-        <div>
-          <span className="font-bold">Files</span>
-          <div className="px-3">
-            <FilePreview name="filename.pdf" weight={2} />
-            <FilePreview name="filename.pdf" weight={2} />
-          </div>
-        </div>
-      </div>
-
-      {/* TOTAL */}
-      <div class="h-0.5 bg-gray-400 my-4"></div>
-
-      <div className="grid grid-cols-7 gap-2">
-        <span className="font-bold col-span-2">Cost paper:</span>
-        <span className="col-span-5">100</span>
-
-        <span className="font-bold col-span-2">Cost service:</span>
-        <span className="col-span-5">100</span>
-
-        <span className="font-bold col-span-2">Total:</span>
-        <span className="col-span-5">100</span>
+        <span className="font-bold col-span-2">Total coins:</span>
+        {total ? (
+          <span className="col-span-5">{total}</span>
+        ) : (
+          <span className="col-span-5">Calculating...</span>
+        )}
       </div>
     </div>
   );

@@ -2,19 +2,16 @@ import React, { useEffect, useState } from "react";
 import ConfirmPackage from "../components/Order/ConfirmPackage";
 import TotalOrder from "../components/Order/TotalOrder";
 import Note from "../components/Payment/Note";
+import { useLocation } from "react-router-dom";
 
 const ConfirmOrderPage = () => {
-  const [order, setOrder] = useState([]);
-  const [message, setMessage] = useState("");
+  const location = useLocation();
+  const { packages, message, printer, coinPerPaper } = location.state || [];
 
-  console.log(order);
-
-  useEffect(() => {
-    const neworder = JSON.parse(sessionStorage.getItem("order"));
-    const newmess = JSON.parse(sessionStorage.getItem("message"));
-    setOrder(neworder);
-    setMessage(newmess);
-  }, []);
+  const [messageConfirm, setMessageConfirm] = useState(message);
+  const [order, setOrder] = useState(packages);
+  const [totalPackages, setTotalPackages] = useState([]);
+  const [totalCost, setTotalCost] = useState(0);
 
   const removePackage = (index) => {
     const neworder = order.filter((_, i) => i !== index);
@@ -47,21 +44,34 @@ const ConfirmOrderPage = () => {
         <h1 className="p-2 font-bold text-2xl text-blue-800 w-full">
           Confirm your orders
         </h1>
-        {order.map((e, i) => (
-          <ConfirmPackage
-            key={i}
-            index={i}
-            data={e}
-            func={removePackage}
-            removefile={removeFile}
-            updatecopy={updateCopy}
-          />
-        ))}
-        <Note mess={message} func={setMessage} />
+        {order.map((e, i) => {
+          return (
+            <ConfirmPackage
+              key={i}
+              index={i}
+              data={e}
+              location={printer.location}
+              setTotalPackages={setTotalPackages}
+              coinPerPaper={coinPerPaper}
+              func={removePackage}
+              removefile={removeFile}
+              updatecopy={updateCopy}
+              setOrder={setOrder}
+            />
+          );
+        })}
+        <Note mess={messageConfirm} func={setMessageConfirm} />
       </div>
 
       <div className="mt-[80px] w-1/5">
-        <TotalOrder />
+        <TotalOrder
+          order={order}
+          note={messageConfirm}
+          printer={printer}
+          totalPackages={totalPackages}
+          totalCost={totalCost}
+          setTotalCost={setTotalCost}
+        />
       </div>
     </div>
   );
