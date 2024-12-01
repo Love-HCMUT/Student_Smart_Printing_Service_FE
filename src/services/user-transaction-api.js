@@ -24,6 +24,7 @@ export const cancelOrderByUser = async (orderId) => {
         if (response.status !== 200) {
             throw new Error("Failed to cancel order");
         }
+        alert(`Order: ${orderId} cancelled successfully`);
         return response.data;
     } catch (error) {
         console.error("Error canceling order:", error);

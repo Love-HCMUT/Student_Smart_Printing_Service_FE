@@ -39,7 +39,9 @@ export const COLUMNS = [
         Header: 'Complete at',
         accessor: 'completeAt',
         Cell: ({ value }) => (
-            <span className="text-xs font-inter text-table-text-color">{new Date(value).toLocaleString()}</span>
+            <span className="text-xs font-inter text-table-text-color">{
+                value ? new Date(value).toLocaleDateString() : 'N/A'
+            }</span>
         ),
         sortType: (rowA, rowB) => {
             const dateA = new Date(rowA.original.order_date.split(' ')[1].split('/').reverse().join('-') + 'T' + rowA.original.order_date.split(' ')[0]);

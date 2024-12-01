@@ -7,7 +7,7 @@ export const getUserBalance = async () => {
     if (!userId) {
         throw new Error('User ID is missing');
     }
-    const API_BASE_URL = `${host}/payment/get-balance/${userId}`;
+    const API_BASE_URL = `${host}/logPayment/get-balance/${userId}`;
 
     try {
         const response = await axios.get(API_BASE_URL);
@@ -23,7 +23,7 @@ export const getRecentTransactions = async () => {
     if (!userId) {
         throw new Error('User ID is missing');
     }
-    const API_BASE_URL = `${host}/payment/get-recent-transition/${userId}`;
+    const API_BASE_URL = `${host}/logPayment/get-recent-transition/${userId}`;
 
     try {
         const response = await axios.get(API_BASE_URL);
@@ -41,7 +41,7 @@ export const getPaymentHistory = async () => {
         throw new Error('User ID is missing');
     }
 
-    const API_BASE_URL = `${host}/payment/get-payment-history/${userId}`;
+    const API_BASE_URL = `${host}/logPayment/get-payment-history/${userId}`;
 
     try {
         const response = await axios.get(API_BASE_URL);

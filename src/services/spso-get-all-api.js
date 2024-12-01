@@ -35,7 +35,7 @@ export const getAllOrderPagination = async (page, limit) => {
 
 
 export const getAllTransaction = async () => {
-    const API_BASE_URL = `${host}/payment/spso/get-transaction/all`;
+    const API_BASE_URL = `${host}/logPayment/spso/get-transaction/all`;
     try {
         const response = await axios.post(API_BASE_URL);
         if (response.status === 200) {
@@ -50,7 +50,7 @@ export const getAllTransaction = async () => {
 };
 
 export const getAllTransactionPagination = async (page, limit) => {
-    const API_BASE_URL = `${host}/payment/spso/get-transaction-pagination?page=${page}&limit=${limit}`;
+    const API_BASE_URL = `${host}/logPayment/spso/get-transaction-pagination?page=${page}&limit=${limit}`;
     try {
         const response = await axios.get(API_BASE_URL)
         if (response.status === 200) {
@@ -66,7 +66,7 @@ export const getAllTransactionPagination = async (page, limit) => {
 }
 
 export const countTransactions = async () => {
-    const API_BASE_URL = `${host}/payment/spso/get-transaction-count`;
+    const API_BASE_URL = `${host}/logPayment/spso/get-transaction-count`;
     try {
         const response = await axios.get(API_BASE_URL);
         if (response.status === 200) {
