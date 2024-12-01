@@ -26,41 +26,41 @@ const TotalOrder = ({
       .catch((err) => console.log(err));
 
     //test
-    const arr = order.map((p) => {
-      const { files, ...config } = p;
-      return { files, config };
-    });
+    // const arr = order.map((p) => {
+    //   const { files, ...config } = p;
+    //   return { files, config };
+    // });
 
-    const formData = new FormData();
-    const pages = [];
-    arr.forEach(({ files, config }, index) => {
-      formData.append(`package${index}`, JSON.stringify(config));
-      files.forEach((file, idx) => {
-        formData.append(`${index}-${idx}`, file);
-      });
-      pages.push(files.map((file) => file.pages));
-    });
+    // const formData = new FormData();
+    // const pages = [];
+    // arr.forEach(({ files, config }, index) => {
+    //   formData.append(`package${index}`, JSON.stringify(config));
+    //   files.forEach((file, idx) => {
+    //     formData.append(`${index}-${idx}`, file);
+    //   });
+    //   pages.push(files.map((file) => file.pages));
+    // });
 
-    formData.append("pages", JSON.stringify(pages));
+    // formData.append("pages", JSON.stringify(pages));
 
-    formData.append("printerID", JSON.stringify(printer.printer_id));
+    // formData.append("printerID", JSON.stringify(printer.printer_id));
 
-    formData.append("note", JSON.stringify(note));
+    // formData.append("note", JSON.stringify(note));
 
-    formData.append("customerID", JSON.stringify(customerID));
+    // formData.append("customerID", JSON.stringify(customerID));
 
-    formData.append("totalCost", JSON.stringify(totalCost));
+    // formData.append("totalCost", JSON.stringify(totalCost));
 
-    fetch(`${import.meta.env.VITE_HOST}/order/create`, {
-      method: "POST",
-      body: formData,
-    })
-      .then((res) => res.json())
-      .then((data) => {
-        console.log(data);
-        navigate("/user");
-      })
-      .catch((err) => console.log(err));
+    // fetch(`${import.meta.env.VITE_HOST}/order/create`, {
+    //   method: "POST",
+    //   body: formData,
+    // })
+    //   .then((res) => res.json())
+    //   .then((data) => {
+    //     console.log(data);
+    //     navigate("/user");
+    //   })
+    //   .catch((err) => console.log(err));
   };
 
   useEffect(() => {
@@ -72,6 +72,46 @@ const TotalOrder = ({
         (1 - DISCOUNT_PERCENT)
     );
   }, [totalPackages]);
+
+  useEffect(() => {
+    if (balance > totalCost) {
+      const arr = order.map((p) => {
+        const { files, ...config } = p;
+        return { files, config };
+      });
+
+      const formData = new FormData();
+      const pages = [];
+      arr.forEach(({ files, config }, index) => {
+        formData.append(`package${index}`, JSON.stringify(config));
+        files.forEach((file, idx) => {
+          formData.append(`${index}-${idx}`, file);
+        });
+        pages.push(files.map((file) => file.pages));
+      });
+
+      formData.append("pages", JSON.stringify(pages));
+
+      formData.append("printerID", JSON.stringify(printer.printer_id));
+
+      formData.append("note", JSON.stringify(note));
+
+      formData.append("customerID", JSON.stringify(localStorage.getItem("id")));
+
+      formData.append("totalCost", JSON.stringify(totalCost));
+
+      fetch(`${import.meta.env.VITE_HOST}/order/create`, {
+        method: "POST",
+        body: formData,
+      })
+        .then((res) => res.json())
+        .then((data) => {
+          console.log(data);
+          navigate("/user");
+        })
+        .catch((err) => console.log(err));
+    }
+  }, [balance]);
 
   // useEffect(() => {
   //   if (balance < totalCost) return;
