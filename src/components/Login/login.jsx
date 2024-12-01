@@ -8,13 +8,13 @@ import axios from "axios";
 const LoginForm = () => {
   const navigate = useNavigate();
 
-  const r = localStorage.getItem('roles');
+  const r = localStorage.getItem("roles");
   if (r === "User") {
-    navigate("/user")
+    navigate("/user");
   } else if (r === "SPSO") {
-    navigate("/spso")
-  } else if (r === "Staff") {
-    navigate("/staff")
+    navigate("/spso");
+  } else if (r === "Printing Staff") {
+    navigate("/staff");
   }
 
   const [formData, setFormData] = useState({
@@ -29,8 +29,6 @@ const LoginForm = () => {
 
   const [error, setError] = useState(null);
   const [isLoading, setIsLoading] = useState(false);
-
-
 
   // Lấy token từ URL nếu có
   useEffect(() => {
@@ -56,14 +54,13 @@ const LoginForm = () => {
 
       try {
         // Gửi yêu cầu POST tới API
-        console.log(formData)
-        const host = import.meta.env.VITE_HOST
+        console.log(formData);
+        const host = import.meta.env.VITE_HOST;
         const response = await axios.post(
           `${host}/api/account/login_gg`,
           {
             username: email,
-          }
-          ,
+          },
           {
             withCredentials: true,
             headers: {
@@ -78,14 +75,13 @@ const LoginForm = () => {
           localStorage.setItem("roles", response.data.data.roles);
           const roles = response.data.data.roles; // roles là "SPSO"
           if (roles === "User") {
-            navigate("/user")
+            navigate("/user");
           } else if (roles === "SPSO") {
-            navigate("/spso")
+            navigate("/spso");
           } else {
-            navigate("/staff")
+            navigate("/staff");
           }
           console.log("Login successful:", response.data);
-
         } else {
           setError(response.data.message || "Login failed. Please try again.");
         }
@@ -96,17 +92,11 @@ const LoginForm = () => {
       } finally {
         setIsLoading(false);
       }
-
-
     } catch (error) {
       console.error("Error fetching Google user info:", error);
       setError("Unable to fetch user info from Google.");
     }
   };
-
-
-
-
 
   const handleLogin = async (e) => {
     e.preventDefault();
@@ -115,15 +105,14 @@ const LoginForm = () => {
 
     try {
       // Gửi yêu cầu POST tới API
-      console.log(formData)
-      const host = import.meta.env.VITE_HOST
+      console.log(formData);
+      const host = import.meta.env.VITE_HOST;
       const response = await axios.post(
         `${host}/api/account/login`,
         {
           username: formData.username,
           password: formData.password,
-        }
-        ,
+        },
         {
           withCredentials: true,
           headers: {
@@ -138,14 +127,13 @@ const LoginForm = () => {
         localStorage.setItem("roles", response.data.data.roles);
         const roles = response.data.data.roles; // roles là "SPSO"
         if (roles === "User") {
-          navigate("/user")
+          navigate("/user");
         } else if (roles === "SPSO") {
-          navigate("/spso")
+          navigate("/spso");
         } else {
-          navigate("/staff")
+          navigate("/staff");
         }
         console.log("Login successful:", response.data);
-
       } else {
         setError(response.data.message || "Login failed. Please try again.");
       }
@@ -157,7 +145,6 @@ const LoginForm = () => {
       setIsLoading(false);
     }
   };
-
 
   const LINK_GET_TOKEN = `https://accounts.google.com/o/oauth2/v2/auth?scope=https://www.googleapis.com/auth/userinfo.email%20https://www.googleapis.com/auth/userinfo.profile&response_type=token&redirect_uri=https://ebc7-171-247-146-191.ngrok-free.app/login&client_id=440702024444-70b3fu82r2kfpj2vhcvhb52lfbbvktvu.apps.googleusercontent.com`;
   return (

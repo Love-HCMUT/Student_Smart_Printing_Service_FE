@@ -2,14 +2,14 @@
 import React, { useEffect, useState } from "react";
 import iccon from "../../assets/iccon.svg";
 import background from "../../assets/background.jpg";
+import { NavLink } from "react-router-dom";
 
 const WelcomeBanner = () => {
-
-  const [userName, set] = useState('')
+  const [userName, set] = useState("");
   useEffect(() => {
-    const un = localStorage.getItem('username')
-    set(un)
-  }, [])
+    const un = localStorage.getItem("username");
+    set(un);
+  }, []);
 
   return (
     <div
@@ -25,10 +25,13 @@ const WelcomeBanner = () => {
         </div>
 
         <div className="flex justify-end">
-          <button className="flex items-center space-x-2 px-4 py-2 bg-[#41CF29] text-white font-semibold rounded-full hover:bg-[#116104] focus:outline-none">
+          <NavLink
+            to="/user/order"
+            className="flex items-center space-x-2 px-4 py-2 bg-[#41CF29] text-white font-semibold rounded-full hover:bg-[#116104] focus:outline-none"
+          >
             <img src={iccon} alt="Plus icon" className="h-5 w-5" />
             <span>New Order</span>
-          </button>
+          </NavLink>
         </div>
       </div>
     </div>
