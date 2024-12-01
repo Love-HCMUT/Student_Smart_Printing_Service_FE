@@ -7,7 +7,7 @@ export const getOrdersHistory = async () => {
     if (!userId) {
         throw new Error("User ID is missing");
     }
-    const API_BASE_URL = `${host}/order/order-history/${userId}`;
+    const API_BASE_URL = `${host}/logOrder/order-history/${userId}`;
     try {
         const response = await axios.get(API_BASE_URL);
         return response.data;
@@ -18,7 +18,7 @@ export const getOrdersHistory = async () => {
 }
 
 export const cancelOrderByUser = async (orderId) => {
-    const API_BASE_URL = `${host}/order/cancel-order/${orderId}`;
+    const API_BASE_URL = `${host}/logOrder/cancel-order/${orderId}`;
     try {
         const response = await axios.post(API_BASE_URL, { note: 'Order Cancelled by User' });
         if (response.status !== 200) {

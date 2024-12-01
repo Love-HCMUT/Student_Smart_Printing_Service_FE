@@ -3,7 +3,7 @@ const host = import.meta.env.VITE_HOST
 
 export const countOrders = async () => {
 
-    const API_BASE_URL = `${host}/order/spso/get-order-count`;
+    const API_BASE_URL = `${host}/logOrder/spso/get-order-count`;
     try {
         const response = await axios.get(API_BASE_URL);
         if (response.status === 200) {
@@ -18,7 +18,7 @@ export const countOrders = async () => {
 };
 
 export const getAllOrderPagination = async (page, limit) => {
-    const API_BASE_URL = `${host}/order/spso/get-all-orders-pagination?page=${page}&limit=${limit}`;
+    const API_BASE_URL = `${host}/logOrder/spso/get-all-orders-pagination?page=${page}&limit=${limit}`;
     try {
         const response = await axios.get(API_BASE_URL)
         if (response.status === 200) {
