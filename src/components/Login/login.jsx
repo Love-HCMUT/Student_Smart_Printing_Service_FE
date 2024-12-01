@@ -80,7 +80,6 @@ const LoginForm = () => {
           } else {
             navigate("/staff");
           }
-          console.log("Login successful:", response.data);
         } else {
           setError(response.data.message || "Login failed. Please try again.");
         }
@@ -131,7 +130,6 @@ const LoginForm = () => {
         } else {
           navigate("/staff");
         }
-        console.log("Login successful:", response.data);
       } else {
         setError(response.data.message || "Login failed. Please try again.");
       }

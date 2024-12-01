@@ -1,6 +1,8 @@
 import React, { useEffect, useState } from "react";
 import Announce from "./Announce";
 import { useNavigate } from "react-router-dom";
+import { toast, ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 const SERVICE_COST_PERCENT = 0.1;
 const DISCOUNT_PERCENT = 0.05;
@@ -108,6 +110,8 @@ const TotalOrder = ({
       })
         .then((res) => res.json())
         .then((data) => {
+          alert("Success");
+          localStorage.setItem("activeLink", "Home");
           navigate("/user");
         })
         .catch((err) => console.log(err));
@@ -148,6 +152,7 @@ const TotalOrder = ({
     <>
       <div className="w-full">
         {/* detail */}
+        <ToastContainer />
         <div className="w-full bg-white p-4 rounded-md shadow-lg">
           <h2 className="text-xl font-bold text-center">Your order</h2>
           {totalPackages.map((total, idx) => (

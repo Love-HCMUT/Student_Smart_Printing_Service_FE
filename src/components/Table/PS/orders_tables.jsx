@@ -4,6 +4,7 @@ import arrow from "../../../assets/arrow-down.svg";
 import { COLUMNS } from "./orders_columns";
 import { PSOrderHeader } from "./orders_tables_header";
 import PackageForm from "../../Form/Package_form";
+import axios from "axios";
 
 // const sample = {
 // documents: ["a.txt", "b.txt"], // List of documents
@@ -58,8 +59,15 @@ export const PSMainTable = ({ data, printer }) => {
 
   const staffID = parseInt(localStorage.getItem("id")); // Local storage
 
-  const handleDecline = (orderID, staffID) => {
-    console.log(orderID, staffID);
+  const handleDecline = async (orderID, staffID) => {
+    const response = await axios.post(
+      `${import.meta.env.VITE_HOST}/printing/decline`,
+      {
+        orderID: orderID,
+        staffID: staffID,
+        note: `Order declined by staff - ${staffID}`,
+      }
+    );
   };
 
   const handleAccept = (orderID, staffID) => {

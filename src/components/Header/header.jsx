@@ -44,7 +44,6 @@ export default function Header_APP({
       );
 
       if (response.status === 200) {
-        console.log("Logout successfully", response);
         navigate("/login"); // Redirect to login page
       } else {
         console.error("Logout failed");
