@@ -50,6 +50,7 @@ export const PSMainTable = ({ data, printer }) => {
 
   const [OL, setOL] = useState(false);
   const [packages, setPackages] = useState([]);
+  const [orderID, setOrderID] = useState();
 
   const handleDialog = (status) => {
     setOL(status);
@@ -63,7 +64,8 @@ export const PSMainTable = ({ data, printer }) => {
 
   const handleAccept = (orderID, staffID) => {
     setOL(true);
-    fetch(`${import.meta.env.VITE_HOST}/printing/${orderID}/details`)
+    setOrderID(orderID);
+    fetch(`${import.meta.env.VITE_HOST}/printing/${orderID}/details/${staffID}`)
       .then((res) => res.json())
       .then((order) => {
         setPackages(
@@ -241,7 +243,11 @@ export const PSMainTable = ({ data, printer }) => {
             className="bg-white rounded-lg shadow-lg max-w-full w-[90%] md:w-[50%] max-h-full overflow-auto p-6 mx-auto"
             onClick={(e) => e.stopPropagation()}
           >
-            {packages.length ? <PackageForm data={packages[0]} /> : <></>}
+            {packages.length ? (
+              <PackageForm orderID={orderID} data={packages[0]} />
+            ) : (
+              <></>
+            )}
           </div>
         </div>
       )}
