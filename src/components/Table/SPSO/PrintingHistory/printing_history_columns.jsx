@@ -1,10 +1,3 @@
-const parseDate = (dateString) => {
-    const [datePart, timePart] = dateString.split(' ');
-    const [day, month, year] = datePart.split('/').map(Number);
-    const [hours, minutes] = timePart.split(':').map(Number);
-    return new Date(year, month - 1, day, hours, minutes);
-};
-
 const dateSort = (rowA, rowB, columnId) => {
     console.log(rowA.original[columnId]);
     const dateA = new Date(rowA.original[columnId])

@@ -16,18 +16,15 @@ export const CustomDateInput = ({ value, onChange, placeholder = "Start Date" })
 
                     <img src={calendarIcon} alt="calendar" className="w-4 h-4 ml-2" />
                 </button>
-            )
-
-            }
+            )}
             {showDatePicker && (
                 <div className="flex flex-col items-center w-full">
                     <div className="flex justify-center w-full">
                         <input
                             type="date"
-                            value={value}
+                            value={value ? new Date(value).toISOString().split('T')[0] : new Date().toISOString().split('T')[0]}
                             onChange={(e) => {
                                 onChange(e.target.value);
-                                setShowDatePicker(false);
                             }}
                             className="block px-4 py-2 bg-white border border-gray-200 rounded-lg shadow-lg 
                                 focus:outline-none"
@@ -37,17 +34,6 @@ export const CustomDateInput = ({ value, onChange, placeholder = "Start Date" })
                     </div>
                 </div>
             )}
-            {/* <button
-                onClick={() => setShowDatePicker(!showDatePicker)}
-                className="flex items-center border border-gray-300 rounded-md p-2 w-32"
-            >
-                <img src={calendarIcon} alt="calendar" className="w-4 h-4 ml-1 mr-2" />
-                <span className={`text-sm ${!value ? 'text-gray-400' : 'text-gray-700'}`}>
-                    {value ? new Date(value).toLocaleDateString() : placeholder}
-                </span>
-            </button>
-
-            */}
         </div>
     );
 };
