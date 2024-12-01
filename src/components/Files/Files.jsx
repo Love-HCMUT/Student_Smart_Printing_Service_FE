@@ -65,6 +65,7 @@ const Files = () => {
       const response = await axios.put(`${host}/systemconfig/update`, data, {
         headers,
       });
+      alert("Success");
     } catch (error) {
       console.error("Transaction failed:", error);
     }

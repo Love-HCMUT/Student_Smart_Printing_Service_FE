@@ -68,6 +68,8 @@ export const PSMainTable = ({ data, printer }) => {
         note: `Order declined by staff - ${staffID}`,
       }
     );
+    alert("Success");
+    setOL(false);
   };
 
   const handleAccept = (orderID, staffID) => {
