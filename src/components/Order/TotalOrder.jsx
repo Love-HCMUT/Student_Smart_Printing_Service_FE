@@ -17,7 +17,7 @@ const TotalOrder = ({
   const [balance, setBalance] = useState(0);
   const handleOnClick = async () => {
     //getBalance
-    const customerID = 1; // localstorage
+    const customerID = parseInt(localStorage.getItem("id")); // localstorage
     fetch(`${import.meta.env.VITE_HOST}/order/${customerID}`)
       .then((res) => res.json())
       .then((data) => {
@@ -74,6 +74,9 @@ const TotalOrder = ({
   }, [totalPackages]);
 
   useEffect(() => {
+    console.log("balance", balance);
+    console.log("totalCost", totalCost);
+    console.log(localStorage.getItem("id"));
     if (balance > totalCost) {
       const arr = order.map((p) => {
         const { files, ...config } = p;

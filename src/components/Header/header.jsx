@@ -23,13 +23,15 @@ export default function Header_APP({
   userName = "Dương Hải Lâm",
 }) {
   const navigate = useNavigate();
-  const [activeLink, setActiveLink] = useState("Home");
+  const [activeLink, setActiveLink] = useState(
+    localStorage.getItem("activeLink") || "Home"
+  );
   const [showSubLinks, setShowSubLinks] = useState(false);
 
   const handleLogout = async () => {
-    localStorage.clear()
+    localStorage.clear();
     try {
-      const host = import.meta.env.VITE_HOST
+      const host = import.meta.env.VITE_HOST;
       const response = await axios.post(
         `${host}/api/account/logout`,
         {},
@@ -53,6 +55,7 @@ export default function Header_APP({
   };
 
   const handleLinkClick = (link) => {
+    localStorage.setItem("activeLink", link.label);
     setActiveLink(link.label);
     if (link.subLinks) {
       setShowSubLinks(true);
@@ -73,8 +76,9 @@ export default function Header_APP({
             <div key={link.label} className="relative">
               {link.subLinks ? (
                 <a
-                  className={`px-5 py-4 h-[40px] text-white transition-colors ${activeLink === link.label ? "bg-[#030391]" : "bg-[#1488D8]"
-                    } hover:opacity-50`}
+                  className={`px-5 py-4 h-[40px] text-white transition-colors ${
+                    activeLink === link.label ? "bg-[#030391]" : "bg-[#1488D8]"
+                  } hover:opacity-50`}
                   onClick={() => handleLinkClick(link)}
                 >
                   {link.label}
@@ -82,8 +86,9 @@ export default function Header_APP({
               ) : (
                 <NavLink
                   to={link.href}
-                  className={`px-5 py-4 h-[40px] text-white transition-colors ${activeLink === link.label ? "bg-[#030391]" : "bg-[#1488D8]"
-                    } hover:opacity-50`}
+                  className={`px-5 py-4 h-[40px] text-white transition-colors ${
+                    activeLink === link.label ? "bg-[#030391]" : "bg-[#1488D8]"
+                  } hover:opacity-50`}
                   onClick={() => handleLinkClick(link)}
                 >
                   {link.label}
