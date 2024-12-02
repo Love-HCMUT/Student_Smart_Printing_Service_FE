@@ -1,7 +1,7 @@
 import React, { useEffect, useRef, useState } from "react";
 import * as d3 from "d3";
 
-const CustomLineChart = ({ data, xAccessor, yAccessor, xLabel, yLabel, gradientColors, tooltipLabel = "OrderCount" }) => {
+const CustomLineChart = ({ data, xAccessor, yAccessor, xLabel, yLabel, gradientColors, tooltipLabel = "OrderCount", month, year }) => {
     const chartRef = useRef(null);
     const [dimensions, setDimensions] = useState({ width: 100, height: 100 });
 
@@ -22,14 +22,17 @@ const CustomLineChart = ({ data, xAccessor, yAccessor, xLabel, yLabel, gradientC
         if (!data) return;
         const { width, height } = dimensions;
 
-        const margin = { top: 20, right: 30, bottom: 50, left: 50 };
+        const margin = { top: 20, right: 20, bottom: 50, left: 50 };
         const innerWidth = width - margin.left - margin.right;
         const innerHeight = height - margin.top - margin.bottom;
 
-        const xDomain = [
-            new Date(2024, 0, 1),
-            new Date(2024, 11, 31)
-        ]
+        const xDomain = month ? [
+            new Date(year, month - 1, 1),
+            new Date(year, month - 1, 30)
+        ] : [
+            new Date(year, 0, 1),
+            new Date(year, 11, 31)
+        ];
 
         // Scales
         const x = d3
@@ -101,7 +104,7 @@ const CustomLineChart = ({ data, xAccessor, yAccessor, xLabel, yLabel, gradientC
         // Add axes
         svg.append("g")
             .attr("transform", `translate(0,${innerHeight})`)
-            .call(d3.axisBottom(x).tickFormat(d3.timeFormat("%b")));
+            .call(d3.axisBottom(x).tickFormat(month ? d3.timeFormat("%d") : d3.timeFormat("%b")));
 
         svg.append("g")
             .call(d3.axisLeft(y).ticks(5));
@@ -109,18 +112,17 @@ const CustomLineChart = ({ data, xAccessor, yAccessor, xLabel, yLabel, gradientC
         // Add labels
         svg.append("text")
             .attr("class", "x label")
-            .attr("text-anchor", "end")
-            .attr("x", innerWidth)
-            .attr("y", innerHeight + 40)
+            .attr("text-anchor", "middle")
+            .attr("x", innerWidth / 2)
+            .attr("y", innerHeight + margin.bottom - 10)
             .text(xLabel);
 
         svg.append("text")
             .attr("class", "y label")
-            .attr("text-anchor", "end")
-            .attr("y", -50)
-            .attr("x", -innerHeight / 2 + 40)
-            .attr("dy", ".75em")
+            .attr("text-anchor", "middle")
             .attr("transform", "rotate(-90)")
+            .attr("x", -innerHeight / 2)
+            .attr("y", -margin.left + 15)
             .text(yLabel);
 
         const tooltip = d3.select("body")
@@ -160,11 +162,10 @@ const CustomLineChart = ({ data, xAccessor, yAccessor, xLabel, yLabel, gradientC
             })
             .on("mouseout", function () {
                 tooltip.style("display", "none");
-
                 d3.select(this).attr("fill", "darkorange");
             });
 
-    }, [data, dimensions, xAccessor, yAccessor, gradientColors, xLabel, yLabel]);
+    }, [data, dimensions, xAccessor, yAccessor, gradientColors, xLabel, yLabel, month, year]);
 
     return <div className="relative w-full h-64 overflow-hidden" ref={chartRef}></div>;
 };

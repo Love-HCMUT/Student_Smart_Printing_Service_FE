@@ -1,9 +1,10 @@
 import { useEffect, useState } from "react";
 import calender from "../../assets/calendar.svg";
-export const Input = ({ label, min = 0, max = 0 }) => {
+export const Input = ({ label, min = 0, max = 0, onChange }) => {
   const [date, setDate] = useState();
   const handleOnChange = (e) => {
     setDate(e.target.value);
+    onChange(e.target.value);
   };
   if (date) console.log(date);
   return (

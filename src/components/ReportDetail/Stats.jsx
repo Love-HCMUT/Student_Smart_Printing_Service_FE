@@ -10,7 +10,7 @@ export const Stats = ({
         <div className="w-full h-full p-10 bg-[#fbfdeb] rounded-[14px] shadow flex gap-16 justify-center align-middle">
           <div className="w-[30%] h-[30%] items-center">
             <div className="w-full h-full bg-[#00b074]/20 rounded-full">
-              <img src={icon} alt="Orders" class="w-full h-full" />
+              <img src={icon} alt="Orders" className="w-full h-full" />
             </div>
           </div>
           <div className="w-[30%] h-[30%]">

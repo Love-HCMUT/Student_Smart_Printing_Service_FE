@@ -28,7 +28,10 @@ export const Year = ({ data = { year: 2023 }, chartData }) => {
           yAccessor={d => d.OrderCount}
           // xLabel="Month"
           yLabel="Order Count"
-          gradientColors={gradientColors} />
+          gradientColors={gradientColors}
+          month={undefined}
+          year={year}
+        />
       ),
       year
     })
