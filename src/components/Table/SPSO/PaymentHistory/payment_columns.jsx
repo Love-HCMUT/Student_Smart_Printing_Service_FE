@@ -17,7 +17,9 @@ export const COLUMNS = [
         Header: 'Date of transaction',
         accessor: 'dateOfTransaction',
         Cell: ({ value }) => (
-            <span className="text-base font-inter text-table-text-color">{new Date(value).toLocaleString()}</span>
+            <span className="text-base font-inter text-table-text-color">{
+                value ? new Date(value).toLocaleString() : ''
+            }</span>
         ),
         sortType: dateSort,
     },

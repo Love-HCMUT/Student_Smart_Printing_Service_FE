@@ -31,14 +31,18 @@ export const COLUMNS = [
         Header: 'File Name',
         accessor: 'fileName',
         Cell: ({ value }) => (
-            <span className="text-base font-inter text-table-text-color overflow-hidden text-ellipsis">{value}</span>
+            <span className="text-base font-inter text-table-text-color">
+                {value}
+            </span>
         ),
     },
     {
         Header: 'Start Time',
         accessor: 'startTime',
         Cell: ({ value }) => (
-            <span className="text-base font-inter text-table-text-color">{new Date(value).toLocaleString()}</span>
+            <span className="text-base font-inter text-table-text-color">{
+                value ? new Date(value).toLocaleString() : ''
+            }</span>
         ),
         sortType: dateSort,
     },
@@ -46,7 +50,9 @@ export const COLUMNS = [
         Header: 'End Time',
         accessor: 'endTime',
         Cell: ({ value }) => (
-            <span className="text-base font-inter text-table-text-color">{new Date(value).toLocaleString()}</span>
+            <span className="text-base font-inter text-table-text-color">{
+                value ? new Date(value).toLocaleString() : ''
+            }</span>
         ),
         sortType: dateSort,
     },
@@ -70,7 +76,7 @@ export const COLUMNS = [
                 <span className={`inline-block w-2 h-2 rounded-full mr-2
                     ${value === "Completed" ? 'bg-status-green-dot' :
                         value === "Cancelled" ? 'bg-status-red-text' :
-                            'text-status-gray-dot'}`}></span>
+                            'bg-slate-600'}`}></span>
                 {value}
             </span>
         ),
