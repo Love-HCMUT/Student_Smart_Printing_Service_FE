@@ -15,7 +15,7 @@ const OrdersHistoryTable = ({ data, onCancelOrder }) => {
         getTableProps,
         getTableBodyProps,
         headerGroups,
-        page, // Instead of rows, use page
+        page,
         prepareRow,
         state,
         setGlobalFilter,
@@ -33,7 +33,7 @@ const OrdersHistoryTable = ({ data, onCancelOrder }) => {
         {
             columns,
             data: tableData,
-            initialState: { pageIndex: 0, pageSize: 10 }, // Set initial page size
+            initialState: { pageIndex: 0, pageSize: 10 },
         },
         useGlobalFilter,
         useSortBy,

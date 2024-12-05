@@ -3,7 +3,6 @@ import { createRoot } from "react-dom/client";
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import "./styles/index.css";
 
-
 import App from "./App.jsx";
 
 import { PreLogin } from "./components/demo/PreLogin.jsx";
@@ -38,9 +37,8 @@ import SettingPaper from "./pages/SettingPaper.jsx";
 import TransactionHistoryPage from "./pages/TransactionHistoryPage.jsx";
 import ManagePrinterPage from "./pages/ManagePrinterPage.jsx";
 import ManageTransactionPage from "./pages/ManageTransactionPage.jsx";
-import RegisterFormSPSO from "./components/Login/register-spso.jsx"
+import RegisterFormSPSO from "./components/Login/register-spso.jsx";
 import ProtectedRoute from "./helpers/index.jsx";
-
 
 const router = createBrowserRouter([
   {
@@ -61,35 +59,52 @@ const router = createBrowserRouter([
     children: [
       {
         index: true,
-        element: <ProtectedRoute element={<WelcomeBanner/>} requiredRole="User"   />,
+        element: (
+          <ProtectedRoute element={<WelcomeBanner />} requiredRole="User" />
+        ),
       },
       {
         path: "/user/balance",
-        element:  <ProtectedRoute element={<UserBalance />} requiredRole="User"   />,
+        element: (
+          <ProtectedRoute element={<UserBalance />} requiredRole="User" />
+        ),
       },
       {
         path: "/user/balance/deposit",
-        element: <ProtectedRoute element={<PaymentPage />} requiredRole="User"   />,
+        element: (
+          <ProtectedRoute element={<PaymentPage />} requiredRole="User" />
+        ),
       },
       {
         path: "/user/balance",
-        element:  <ProtectedRoute element={<UserBalance />} requiredRole="User"   />,
+        element: (
+          <ProtectedRoute element={<UserBalance />} requiredRole="User" />
+        ),
       },
       {
         path: "/user/history",
-        element: <ProtectedRoute element={<TransactionHistoryPage />} requiredRole="User"   />,
+        element: (
+          <ProtectedRoute
+            element={<TransactionHistoryPage />}
+            requiredRole="User"
+          />
+        ),
       },
       {
         path: "/user/order",
-        element: <ProtectedRoute element={<OrderPage />} requiredRole="User"   />,
+        element: <ProtectedRoute element={<OrderPage />} requiredRole="User" />,
       },
       {
         path: "/user/order/printer",
-        element: <ProtectedRoute element={<PrinterTable />} requiredRole="User"   />,
+        element: (
+          <ProtectedRoute element={<PrinterTable />} requiredRole="User" />
+        ),
       },
       {
         path: "/user/order/confirm",
-        element: <ProtectedRoute element={<ConfirmOrderPage />} requiredRole="User"   />,
+        element: (
+          <ProtectedRoute element={<ConfirmOrderPage />} requiredRole="User" />
+        ),
       },
     ],
   },
@@ -99,11 +114,21 @@ const router = createBrowserRouter([
     children: [
       {
         index: true,
-        element: <ProtectedRoute element={<WelcomeBanner />} requiredRole="Staff"   />,
+        element: (
+          <ProtectedRoute
+            element={<WelcomeBanner />}
+            requiredRole="Printing Staff"
+          />
+        ),
       },
       {
         path: "/staff/printing",
-        element: <ProtectedRoute element={<Printers_list />} requiredRole="Staff"   />,
+        element: (
+          <ProtectedRoute
+            element={<Printers_list />}
+            requiredRole="Printing Staff"
+          />
+        ),
       },
     ],
   },
@@ -113,39 +138,59 @@ const router = createBrowserRouter([
     children: [
       {
         index: true,
-        element:  <ProtectedRoute element={<WelcomeBanner />} requiredRole="SPSO"   />,
+        element: (
+          <ProtectedRoute element={<WelcomeBanner />} requiredRole="SPSO" />
+        ),
       },
       {
         path: "/spso/printer",
-        element: <ProtectedRoute element={<PrinterManagerTable />} requiredRole="SPSO"   />,
+        element: (
+          <ProtectedRoute
+            element={<PrinterManagerTable />}
+            requiredRole="SPSO"
+          />
+        ),
       },
       {
         path: "/spso/report",
-        element: <ProtectedRoute element={<ReportList />} requiredRole="SPSO"   />,
+        element: (
+          <ProtectedRoute element={<ReportList />} requiredRole="SPSO" />
+        ),
       },
       {
         path: "/spso/report/detail",
-        element: <ProtectedRoute element={<Detail />} requiredRole="SPSO"   />,
+        element: <ProtectedRoute element={<Detail />} requiredRole="SPSO" />,
       },
       {
         path: "/spso/log/printing",
-        element: <ProtectedRoute element={<ManagePrinterPage />} requiredRole="SPSO"   />,
+        element: (
+          <ProtectedRoute element={<ManagePrinterPage />} requiredRole="SPSO" />
+        ),
       },
       {
         path: "/spso/log/payment",
-        element: <ProtectedRoute element={<ManageTransactionPage />} requiredRole="SPSO"   />,
+        element: (
+          <ProtectedRoute
+            element={<ManageTransactionPage />}
+            requiredRole="SPSO"
+          />
+        ),
       },
       {
         path: "/spso/setting/paper",
-        element: <ProtectedRoute element={<SettingPaper />} requiredRole="SPSO"   />,
+        element: (
+          <ProtectedRoute element={<SettingPaper />} requiredRole="SPSO" />
+        ),
       },
       {
         path: "/spso/setting/file",
-        element: <ProtectedRoute element={<Files />} requiredRole="SPSO"   />,
+        element: <ProtectedRoute element={<Files />} requiredRole="SPSO" />,
       },
       {
         path: "/spso/author",
-        element: <ProtectedRoute element={<RegisterFormSPSO />} requiredRole="SPSO"   />,
+        element: (
+          <ProtectedRoute element={<RegisterFormSPSO />} requiredRole="SPSO" />
+        ),
       },
     ],
   },
@@ -156,26 +201,5 @@ createRoot(document.getElementById("root")).render(
     <RouterProvider router={router} />
     {/* <App /> */}
   </StrictMode>
+  // <RouterProvider router={router} />
 );
-
-
-
-
-
-// import { StrictMode } from "react";
-// import { createRoot } from "react-dom/client";
-// import "./styles/index.css";
-// import  HeaderApp  from "./App.jsx";
-// import Login_page from "./pages/Login_page.jsx";
-// import Home_App from "./pages/Home_page.jsx";
-// import Register_page from "./pages/Register_page.jsx";
-
-// createRoot(document.getElementById("root")).render(
-//   <StrictMode>
-//     <HeaderApp />
-//     {/* <Login_page /> */}
-//     {/* <Home_App/> */}
-//     {/* <Register_page/> */}
-//     {/* <Register_after_gg/> */}
-//   </StrictMode>
-// );

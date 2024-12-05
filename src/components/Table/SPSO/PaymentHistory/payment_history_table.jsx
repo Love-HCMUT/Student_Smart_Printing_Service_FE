@@ -34,11 +34,21 @@ const PaymentHistoryTable = () => {
     }, [currentPage]);
 
     const filterDataByDate = (rows, id, filterValue) => {
-        const { startDate, endDate } = filterValue;
+        let { startDate, endDate } = filterValue;
+        if (!startDate && !endDate) return rows;
+        startDate = new Date(startDate).toISOString();
+        endDate = new Date(endDate).toISOString();
         return rows.filter(row => {
-            const rowDate = new Date(row.original.date_of_transaction);
-            if (startDate && rowDate < new Date(startDate)) return false;
-            if (endDate && rowDate > new Date(endDate)) return false;
+            const rowDate = new Date(row.original.dateOfTransaction).toISOString()
+            if (startDate && endDate) {
+                return rowDate >= startDate && rowDate <= endDate
+            }
+            if (startDate) {
+                return rowDate >= startDate
+            }
+            if (endDate) {
+                return rowDate <= endDate
+            }
             return true;
         });
     };
@@ -46,13 +56,9 @@ const PaymentHistoryTable = () => {
     const filterDataBySearch = (rows, id, filterValue) => {
         if (!filterValue) return rows;
         return rows.filter(row => {
-            const { user_ID, printer_ID, printingStaff_ID } = row.original;
-            return (
-                (user_ID && String(user_ID).toLowerCase().includes(filterValue.toLowerCase())) ||
-                (printer_ID && String(printer_ID).toLowerCase().includes(filterValue.toLowerCase())) ||
-                (printingStaff_ID && String(printingStaff_ID).toLowerCase().includes(filterValue.toLowerCase()))
-            );
-        });
+            const { ID } = row.original
+            return ID == filterValue
+        })
     };
 
     const combinedFilter = (rows, id, filterValue) => {

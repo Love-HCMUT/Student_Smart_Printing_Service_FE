@@ -1,22 +1,21 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect } from "react";
 import axios from "axios";
 
 const PrinterForm = ({ printerId, Id, onChange }) => {
-
-  const [brand, setBrand] = useState('');
-  const [model, setModel] = useState('');
-  const [status, setStatus] = useState('');
-  const [campus, setCampus] = useState('');
-  const [building, setBuilding] = useState('');
-  const [room, setRoom] = useState('');
-  const [description, setDescription] = useState('');
-  const [resolution, setResolution] = useState('');
-  const [color, setColor] = useState('');
-  const [oneTwoSide, setOneTwoSide] = useState('');
-  const [price, setPrice] = useState('');
-  const [speed, setSpeed] = useState('');
-  const [wirelessConnection, setWirelessConnection] = useState('');
-  const [printingMethod, setPrintingMethod] = useState('');
+  const [brand, setBrand] = useState("");
+  const [model, setModel] = useState("");
+  const [status, setStatus] = useState("");
+  const [campus, setCampus] = useState("");
+  const [building, setBuilding] = useState("");
+  const [room, setRoom] = useState("");
+  const [description, setDescription] = useState("");
+  const [resolution, setResolution] = useState("");
+  const [color, setColor] = useState("");
+  const [oneTwoSide, setOneTwoSide] = useState("");
+  const [price, setPrice] = useState("");
+  const [speed, setSpeed] = useState("");
+  const [wirelessConnection, setWirelessConnection] = useState("");
+  const [printingMethod, setPrintingMethod] = useState("");
 
   // Hàm để lấy dữ liệu từ API dựa trên printerId
   useEffect(() => {
@@ -24,10 +23,11 @@ const PrinterForm = ({ printerId, Id, onChange }) => {
       if (!printerId) return;
       try {
         const request = {
-          ids: [printerId]
-        }
-        const host = import.meta.env.VITE_HOST
-        const response = await axios.post(`${host}/api/printer/update_printer`,
+          ids: [printerId],
+        };
+        const host = import.meta.env.VITE_HOST;
+        const response = await axios.post(
+          `${host}/api/printer/update_printer`,
           request, // Pass the requestBody directly
           {
             headers: {
@@ -36,27 +36,26 @@ const PrinterForm = ({ printerId, Id, onChange }) => {
           }
         );
         const data = response.data.data[0];
-        // console.log(data)
 
         // Nếu có dữ liệu thì gán vào các state
         if (data) {
-          setBrand(data.brand || '');
-          setModel(data.model || '');
-          setStatus(data.status || '');
-          setCampus(data.campus || '');
-          setBuilding(data.building || '');
-          setRoom(data.room || '');
-          setDescription(data.description || '');
-          setResolution(data.resolution || '');
-          setColor(data.color || '');
-          setOneTwoSide(data.oneTwoSide || '');
-          setPrice(data.price || '');
-          setSpeed(data.speed || '');
-          setWirelessConnection(data.wirelessConnection || '');
-          setPrintingMethod(data.printingMethod || '');
+          setBrand(data.brand || "");
+          setModel(data.model || "");
+          setStatus(data.status || "");
+          setCampus(data.campus || "");
+          setBuilding(data.building || "");
+          setRoom(data.room || "");
+          setDescription(data.description || "");
+          setResolution(data.resolution || "");
+          setColor(data.color || "");
+          setOneTwoSide(data.oneTwoSide || "");
+          setPrice(data.price || "");
+          setSpeed(data.speed || "");
+          setWirelessConnection(data.wirelessConnection || "");
+          setPrintingMethod(data.printingMethod || "");
         }
       } catch (error) {
-        console.error('Error fetching printer data:', error);
+        console.error("Error fetching printer data:", error);
       }
     };
 
@@ -81,51 +80,51 @@ const PrinterForm = ({ printerId, Id, onChange }) => {
       printingMethod: printingMethod,
       campus: campus,
       building: building,
-      room: room
+      room: room,
     };
 
     try {
       let response;
-      const host = import.meta.env.VITE_HOST
+      const host = import.meta.env.VITE_HOST;
       // Kiểm tra nếu printerId khác 0, thực hiện PUT (cập nhật)
       if (printerId) {
-        console.log(requestBody)
         response = await axios.put(
           `${host}/api/printer/update/${Id}/${printerId}`,
           requestBody,
           {
             headers: {
-              'Content-Type': 'application/json',
+              "Content-Type": "application/json",
             },
           }
         );
-        confirm('Update successful');
+        confirm("Update successful");
         onChange();
       } else {
-        const host = import.meta.env.VITE_HOST
+        const host = import.meta.env.VITE_HOST;
         // Nếu printerId là 0, thực hiện POST (thêm mới)
         response = await axios.post(
           `${host}/api/printer/add?spsoID=${Id}`,
           requestBody,
           {
             headers: {
-              'Content-Type': 'application/json',
+              "Content-Type": "application/json",
             },
           }
         );
-        confirm('Add successful');
+        confirm("Add successful");
         onChange();
       }
     } catch (error) {
-      console.error('Error handling printer data:', error);
+      console.error("Error handling printer data:", error);
     }
   };
-
 
   return (
     <div className="flex items-center justify-center min-h-screen bg-gray-100">
       <div className="bg-white rounded-lg p-8 shadow-lg w-full max-w-2xl h-max max-h-screen overflow-y-auto">
-        <h2 className="text-center text-gray-600 text-lg font-semibold mb-6">PRINTER INFORMATION</h2>
+        <h2 className="text-center text-gray-600 text-lg font-semibold mb-6">
+          PRINTER INFORMATION
+        </h2>
 
         <form className="space-y-4" onSubmit={handleSubmit}>
           <input
@@ -142,7 +141,9 @@ const PrinterForm = ({ printerId, Id, onChange }) => {
               onChange={(e) => setStatus(e.target.value)}
               className="w-full p-3 border border-gray-300 rounded-md text-black appearance-none text-center"
             >
-              <option value="" disabled>Status</option>
+              <option value="" disabled>
+                Status
+              </option>
               <option value="Available">Available</option>
               <option value="Unavailable">Unavailable</option>
             </select>
@@ -221,7 +222,9 @@ const PrinterForm = ({ printerId, Id, onChange }) => {
               onChange={(e) => setOneTwoSide(e.target.value)}
               className="w-full p-3 border border-gray-300 rounded-md text-black appearance-none text-center"
             >
-              <option value="" disabled>One-/Two-side</option>
+              <option value="" disabled>
+                One-/Two-side
+              </option>
               <option value="One-side">One-side</option>
               <option value="Two-side">Two-side</option>
             </select>
@@ -233,7 +236,9 @@ const PrinterForm = ({ printerId, Id, onChange }) => {
               onChange={(e) => setWirelessConnection(e.target.value)}
               className="w-full p-3 border border-gray-300 rounded-md text-black appearance-none text-center"
             >
-              <option value="" disabled>Wireless Connection</option>
+              <option value="" disabled>
+                Wireless Connection
+              </option>
               <option value="Yes">Yes</option>
               <option value="No">No</option>
             </select>
@@ -255,7 +260,10 @@ const PrinterForm = ({ printerId, Id, onChange }) => {
           ></textarea>
 
           <div className="flex space-x-4 justify-center">
-            <button type="submit" className="bg-blue-500 text-white px-6 py-2 rounded-md hover:bg-blue-700">
+            <button
+              type="submit"
+              className="bg-blue-500 text-white px-6 py-2 rounded-md hover:bg-blue-700"
+            >
               Confirm
             </button>
           </div>

@@ -1,14 +1,12 @@
 import React, { useState } from "react";
 import Package from "../components/Order/Package";
 import Note from "../components/Payment/Note";
-import { Link, NavLink, useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 
 const OrderPage = () => {
   const navigate = useNavigate();
   const [packages, setPackages] = useState([{}]);
   const [message, setMessage] = useState("");
-
-  console.log(packages)
 
   const addMorePackage = () => {
     const newpackages = [...packages, {}];
@@ -21,7 +19,6 @@ const OrderPage = () => {
   };
 
   const updatePackage = (index, value) => {
-    console.log("index package: ", index)
     const newpackages = packages.map((e, i) => {
       if (i === index) return value;
       else return e;
@@ -30,14 +27,8 @@ const OrderPage = () => {
   };
 
   const collectData = () => {
-    // sessionStorage.setItem('order', JSON.stringify(packages))
-    // sessionStorage.setItem('message', JSON.stringify(message))
-    // console.log("store data successfully")
-    navigate("/user/order/printer");
+    navigate("/user/order/printer", { state: { packages, message } });
   };
-
-  // console.log("pack", packages)
-  // console.log(message)
 
   return (
     <div className="bg-white w-lwh flex justify-center items-center flex-col">
@@ -48,7 +39,12 @@ const OrderPage = () => {
       <div className="p-10 border bg-light-gray h-full w-2/3 shadow-xl flex flex-col justify-center items-center gap-10">
         {/* package */}
         {packages.map((e, i) => (
-          <Package key={i} index={i} update={updatePackage} remove={removePackage} />
+          <Package
+            key={i}
+            index={i}
+            update={updatePackage}
+            remove={removePackage}
+          />
         ))}
 
         <div className="col-span-1 flex items-end justify-end">

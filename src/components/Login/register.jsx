@@ -1,23 +1,19 @@
 import React, { useState, useEffect } from "react";
-import Google from "../../assets/gg.png"
+import Google from "../../assets/gg.png";
 import { useNavigate } from "react-router-dom";
-import axios from "axios"
-import CryptoJS from 'crypto-js';
-
-
-
+import axios from "axios";
+import CryptoJS from "crypto-js";
 
 const RegisterForm = () => {
-
   const navigate = useNavigate();
 
-  const r = localStorage.getItem('roles');
+  const r = localStorage.getItem("roles");
   if (r === "User") {
-    navigate("/user")
+    navigate("/user");
   } else if (r === "SPSO") {
-    navigate("/spso")
+    navigate("/spso");
   } else if (r === "Staff") {
-    navigate("/staff")
+    navigate("/staff");
   }
 
   const LINK_GET_TOKEN = `https://accounts.google.com/o/oauth2/v2/auth?scope=https://www.googleapis.com/auth/userinfo.email%20https://www.googleapis.com/auth/userinfo.profile&response_type=token&redirect_uri=http://localhost:5173/register&client_id=440702024444-70b3fu82r2kfpj2vhcvhb52lfbbvktvu.apps.googleusercontent.com`;
@@ -77,7 +73,6 @@ const RegisterForm = () => {
     }
   };
 
-
   const handleSubmit = async (e) => {
     e.preventDefault();
     setIsLoading(true);
@@ -88,17 +83,15 @@ const RegisterForm = () => {
       username: formData.username,
       password: formData.password,
       fullName: formData.fullName,
-      roles: formData.position,  // Assuming "position" is equivalent to "roles"
+      roles: formData.position, // Assuming "position" is equivalent to "roles"
       phoneNumber: phoneNumbers,
       campus: formData.workingLocationCampus,
       building: formData.workingLocationBuilding,
       room: formData.workingLocationRoom,
     };
 
-    console.log(requestBody);
-
     // Send the POST request
-    const host = import.meta.env.VITE_HOST
+    const host = import.meta.env.VITE_HOST;
     try {
       const response = await axios.post(
         `${host}/api/account/register`,
@@ -111,25 +104,25 @@ const RegisterForm = () => {
       );
 
       if (response.status === 201 && response.data.status) {
-        confirm("Register successful")
-        navigate("/login")
-        console.log("Register successful:", response.data);
+        confirm("Register successful");
+        navigate("/login");
       } else {
         setError(response.data.message || "Register failed. Please try again.");
       }
     } catch (error) {
       // Handle error response from axios
-      setError("Error during registration:", error.response ? error.response.data : error.message);
+      setError(
+        "Error during registration:",
+        error.response ? error.response.data : error.message
+      );
     } finally {
       setIsLoading(false);
     }
   };
 
-
   const isPhoneRequired =
     formData.position === "Printing Staff" || formData.position === "SPSO";
-  const isLocationRequired =
-    formData.position === "Printing Staff";
+  const isLocationRequired = formData.position === "Printing Staff";
 
   const [phoneNumbers, setPhoneNumbers] = useState([""]);
 
@@ -148,12 +141,12 @@ const RegisterForm = () => {
     setPhoneNumbers(updatedPhoneNumbers);
   };
 
-
-
   return (
     <div className="flex-grow flex items-center justify-center min-h-screen ">
       <div className="bg-white p-10 rounded-2xl shadow-2xl max-w-lg w-full space-y-8">
-        <h2 className="text-4xl font-extrabold text-center text-blue-800">Register</h2>
+        <h2 className="text-4xl font-extrabold text-center text-blue-800">
+          Register
+        </h2>
         <form className="space-y-6" onSubmit={handleSubmit}>
           <input
             type="text"
@@ -277,7 +270,9 @@ const RegisterForm = () => {
               className="flex items-center space-x-3 px-6 py-3 bg-white border-2 border-gray-300 rounded-full shadow-md hover:shadow-lg hover:border-blue-400 transition-transform transform hover:-translate-y-1 duration-300"
             >
               <img src={Google} alt="Google Logo" className="w-10 h-10" />
-              <span className="text-gray-700 font-medium">Register with Google</span>
+              <span className="text-gray-700 font-medium">
+                Register with Google
+              </span>
             </button>
           </div>
         </form>

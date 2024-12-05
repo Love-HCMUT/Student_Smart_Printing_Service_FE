@@ -9,7 +9,7 @@ const Announce = ({ status, text }) => {
         }`}
       >
         <span className={`${status ? "text-green-700" : "text-red-700"}`}>
-          {status ? "You have enough paper!" : "You do not have enough paper!"}
+          {status ? "You have enough coin!" : "You do not have enough coin!"}
         </span>
       </div>
     </div>
