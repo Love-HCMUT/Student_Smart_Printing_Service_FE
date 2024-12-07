@@ -35,7 +35,17 @@ const PrinterForm = ({ printerId, Id, onChange }) => {
             },
           }
         );
-        const data = response.data.data[0];
+        let data = response.data.data[0];
+        if (data.color == 0) {
+          data.color = "False";
+        } else {
+          data.color = "True";
+        }
+        if(data.wirelessConnection == 0) {
+          data.wirelessConnection = "No";
+        } else {
+          data.wirelessConnection = "Yes";
+        }
 
         // Nếu có dữ liệu thì gán vào các state
         if (data) {
@@ -65,23 +75,37 @@ const PrinterForm = ({ printerId, Id, onChange }) => {
   // Hàm xử lý khi form được submit
   const handleSubmit = async (e) => {
     e.preventDefault();
+    let newcolor = 0 ;
+    if (color == "True") {
+      newcolor = 1 ;
+    } else {
+      newcolor = 0;
+    }
+
+    let newwirelessConnection = 0;
+    if (wirelessConnection == "Yes") {
+      newwirelessConnection = 1 ;
+    } else {
+      newwirelessConnection = 0;
+    }
 
     const requestBody = {
       printerStatus: status,
       printerDescription: description,
       resolution: resolution,
-      colorPrinting: color,
+      colorPrinting: newcolor,
       side: oneTwoSide,
       price: price,
       model: model,
       speed: speed,
       brand: brand,
-      wireless: wirelessConnection,
+      wireless: newwirelessConnection,
       printingMethod: printingMethod,
       campus: campus,
       building: building,
       room: room,
     };
+
 
     try {
       let response;
@@ -122,27 +146,35 @@ const PrinterForm = ({ printerId, Id, onChange }) => {
   return (
     <div className="flex items-center justify-center min-h-screen bg-gray-100">
       <div className="bg-white rounded-lg p-8 shadow-lg w-full max-w-2xl h-max max-h-screen overflow-y-auto">
-        <h2 className="text-center text-gray-600 text-lg font-semibold mb-6">
+        <h2 className="text-center text-black font-bold text-lg mb-6">
           PRINTER INFORMATION
         </h2>
 
         <form className="space-y-4" onSubmit={handleSubmit}>
-          <input
-            type="text"
-            placeholder="Printer ID"
-            value={printerId}
-            readOnly
-            className="w-full p-3 border border-gray-300 rounded-md text-black text-center"
-          />
+          <div>
+            <label className="block text-black font-bold mb-2 text-center">
+              Printer ID
+            </label>
+            <input
+              type="text"
+              placeholder="Printer ID"
+              value={printerId}
+              readOnly
+              className="w-full p-3 border border-gray-300 rounded-md text-black text-center"
+            />
+          </div>
 
-          <div className="relative">
+          <div>
+            <label className="block text-black font-bold mb-2 text-center">
+              Status
+            </label>
             <select
               value={status}
               onChange={(e) => setStatus(e.target.value)}
               className="w-full p-3 border border-gray-300 rounded-md text-black appearance-none text-center"
             >
               <option value="" disabled>
-                Status
+                Select Status
               </option>
               <option value="Available">Available</option>
               <option value="Unavailable">Unavailable</option>
@@ -150,114 +182,185 @@ const PrinterForm = ({ printerId, Id, onChange }) => {
           </div>
 
           <div className="flex space-x-3">
+            <div className="w-full">
+              <label className="block text-black font-bold mb-2 text-center">
+                Campus
+              </label>
+              <input
+                type="text"
+                placeholder="Campus"
+                value={campus}
+                onChange={(e) => setCampus(e.target.value)}
+                className="w-full p-3 border border-gray-300 rounded-md text-black text-center"
+              />
+            </div>
+            <div className="w-full">
+              <label className="block text-black font-bold mb-2 text-center">
+                Building
+              </label>
+              <input
+                type="text"
+                placeholder="Building"
+                value={building}
+                onChange={(e) => setBuilding(e.target.value)}
+                className="w-full p-3 border border-gray-300 rounded-md text-black text-center"
+              />
+            </div>
+            <div className="w-full">
+              <label className="block text-black font-bold mb-2 text-center">
+                Room
+              </label>
+              <input
+                type="text"
+                placeholder="Room"
+                value={room}
+                onChange={(e) => setRoom(e.target.value)}
+                className="w-full p-3 border border-gray-300 rounded-md text-black text-center"
+              />
+            </div>
+          </div>
+
+          <div>
+            <label className="block text-black font-bold mb-2 text-center">
+              Brand/Manufacturer Name
+            </label>
             <input
               type="text"
-              placeholder="Campus"
-              value={campus}
-              onChange={(e) => setCampus(e.target.value)}
-              className="w-full p-3 border border-gray-300 rounded-md text-black text-center"
-            />
-            <input
-              type="text"
-              placeholder="Building"
-              value={building}
-              onChange={(e) => setBuilding(e.target.value)}
-              className="w-full p-3 border border-gray-300 rounded-md text-black text-center"
-            />
-            <input
-              type="text"
-              placeholder="Room"
-              value={room}
-              onChange={(e) => setRoom(e.target.value)}
+              placeholder="Brand/Manufacturer Name"
+              value={brand}
+              onChange={(e) => setBrand(e.target.value)}
               className="w-full p-3 border border-gray-300 rounded-md text-black text-center"
             />
           </div>
-
-          {/* New input fields for additional properties */}
-          <input
-            type="text"
-            placeholder="Brand/Manufacturer Name"
-            value={brand}
-            onChange={(e) => setBrand(e.target.value)}
-            className="w-full p-3 border border-gray-300 rounded-md text-black text-center"
-          />
+          <div>
+            <label className="block text-black font-bold mb-2 text-center">
+              Model
+            </label>
+            <input
+              type="text"
+              placeholder="Model"
+              value={model}
+              onChange={(e) => setModel(e.target.value)}
+              className="w-full p-3 border border-gray-300 rounded-md text-black text-center"
+            />
+          </div>
 
           <div className="flex space-x-4">
-            <input
-              type="text"
-              placeholder="Resolution"
-              value={resolution}
-              onChange={(e) => setResolution(e.target.value)}
-              className="w-full p-3 border border-gray-300 rounded-md text-black text-center"
-            />
-            <input
-              type="text"
-              placeholder="Color"
-              value={color}
-              onChange={(e) => setColor(e.target.value)}
-              className="w-full p-3 border border-gray-300 rounded-md text-black text-center"
-            />
+            <div className="w-full">
+              <label className="block text-black font-bold mb-2 text-center">
+                Resolution
+              </label>
+              <input
+                type="text"
+                placeholder="Resolution"
+                value={resolution}
+                onChange={(e) => setResolution(e.target.value)}
+                className="w-full p-3 border border-gray-300 rounded-md text-black text-center"
+              />
+            </div>
+            <div className="w-full">
+              <label className="block text-black font-bold mb-2 text-center">
+                Color
+              </label>
+              <select
+                value={color}
+                onChange={(e) => setColor(e.target.value)}
+                className="w-full p-3 border border-gray-300 rounded-md text-black appearance-none text-center"
+              >
+                <option value="" disabled>
+                  Select Color Support
+                </option>
+                <option value="True">True</option>
+                <option value="False">False</option>
+              </select>
+            </div>
           </div>
 
           <div className="flex space-x-4">
-            <input
-              type="number"
-              placeholder="Price"
-              value={price}
-              onChange={(e) => setPrice(e.target.value)}
-              className="w-full p-3 border border-gray-300 rounded-md text-black text-center"
-            />
-            <input
-              type="text"
-              placeholder="Speed"
-              value={speed}
-              onChange={(e) => setSpeed(e.target.value)}
-              className="w-full p-3 border border-gray-300 rounded-md text-black text-center"
-            />
+            <div className="w-full">
+              <label className="block text-black font-bold mb-2 text-center">
+                Price
+              </label>
+              <input
+                type="number"
+                placeholder="Price"
+                value={price}
+                onChange={(e) => setPrice(e.target.value)}
+                className="w-full p-3 border border-gray-300 rounded-md text-black text-center"
+              />
+            </div>
+            <div className="w-full">
+              <label className="block text-black font-bold mb-2 text-center">
+                Speed
+              </label>
+              <input
+                type="text"
+                placeholder="Speed"
+                value={speed}
+                onChange={(e) => setSpeed(e.target.value)}
+                className="w-full p-3 border border-gray-300 rounded-md text-black text-center"
+              />
+            </div>
           </div>
 
-          <div className="relative">
+          <div>
+            <label className="block text-black font-bold mb-2 text-center">
+              One-/Two-side
+            </label>
             <select
               value={oneTwoSide}
               onChange={(e) => setOneTwoSide(e.target.value)}
               className="w-full p-3 border border-gray-300 rounded-md text-black appearance-none text-center"
             >
               <option value="" disabled>
-                One-/Two-side
+                Select One-/Two-side
               </option>
-              <option value="One-side">One-side</option>
-              <option value="Two-side">Two-side</option>
+              <option value="1">One-side</option>
+              <option value="2">Two-side</option>
             </select>
           </div>
 
-          <div className="relative">
+          <div>
+            <label className="block text-black font-bold mb-2 text-center">
+              Wireless Connection
+            </label>
             <select
               value={wirelessConnection}
               onChange={(e) => setWirelessConnection(e.target.value)}
               className="w-full p-3 border border-gray-300 rounded-md text-black appearance-none text-center"
             >
               <option value="" disabled>
-                Wireless Connection
+                Select Wireless Connection
               </option>
               <option value="Yes">Yes</option>
               <option value="No">No</option>
             </select>
           </div>
 
-          <input
-            type="text"
-            placeholder="Printing Method"
-            value={printingMethod}
-            onChange={(e) => setPrintingMethod(e.target.value)}
-            className="w-full p-3 border border-gray-300 rounded-md text-black text-center"
-          />
+          <div>
+            <label className="block text-black font-bold mb-2 text-center">
+              Printing Method
+            </label>
+            <input
+              type="text"
+              placeholder="Printing Method"
+              value={printingMethod}
+              onChange={(e) => setPrintingMethod(e.target.value)}
+              className="w-full p-3 border border-gray-300 rounded-md text-black text-center"
+            />
+          </div>
 
-          <textarea
-            placeholder="Description"
-            value={description}
-            onChange={(e) => setDescription(e.target.value)}
-            className="w-full p-3 border border-gray-300 rounded-md text-black h-24 resize-none text-center"
-          ></textarea>
+          <div>
+            <label className="block text-black font-bold mb-2 text-center">
+              Description
+            </label>
+            <textarea
+              placeholder="Description"
+              value={description}
+              onChange={(e) => setDescription(e.target.value)}
+              className="w-full p-3 border border-gray-300 rounded-md text-black h-24 resize-none text-center"
+            ></textarea>
+          </div>
 
           <div className="flex space-x-4 justify-center">
             <button
