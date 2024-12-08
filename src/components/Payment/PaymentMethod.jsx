@@ -1,11 +1,24 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 
-const PaymentMethod = ({ byBank = true }) => {
-  const [toggle, setToggle] = useState(false)
+const PaymentMethod = ({ byBank = true, func, init = false }) => {
+  const [toggle, setToggle] = useState(init)
+
+  useEffect(() => {
+    if (init === "Bank" && byBank) setToggle(true)
+    else if (init === "Momo" && !byBank) setToggle(true)
+    else setToggle(false)
+  }, [init])
+
+  const handleClick = () => {
+    if (toggle) func(undefined)
+    else if (byBank) func("Bank")
+    else func("Momo")
+    setToggle(prev => !prev)
+  }
 
   return !byBank ? (
     <div
-      onClick={() => setToggle(prev => !prev)}
+      onClick={handleClick}
       className={`p-2 h-[100px] bg-white flex rounded-lg shadow-lg gap-3 w-[230px] px-3 py-2 border-4 ${!toggle ? "border-transparent" : "border-blue-600"} scale-75 cursor-pointer justify-around items-center`}>
       <img
         src="/momo.png"
@@ -16,7 +29,7 @@ const PaymentMethod = ({ byBank = true }) => {
     </div>
   ) : (
     <div
-      onClick={() => setToggle(prev => !prev)}
+      onClick={handleClick}
       className={`p-2 h-[100px] bg-white flex rounded-lg shadow-lg gap-3 w-[230px] px-3 py-2 border-4 ${!toggle ? "border-transparent" : "border-blue-600"} scale-75 cursor-pointer justify-around items-center`}>
       <img
         src="/bank.png"

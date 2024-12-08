@@ -9,6 +9,9 @@ const PaymentPage = () => {
   const [combo, setCombo] = useState([]);
   const [cart, setCart] = useState([]);
   const [note, setNote] = useState("");
+  const [paymentMethod, setPaymentMethod] = useState("")
+
+  console.log("note", note, "cart", cart, "paymentMethod", paymentMethod)
 
   useEffect(() => {
     const fetchComboData = async () => {
@@ -69,7 +72,21 @@ const PaymentPage = () => {
 
   const confirmTransaction = async () => {
     let money = cart.reduce((acc, curr) => acc + curr.price, 0);
-    if (money < 5000) money = 50000;
+    if (money < 5000) {
+      alert("Too litte money to do transaction")
+      return
+    }
+
+    if (!paymentMethod) {
+      alert("You have to choose payment method")
+      return
+    }
+
+    if (paymentMethod === 'Bank') {
+      alert("The system doesn't support transactions by bank currently. Please choose other methods")
+      return
+    }
+
     const data = {
       money: money,
       note: note ? note : "Giao dich moi",
@@ -150,10 +167,10 @@ const PaymentPage = () => {
 
           <div className="col-span-4 grid grid-cols-4 gap-4">
             <div className="col-span-1">
-              <PaymentMethod byBank={false} />
+              <PaymentMethod byBank={false} func={setPaymentMethod} init={paymentMethod} />
             </div>
             <div className="col-span-1">
-              <PaymentMethod />
+              <PaymentMethod func={setPaymentMethod} init={paymentMethod} />
             </div>
             <div className="col-span-1"></div> {/* Cột trống */}
             <div className="col-span-1"></div> {/* Cột trống */}

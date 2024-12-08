@@ -27,6 +27,14 @@ const SettingPaper = () => {
   }, []);
 
   const updateDays = async () => {
+    if (days[12] > 31 || days[12] < 1) {
+      alert("Date to set free paper must be a number between 1 and 31")
+      return
+    }
+    if (!days.every(e => e >= 0)) {
+      alert("Number of paper must be >= 0")
+      return
+    }
     const data = {
       filename: "paper_per_month",
       content: days,
@@ -41,7 +49,8 @@ const SettingPaper = () => {
       const response = await axios.put(`${host}/systemconfig/update`, data, {
         headers,
       });
-      alert("Success");
+      if (response.status === 200) alert("Success")
+      else alert("Fail to update")
     } catch (error) {
       console.error("Transaction failed:", error);
     }
@@ -80,7 +89,7 @@ const SettingPaper = () => {
 
         <form className="w-1/3 border border-gray-300 rounded-lg shadow-md p-5 bg-white flex flex-col">
           <span className="mb-6 text-xl font-semibold text-center">
-            FREE PAPER PER MONTH
+            DATE TO ADD PAPER EVER MONTH
           </span>
           <div className="relative z-0 w-full mb-3 group">
             <input
@@ -94,7 +103,7 @@ const SettingPaper = () => {
               name="floating_email"
               id="floating_email"
               class="block py-2.5 px-0 w-full text-xl text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none  focus:outline-none focus:ring-0 focus:border-blue-600 peer"
-              placeholder=" "
+              placeholder="The number must be 1-31"
               required
             />
             <label
@@ -104,7 +113,9 @@ const SettingPaper = () => {
               Day to add free papers
             </label>
           </div>
-
+          <span className="text-xs">
+            The number will apply for all months, if number greater than lengh of month it will be set to the last day of this month.
+          </span>
           <button
             onClick={async (e) => {
               e.preventDefault();
