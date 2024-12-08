@@ -35,6 +35,7 @@ export const Chart = ({ title, chartData, xLabel, yLabel, type, month, year }) =
         }
         month={month}
         year={year}
+        otherFlag={true}
       />
     </div>
   );

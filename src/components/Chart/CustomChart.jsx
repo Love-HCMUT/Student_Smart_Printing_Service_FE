@@ -1,7 +1,7 @@
 import React, { useEffect, useRef, useState } from "react";
 import * as d3 from "d3";
 
-const CustomLineChart = ({ data, xAccessor, yAccessor, xLabel, yLabel, gradientColors, tooltipLabel = "OrderCount", month, year }) => {
+const CustomLineChart = ({ data, xAccessor, yAccessor, xLabel, yLabel, gradientColors, tooltipLabel = "OrderCount", month, year, otherFlag = false }) => {
     const chartRef = useRef(null);
     const [dimensions, setDimensions] = useState({ width: 100, height: 100 });
 
@@ -33,6 +33,51 @@ const CustomLineChart = ({ data, xAccessor, yAccessor, xLabel, yLabel, gradientC
             new Date(year, 0, 1),
             new Date(year, 11, 31)
         ];
+
+        const normalizedData = [];
+
+        if (otherFlag) {
+            if (month) {
+                for (let i = 1; i <= 30; i++) {
+                    const date = new Date(year, month - 1, i);
+                    const found = data.find(d => new Date(d.Date).getTime() === date.getTime());
+
+                    if (tooltipLabel === "Order Count") {
+                        normalizedData.push({
+                            Date: date,
+                            OrderCount: found ? found.OrderCount : 0
+                        });
+                    } else {
+                        normalizedData.push({
+                            Date: date,
+                            TransactionCount: found ? found.TransactionCount : 0
+                        });
+                    }
+                }
+            } else {
+                for (let i = 0; i < 12; i++) {
+                    const date = new Date(year, i, 1);
+
+                    const found = data.find(
+                        d => d.MonthYear === `${year}-${String(i + 1).padStart(2, "0")}`
+                    );
+
+                    if (tooltipLabel === "Order Count") {
+                        normalizedData.push({
+                            MonthYear: date,
+                            OrderCount: found ? found.OrderCount : 0
+                        });
+                    } else {
+                        normalizedData.push({
+                            MonthYear: date,
+                            TransactionCount: found ? found.TransactionCount : 0
+                        });
+                    }
+                }
+            }
+
+            data = normalizedData;
+        }
 
         // Scales
         const x = d3
