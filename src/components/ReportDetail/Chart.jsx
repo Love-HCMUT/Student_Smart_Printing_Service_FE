@@ -1,5 +1,5 @@
 import CustomLineChart from "../Chart/CustomChart";
-export const Chart = ({ title, chartData, xLabel, yLabel, type }) => {
+export const Chart = ({ title, chartData, xLabel, yLabel, type, month, year }) => {
 
   const gradientColors = [
     { offset: "0%", color: "darkorange", opacity: 0.75 },
@@ -20,7 +20,11 @@ export const Chart = ({ title, chartData, xLabel, yLabel, type }) => {
       <div className="text-center text-xl font-semibold mb-4">{title}</div>
       <CustomLineChart
         data={chartData}
-        xAccessor={d => new Date(d.MonthYear)}
+        xAccessor={
+          month !== undefined
+            ? d => new Date(d.Date)
+            : d => new Date(d.MonthYear)
+        }
         yAccessor={
           type === "Orders" ? d => d.OrderCount : d => d.TransactionCount
         }
@@ -29,6 +33,9 @@ export const Chart = ({ title, chartData, xLabel, yLabel, type }) => {
         tooltipLabel={
           type === "Orders" ? "Order Count" : "Transaction Count"
         }
+        month={month}
+        year={year}
+        otherFlag={true}
       />
     </div>
   );

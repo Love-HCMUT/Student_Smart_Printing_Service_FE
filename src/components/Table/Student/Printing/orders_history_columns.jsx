@@ -23,13 +23,13 @@ export const COLUMNS = [
         accessor: 'orderStatus',
         Cell: ({ value }) => (
             <span className={`flex items-center p-2 rounded-full text-xs font-inter text-left w-fit px-3
-                ${value === 'Completed' ? 'bg-status-green-background text-status-green-text' : value === 'Pending' ?
-                    'bg-status-gray-background text-status-gray-text' : value === 'Cancelled' ?
-                        'bg-status-red-background text-status-red-text' :
-                        'bg-status-yellow-background text-status-yellow-text'}`}>
+                ${value === 'Completed' ? 'bg-status-green-background text-status-green-text' :
+                    value === 'Pending' ? 'bg-status-gray-background text-status-gray-text' :
+                        value === 'Cancelled' || value === 'Declined' ? 'bg-status-red-background text-status-red-text' :
+                            'bg-status-yellow-background text-status-yellow-text'}`}>
                 <span className={`inline-block w-2 h-2 rounded-full mr-2
                     ${value === 'Completed' ? 'bg-status-green-dot' : value === 'Pending'
-                        ? 'bg-status-gray-dot' : value === 'Cancelled'
+                        ? 'bg-status-gray-dot' : value === 'Cancelled' || value === 'Declined'
                             ? 'bg-status-red-text' : 'bg-status-yellow-dot'}`}></span>
                 {value}
             </span>

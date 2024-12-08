@@ -50,7 +50,7 @@ const ConfirmPackage = ({
           pages.reduce(
             (total, page) =>
               Math.ceil(Math.ceil(page / data.pages_per_sheet) / data.sides) *
-                data.copy +
+              data.copy +
               total,
             0
           )
@@ -62,8 +62,8 @@ const ConfirmPackage = ({
           Math.ceil(
             Math.ceil(packagePages / data.pages_per_sheet) / data.sides
           ) *
-            data.copy *
-            data.files.length
+          data.copy *
+          data.files.length
         );
       }
     };
@@ -236,7 +236,7 @@ const ConfirmPackage = ({
       </div>
 
       {/* TOTAL */}
-      <div class="h-0.5 bg-gray-400 my-4"></div>
+      <div className="h-0.5 bg-gray-400 my-4"></div>
 
       <div className="grid grid-cols-7 gap-2">
         <span className="font-bold col-span-2">Total pages:</span>

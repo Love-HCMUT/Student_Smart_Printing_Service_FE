@@ -6,14 +6,18 @@ import { Description } from "./Description.jsx";
 import { List } from "./List.jsx";
 import { getRecentlyMonthlyOrder } from "../../services/statistic-spso-api.js";
 
-import { useState, useEffect, useMemo } from "react";
+import { useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 
 export const ReportList = () => {
+  const navigate = useNavigate()
   const [data, setData] = useState({
     listCurrentMonth: [],
     monthYear: [],
   });
-
+  const currentYear = new Date().getFullYear()
+  const [month, setMonth] = useState(``);
+  const [year, setYear] = useState(``);
   const getThreeLatestMonths = () => {
     const names = []
     for (let i = 0; i < 3; i++) {
@@ -37,6 +41,20 @@ export const ReportList = () => {
     fetchApi()
   }, [])
 
+  const handleKeyboardEnter = (e) => {
+    if (e.key == 'Enter') {
+      e.preventDefault();
+      handleSubmit()
+    }
+  }
+  const handleSubmit = async () => {
+    if (month !== `` && year !== ``) {
+      console.log(month, year)
+      // Navigate to detail page
+      navigate(`/spso/report/detail`, { state: { month, year } })
+    }
+  }
+
   return (
     <>
       <div className="m-auto max-w-[70%] h-screen flex flex-col justify-center align-middle">
@@ -44,8 +62,10 @@ export const ReportList = () => {
           <Head>
             <Filters />
             <Search />
-            <Input label="Month" min={1} max={12} />
-            <Input label="Year" min={2000} max={2050} />
+            <form className="flex" onKeyDown={handleKeyboardEnter}>
+              <Input label="Month" min={1} max={12} onChange={setMonth} />
+              <Input label="Year" min={2000} max={currentYear} onChange={setYear} />
+            </form>
           </Head>
           <Description title="Report" description="Monthly/Yearly Reports" />
           <div className="w-full">
