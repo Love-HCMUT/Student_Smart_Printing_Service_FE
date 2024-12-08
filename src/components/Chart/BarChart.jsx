@@ -33,13 +33,18 @@ const CustomBarChart = ({ data, year, month }) => {
         }));
 
         // Merge data into fullData
-        data.forEach(d => {
-            const date = new Date(d.Date).toISOString();
-            const index = fullData.findIndex(x => x.Date === date);
-            if (index >= 0) {
-                fullData[index].OrderCount = d.OrderCount;
-            }
-        });
+        try {
+            data.forEach(d => {
+                if (!d.Date) return;
+                const date = new Date(d.Date).toISOString();
+                const index = fullData.findIndex(x => x.Date === date);
+                if (index >= 0) {
+                    fullData[index].OrderCount = d.OrderCount;
+                }
+            });
+        } catch (error) {
+            console.log(error)
+        }
 
         // Parse data
         const parsedData = fullData.map(item => ({
