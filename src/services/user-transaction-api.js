@@ -20,14 +20,19 @@ export const getOrdersHistory = async () => {
 export const cancelOrderByUser = async (orderId) => {
     const API_BASE_URL = `${host}/logOrder/cancel-order/${orderId}`;
     try {
-        const response = await axios.post(API_BASE_URL, { note: 'Order Cancelled by User' });
-        if (response.status !== 200) {
-            throw new Error("Failed to cancel order");
-        }
-        alert(`Order: ${orderId} cancelled successfully`);
+        const response = await axios.post(API_BASE_URL, { note: "User cancelled" });
+        alert(`Order: ${orderId} has been cancelled`);
         return response.data;
     } catch (error) {
-        console.error("Error canceling order:", error);
-        throw new Error("Failed to cancel order");
+        if (error.response) {
+            const errorMessage = error.response.data.error || `Unknown error occurred`;
+            alert(`Cannot cancel order: ${errorMessage}`);
+        } else if (error.request) {
+            alert(`Cannot cancel order: No response received`);
+        } else {
+            alert(`Cannot cancel order: ${error.message}`);
+        }
+    } finally {
+        window.location.reload();
     }
 }

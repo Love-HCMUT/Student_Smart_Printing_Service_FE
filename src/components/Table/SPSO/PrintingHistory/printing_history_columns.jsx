@@ -71,12 +71,14 @@ export const COLUMNS = [
         Cell: ({ value }) => (
             <span className={`flex items-center justify-center p-2 rounded-full text-base font-inter text-center
                 ${value === "Completed" ? 'bg-status-green-background text-status-green-text' :
-                    value === "Cancelled" ? 'bg-status-red-background text-status-red-text ' :
-                        'bg-status-gray-background text-status-gray-text'}`}>
+                    value === "Cancelled" || value === "Declined" ? 'bg-status-red-background text-status-red-text ' :
+                        value === "Pending" ? 'bg-status-yellow-background text-status-yellow-text' :
+                            'bg-status-gray-background text-status-gray-text'}`}>
                 <span className={`inline-block w-2 h-2 rounded-full mr-2
                     ${value === "Completed" ? 'bg-status-green-dot' :
-                        value === "Cancelled" ? 'bg-status-red-text' :
-                            'bg-slate-600'}`}></span>
+                        value === "Cancelled" || value === "Declined" ? 'bg-status-red-text' :
+                            value === "Pending" ? 'bg-status-yellow-dot' :
+                                'bg-slate-600'}`}></span>
                 {value}
             </span>
         ),
