@@ -29,8 +29,6 @@ export const Detail = () => {
         })
         setOrder(data.order)
         setTransaction(data.transaction)
-
-        console.log(data);
       } catch (error) {
         console.log(error);
       }

@@ -3,7 +3,6 @@ import returnValue from "./ReturnValue"
 
 export const Month = ({ data = { month: 9, year: 2024 }, chartData }) => {
   const { month, year } = data;
-  // console.log(chartData)
   if (!chartData) {
     return returnValue({
       context: (
