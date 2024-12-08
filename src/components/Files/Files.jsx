@@ -4,7 +4,6 @@ import { Body } from "./Body.jsx";
 import { Foot } from "./Foot.jsx";
 import { Head } from "./Head.jsx";
 const Files = () => {
-
   const [types, setTypes] = useState({
     pdf: false,
     docx: false,
@@ -20,55 +19,57 @@ const Files = () => {
     ppt: 0,
   });
 
-  console.log("type", types)
-
   useEffect(() => {
     const fetchPaperSettingData = async () => {
       try {
-        const host = import.meta.env.VITE_HOST
-        const response = await axios.get(`${host}/systemconfig/load-file/filetype`)
+        const host = import.meta.env.VITE_HOST;
+        const response = await axios.get(
+          `${host}/systemconfig/load-file/filetype`
+        );
         const newtypes = response.data.data.reduce((acc, curr) => {
-          acc[curr] = 1; return acc
-        }, {})
-        setTypes(prev => ({ ...prev, ...newtypes }));
+          acc[curr] = 1;
+          return acc;
+        }, {});
+        setTypes((prev) => ({ ...prev, ...newtypes }));
+      } catch (error) {
+        console.log(error);
       }
-      catch (error) {
-        console.log(error)
-      }
-    }
+    };
 
-    fetchPaperSettingData()
-  }, [])
+    fetchPaperSettingData();
+  }, []);
 
   const changeType = (tyepname, value) => {
-    const newtype = { ...types, [tyepname]: value }
-    setTypes(newtype)
-  }
+    const newtype = { ...types, [tyepname]: value };
+    setTypes(newtype);
+  };
 
   const updateType = async () => {
     const arr = Object.entries(types)
-      .map(([key, value]) => { if (value) return key })
-      .filter(e => e !== undefined)
+      .map(([key, value]) => {
+        if (value) return key;
+      })
+      .filter((e) => e !== undefined);
 
     const data = {
-      "filename": "filetype",
-      "content": arr
-    }
+      filename: "filetype",
+      content: arr,
+    };
     const headers = {
-      'Content-Type': 'application/json'  // Sửa lại typo
+      "Content-Type": "application/json", // Sửa lại typo
     };
 
     const host = import.meta.env.VITE_HOST;
 
     try {
-      const response = await axios.put(`${host}/systemconfig/update`, data, { headers });
-      console.log(response.data);
+      const response = await axios.put(`${host}/systemconfig/update`, data, {
+        headers,
+      });
+      alert("Success");
     } catch (error) {
-      console.error('Transaction failed:', error);
+      console.error("Transaction failed:", error);
     }
-  }
-
-
+  };
 
   return (
     <>

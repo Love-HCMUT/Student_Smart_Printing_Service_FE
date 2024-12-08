@@ -9,7 +9,6 @@ export const Search = () => {
   };
 
   const handleOnClick = (e) => {
-    console.log(value);
     setValue("");
   };
 

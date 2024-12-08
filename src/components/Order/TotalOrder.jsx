@@ -1,6 +1,8 @@
 import React, { useEffect, useState } from "react";
 import Announce from "./Announce";
 import { useNavigate } from "react-router-dom";
+import { toast, ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 const SERVICE_COST_PERCENT = 0.1;
 const DISCOUNT_PERCENT = 0.05;
@@ -17,7 +19,7 @@ const TotalOrder = ({
   const [balance, setBalance] = useState(0);
   const handleOnClick = async () => {
     //getBalance
-    const customerID = 1; // localstorage
+    const customerID = parseInt(localStorage.getItem("id")); // localstorage
     fetch(`${import.meta.env.VITE_HOST}/order/${customerID}`)
       .then((res) => res.json())
       .then((data) => {
@@ -57,7 +59,6 @@ const TotalOrder = ({
     // })
     //   .then((res) => res.json())
     //   .then((data) => {
-    //     console.log(data);
     //     navigate("/user");
     //   })
     //   .catch((err) => console.log(err));
@@ -96,7 +97,10 @@ const TotalOrder = ({
 
       formData.append("note", JSON.stringify(note));
 
-      formData.append("customerID", JSON.stringify(localStorage.getItem("id")));
+      formData.append(
+        "customerID",
+        JSON.stringify(parseInt(localStorage.getItem("id")))
+      );
 
       formData.append("totalCost", JSON.stringify(totalCost));
 
@@ -106,7 +110,8 @@ const TotalOrder = ({
       })
         .then((res) => res.json())
         .then((data) => {
-          console.log(data);
+          alert("Success");
+          localStorage.setItem("activeLink", "Home");
           navigate("/user");
         })
         .catch((err) => console.log(err));
@@ -119,7 +124,6 @@ const TotalOrder = ({
   //     const { files, ...config } = p;
   //     return { files, config };
   //   });
-  //   console.log(arr);
   //   const formData = new FormData();
   //   // return;
   //   arr.forEach(({ files, config }, index) => {
@@ -148,6 +152,7 @@ const TotalOrder = ({
     <>
       <div className="w-full">
         {/* detail */}
+        <ToastContainer />
         <div className="w-full bg-white p-4 rounded-md shadow-lg">
           <h2 className="text-xl font-bold text-center">Your order</h2>
           {totalPackages.map((total, idx) => (

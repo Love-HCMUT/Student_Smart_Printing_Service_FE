@@ -18,6 +18,8 @@ const PackageForm = ({
     isColorAllPages: false,
     isColorCover: false,
   },
+  orderID = 1,
+  logNumber = 2,
 }) => {
   const {
     documents,
@@ -34,12 +36,13 @@ const PackageForm = ({
     isColorAllPages,
     isColorCover,
   } = data;
-
-  const handlePrintFile = async (e, { url, fileName }) => {
+  const handlePrintFile = async (e, { url, fileName, id }) => {
     e.stopPropagation();
     try {
       const response = await axios.get(
-        `${import.meta.env.VITE_HOST}/printing/minioFile/${url}`,
+        `${
+          import.meta.env.VITE_HOST
+        }/printing/printFile/${url}/${orderID}/${logNumber}/${id}`,
         {
           responseType: "blob", // Handle binary data
         }

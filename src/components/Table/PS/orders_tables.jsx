@@ -4,6 +4,7 @@ import arrow from "../../../assets/arrow-down.svg";
 import { COLUMNS } from "./orders_columns";
 import { PSOrderHeader } from "./orders_tables_header";
 import PackageForm from "../../Form/Package_form";
+import axios from "axios";
 
 // const sample = {
 // documents: ["a.txt", "b.txt"], // List of documents
@@ -50,22 +51,31 @@ export const PSMainTable = ({ data, printer }) => {
 
   const [OL, setOL] = useState(false);
   const [packages, setPackages] = useState([]);
+  const [orderID, setOrderID] = useState();
 
   const handleDialog = (status) => {
     setOL(status);
   };
 
-  console.log(packages);
+  const staffID = parseInt(localStorage.getItem("id")); // Local storage
 
-  const staffID = 3; // Local storage
-
-  const handleDecline = (orderID, staffID) => {
-    console.log(orderID, staffID);
+  const handleDecline = async (orderID, staffID) => {
+    const response = await axios.post(
+      `${import.meta.env.VITE_HOST}/printing/decline`,
+      {
+        orderID: orderID,
+        staffID: staffID,
+        note: `Order declined by staff - ${staffID}`,
+      }
+    );
+    alert("Success");
+    setOL(false);
   };
 
   const handleAccept = (orderID, staffID) => {
     setOL(true);
-    fetch(`${import.meta.env.VITE_HOST}/printing/${orderID}/details`)
+    setOrderID(orderID);
+    fetch(`${import.meta.env.VITE_HOST}/printing/${orderID}/details/${staffID}`)
       .then((res) => res.json())
       .then((order) => {
         setPackages(
@@ -234,14 +244,20 @@ export const PSMainTable = ({ data, printer }) => {
       </div>
       {OL && (
         <div
-          className="fixed top-0 left-0 right-0 bottom-0 w-full h-full bg-black bg-opacity-50 flex justify-center items-center z-50"
+          className="fixed top-0 left-0 right-0 bottom-0 w-full h-full bg-black bg-opacity-50 z-50 overflow-auto"
+          // classNmae="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center z-50 overflow-auto"
           onClick={() => setOL(false)}
         >
           <div
-            className="mb-96 max-h-[80%] relative top-0"
+            // className="mb-96 max-h-[80%] relative top-0"
+            className="bg-white rounded-lg shadow-lg max-w-full w-[90%] md:w-[50%] max-h-full overflow-auto p-6 mx-auto"
             onClick={(e) => e.stopPropagation()}
           >
-            {packages.length ? <PackageForm data={packages[0]} /> : <></>}
+            {packages.length ? (
+              <PackageForm orderID={orderID} data={packages[0]} />
+            ) : (
+              <></>
+            )}
           </div>
         </div>
       )}

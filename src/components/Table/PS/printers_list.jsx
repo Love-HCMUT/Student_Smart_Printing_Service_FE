@@ -22,7 +22,7 @@ export const Printers_list = () => {
 
   useEffect(() => {
     const host = import.meta.env.VITE_HOST;
-    const staffID = 3; // local storage
+    const staffID = parseInt(localStorage.getItem("id")); // local storage
     fetch(`${host}/printing/${staffID}`)
       .then((res) => res.json())
       .then((data) => {

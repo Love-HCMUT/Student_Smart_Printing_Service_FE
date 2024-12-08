@@ -6,7 +6,6 @@ export const Input = ({ label, min = 0, max = 0, onChange }) => {
     setDate(e.target.value);
     onChange(e.target.value);
   };
-  if (date) console.log(date);
   return (
     <>
       <div className="px-[16px] py-2 bg-white rounded-lg border border-[#dddddd] justify-center items-center gap-2 inline-flex">
