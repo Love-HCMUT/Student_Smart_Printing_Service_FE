@@ -73,6 +73,7 @@ const PaymentPage = () => {
     const data = {
       money: money,
       note: note ? note : "Giao dich moi",
+      id: localStorage.getItem("id"),
       combo: cart,
     };
 
@@ -87,37 +88,39 @@ const PaymentPage = () => {
       });
       const url = response.data.data.payUrl;
       const orderId = response.data.data.orderId;
+
+      // open momo gateway 
       window.open(url);
       const checkstatus = await axios.get(`${host}/payment/status/${orderId}`);
-      ///handle config
+
 
       if (checkstatus.data.data.resultCode === 0)
         alert("Your payment is successfull");
       else alert("your payment is fail, money will be refunded");
 
-      const combo = JSON.parse(checkstatus.data.data.extraData);
-      const body = {
-        resultCode: checkstatus.data.data.resultCode,
-        extraData: combo,
-        orderInfo: note,
-        amount: checkstatus.data.data.amount,
-        id: localStorage.getItem("id"),
-      };
+      // const combo = JSON.parse(checkstatus.data.data.extraData);
+      // const body = {
+      //   resultCode: checkstatus.data.data.resultCode,
+      //   extraData: combo,
+      //   orderInfo: note,
+      //   amount: checkstatus.data.data.amount,
+      //   id: localStorage.getItem("id"),
+      // };
 
-      const updatePaymentLog = await axios.post(
-        `${host}/payment/result`,
-        body,
-        { headers }
-      );
+      // const updatePaymentLog = await axios.post(
+      //   `${host}/payment/result`,
+      //   body,
+      //   { headers }
+      // );
 
-      const updateCoins = await axios.patch(
-        `${host}/payment/balance`,
-        {
-          id: localStorage.getItem("id"),
-          money: checkstatus.data.data.amount,
-        },
-        { headers }
-      );
+      // const updateCoins = await axios.patch(
+      //   `${host}/payment/balance`,
+      //   {
+      //     id: localStorage.getItem("id"),
+      //     money: checkstatus.data.data.amount,
+      //   },
+      //   { headers }
+      // );
     } catch (error) {
       console.error("Transaction failed:", error);
     }
