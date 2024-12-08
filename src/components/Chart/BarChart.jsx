@@ -28,35 +28,35 @@ const CustomBarChart = ({ data, year, month }) => {
         // Generate full data for the current month
         const daysInMonth = new Date(year, month, 0).getDate();
         const fullData = Array.from({ length: daysInMonth }, (_, i) => ({
-            payment_date: new Date(year, month - 1, i + 1).toISOString(),
-            total_orders: 0
+            Date: new Date(year, month - 1, i + 1).toISOString(),
+            OrderCount: 0
         }));
 
         // Merge data into fullData
         data.forEach(d => {
-            const date = new Date(d.payment_date).toISOString();
-            const index = fullData.findIndex(x => x.payment_date === date);
+            const date = new Date(d.Date).toISOString();
+            const index = fullData.findIndex(x => x.Date === date);
             if (index >= 0) {
-                fullData[index].total_orders = d.total_orders;
+                fullData[index].OrderCount = d.OrderCount;
             }
         });
 
         // Parse data
         const parsedData = fullData.map(item => ({
             ...item,
-            payment_date: new Date(item.payment_date)
+            Date: new Date(item.Date)
         }));
 
         // Scales
         const x = d3
             .scaleBand()
-            .domain(parsedData.map(d => d.payment_date))
+            .domain(parsedData.map(d => d.Date))
             .range([0, innerWidth])
             .padding(0.2);
 
         const y = d3
             .scaleLinear()
-            .domain([0, d3.max(parsedData, d => d.total_orders)])
+            .domain([0, d3.max(parsedData, d => d.OrderCount)])
             .nice()
             .range([innerHeight, 0]);
 
@@ -106,7 +106,7 @@ const CustomBarChart = ({ data, year, month }) => {
             .enter()
             .append("rect")
             .attr("class", "bar")
-            .attr("x", d => x(d.payment_date))
+            .attr("x", d => x(d.Date))
             .attr("width", x.bandwidth())
             .attr("y", innerHeight)
             .attr("height", 0)
@@ -114,9 +114,9 @@ const CustomBarChart = ({ data, year, month }) => {
             .on("mouseover", function (event, d) {
                 tooltip.style("display", "block")
                     .html(`
-                        <strong>Date:</strong> ${d3.timeFormat("%Y-%m-%d")(d.payment_date)}<br/>
-                        <strong>Orders:</strong> ${d.total_orders}<br/>
-                        <strong>Message:</strong> ${d.total_orders > 50 ? "High demand" : "Normal demand"}
+                        <strong>Date:</strong> ${d3.timeFormat("%Y-%m-%d")(d.Date)}<br/>
+                        <strong>Orders:</strong> ${d.OrderCount}<br/>
+                        <strong>Message:</strong> ${d.OrderCount > 50 ? "High demand" : "Normal demand"}
                     `);
                 d3.select(this).style("fill", "darkorange");
             })
@@ -132,8 +132,8 @@ const CustomBarChart = ({ data, year, month }) => {
         // Animate bars
         bars.transition()
             .duration(800)
-            .attr("y", d => y(d.total_orders))
-            .attr("height", d => innerHeight - y(d.total_orders));
+            .attr("y", d => y(d.OrderCount))
+            .attr("height", d => innerHeight - y(d.OrderCount));
 
     }, [data, dimensions, year, month]);
 

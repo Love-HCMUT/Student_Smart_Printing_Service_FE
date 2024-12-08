@@ -2,36 +2,42 @@ import { Stats } from "./Stats.jsx";
 import payment from "../../assets/credit-card.svg";
 import cancel from "../../assets/cancel.svg";
 import { Chart } from "./Chart.jsx";
-import { getNumberOfOrdersByMonthYear, getNumberOfTransactionsByMonthYear, getTotalCountService } from "../../services/statistic-spso-api";
 import { useEffect, useState } from "react";
+import { useLocation } from "react-router-dom";
+import { getCurrentMonthlyOrder } from "../../services/statistic-spso-api.js"
 
 export const Detail = () => {
+  let location = useLocation()
+  const { month, year } = location.state
+
+  const [order, setOrder] = useState([])
+  const [transaction, setTransaction] = useState([])
   const [total, setTotal] = useState({
     totalOrder: 0,
     totalTransaction: 0,
     totalCanceledOrder: 0
   })
-  const [order, setOrder] = useState([])
-  const [transaction, setTransaction] = useState([])
 
   useEffect(() => {
     const fetchData = async () => {
       try {
-        let data = await getTotalCountService()
-        setTotal(data)
+        const data = await getCurrentMonthlyOrder(month, year);
+        setTotal({
+          totalOrder: data.countOrder[0].totalOrders,
+          totalTransaction: data.countTransaction[0].totalTransactions,
+          totalCanceledOrder: data.countCancel[0].totalCanceledOrder
+        })
+        setOrder(data.order)
+        setTransaction(data.transaction)
 
-        data = await getNumberOfOrdersByMonthYear()
-        setOrder(data)
-
-        data = await getNumberOfTransactionsByMonthYear()
-        setTransaction(data)
-
+        console.log(data);
       } catch (error) {
-        console.log(error)
+        console.log(error);
       }
-    }
-    fetchData()
-  }, [])
+    };
+    fetchData();
+  }, [month, year]);
+
 
   return (
     <>
@@ -42,8 +48,8 @@ export const Detail = () => {
           <Stats title={"Cancel"} number={total.totalCanceledOrder} icon={cancel} />
         </div>
         <div className="flex gap-16 justify-center align-middle">
-          <Chart title={"Number of Orders"} chartData={order} yLabel={"Order Count"} type="Orders" />
-          <Chart title={"Number of Payments"} chartData={transaction} yLabel={"Transaction Count"} type="Transaction" />
+          <Chart title={"Number of Orders"} chartData={order} yLabel={"Order Count"} type="Orders" month={month} year={year} />
+          <Chart title={"Number of Payments"} chartData={transaction} yLabel={"Transaction Count"} type="Transaction" month={month} year={year} />
         </div>
       </div>
     </>

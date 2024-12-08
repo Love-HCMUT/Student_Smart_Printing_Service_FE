@@ -6,58 +6,48 @@ const dateSort = (rowA, rowB, columnId) => {
 
 export const COLUMNS = [
   {
-    Header: "User ID",
-    accessor: "ID",
+    Header: 'User ID',
+    accessor: 'ID',
     Cell: ({ value }) => (
-      <span className="text-base font-inter text-table-text-color">
-        {value}
-      </span>
+      <span className="text-base font-inter text-table-text-color">{value}</span>
     ),
   },
   {
-    Header: "Date of transaction",
-    accessor: "dateOfTransaction",
+    Header: 'Date of transaction',
+    accessor: 'dateOfTransaction',
     Cell: ({ value }) => (
-      <span className="text-base font-inter text-table-text-color">
-        {new Date(value).toLocaleString()}
-      </span>
+      <span className="text-base font-inter text-table-text-color">{
+        value ? new Date(value).toLocaleString() : ''
+      }</span>
     ),
     sortType: dateSort,
   },
   {
-    Header: "Coins",
-    accessor: "coins",
+    Header: 'Coins',
+    accessor: 'coins',
     Cell: ({ value }) => (
-      <span className="text-base font-inter text-table-text-color">
-        {value}
-      </span>
+      <span className="text-base font-inter text-table-text-color">{value}</span>
     ),
   },
   {
-    Header: "Charge (VND)",
-    accessor: "charge",
+    Header: 'Charge (VND)',
+    accessor: 'charge',
     Cell: ({ value }) => (
-      <span className="text-base font-inter text-table-text-color overflow-hidden text-ellipsis">
-        {value}
-      </span>
+      <span className="text-base font-inter text-table-text-color overflow-hidden text-ellipsis">{value}</span>
     ),
   },
   {
-    Header: "Payment Methods",
-    accessor: "paymentMethod",
+    Header: 'Payment Methods',
+    accessor: 'paymentMethod',
     Cell: ({ value }) => (
-      <span className="text-base font-inter text-table-text-color">
-        {value}
-      </span>
+      <span className="text-base font-inter text-table-text-color">{value}</span>
     ),
   },
   {
-    Header: "Note",
-    accessor: "note",
+    Header: 'Note',
+    accessor: 'note',
     Cell: ({ value }) => (
-      <span className="text-base font-inter text-table-text-color overflow-hidden text-ellipsis">
-        {value}
-      </span>
+      <span className="text-base font-inter text-table-text-color overflow-hidden text-ellipsis">{value}</span>
     ),
   },
 ];

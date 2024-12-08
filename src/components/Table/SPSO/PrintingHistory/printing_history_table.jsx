@@ -146,7 +146,7 @@ const PrintingHistoryPayment = () => {
     }
 
     return (
-        <div className="container mx-auto px-6 w-4/5">
+        <div className="container mx-auto px-6">
             <div className="flex flex-col gap-4 mb-4">
                 <SearchBar1
                     value={searchInput}

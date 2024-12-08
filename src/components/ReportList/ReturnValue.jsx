@@ -7,6 +7,7 @@ const returnValue = ({ context, month, year }) => {
             <NavLink
                 to={"detail"}
                 className="text-center text-black text-xl font-normal font-['Open Sans']"
+                state={{ month, year }}
             >
                 {(month ? `Tháng ${month} - ${year}` : `Năm ${year}`)}
             </NavLink>
