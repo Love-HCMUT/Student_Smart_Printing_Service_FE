@@ -1,8 +1,9 @@
 import React, { useMemo } from "react";
-import { useTable, useSortBy, useGlobalFilter } from "react-table";
+import { useTable, useSortBy, useGlobalFilter, usePagination } from "react-table";
 import { COLUMNS } from "./orders_history_payments_columns";
 import { OrdersHistoryPaymentSearch } from "./orders_history_payments_search";
 import arrow from "../../../../assets/arrow-down.svg";
+import Pagination from "../../Table_Lib/Components/Pagination";
 
 const OrdersHistoryPayment = ({ values }) => {
     const columns = useMemo(() => COLUMNS, []);
@@ -12,25 +13,49 @@ const OrdersHistoryPayment = ({ values }) => {
         getTableProps,
         getTableBodyProps,
         headerGroups,
-        rows,
+        page, // instead of rows, use page for pagination
         prepareRow,
         state,
         setGlobalFilter,
+        canPreviousPage,
+        canNextPage,
+        pageOptions,
+        pageCount,
+        gotoPage,
+        nextPage,
+        previousPage,
+        setPageSize,
     } = useTable(
         {
             columns,
             data,
         },
         useGlobalFilter,
-        useSortBy
+        useSortBy,
+        usePagination // add usePagination hook
     );
 
-    const { globalFilter } = state;
+    const { globalFilter, pageIndex, pageSize } = state;
 
     return (
         <div className="container mx-auto p-4">
             <OrdersHistoryPaymentSearch filter={globalFilter} setFilter={setGlobalFilter} />
-            <OrderPrintingHeader />
+            <OrderPrintingHeader pagination={
+                <Pagination
+                    canPreviousPage={canPreviousPage}
+                    canNextPage={canNextPage}
+                    pageOptions={pageOptions}
+                    pageCount={pageCount}
+                    gotoPage={gotoPage}
+                    nextPage={nextPage}
+                    previousPage={previousPage}
+                    setPageSize={setPageSize}
+                    pageIndex={pageIndex}
+                    pageSize={pageSize}
+                    width="w-8"
+                    height="h-8"
+                />
+            } />
             <div className="w-full">
                 <table {...getTableProps()} className="min-w-full bg-white border border-gray-300 rounded-md">
                     <thead className="bg-gray-100">
@@ -59,7 +84,7 @@ const OrdersHistoryPayment = ({ values }) => {
                         ))}
                     </thead>
                     <tbody {...getTableBodyProps()}>
-                        {rows.map((row, i) => {
+                        {page.map((row, i) => { // use page instead of rows
                             prepareRow(row);
                             return (
                                 <tr {...row.getRowProps()} key={`row-${i}`}>
@@ -78,11 +103,19 @@ const OrdersHistoryPayment = ({ values }) => {
     );
 };
 
-const OrderPrintingHeader = () => {
+const OrderPrintingHeader = ({ pagination }) => {
     return (
-        <div className="bg-white rounded p-4 shadow-lg">
-            <h1 className="text-xl font-bold">Payment History</h1>
-            <span className="text-sm text-gray-600">History of your payment is stored in 120 days </span>
+        <div className="bg-white rounded p-4 shadow-lg flex justify-between">
+            <div>
+                <h1 className="text-xl font-bold">Payment History</h1>
+                <span className="text-sm text-gray-600">History of your payment is stored in 120 days </span>
+            </div>
+
+            <div className="flex justify-between items-center mr-8">
+                <div>
+                    {pagination}
+                </div>
+            </div>
         </div>
     )
 }

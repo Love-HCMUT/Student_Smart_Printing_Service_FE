@@ -17,8 +17,6 @@ const useUserBalanceData = () => {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    // localStorage.setItem("id", 1);
-
     const fetchData = async () => {
       try {
         const [balanceData, transactionsData, paymentHistoryData] = await Promise.all([
