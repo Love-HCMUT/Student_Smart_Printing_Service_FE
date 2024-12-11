@@ -30,6 +30,7 @@ export default function Header_APP({
 
   const handleLogout = async () => {
     localStorage.clear();
+    navigate("/login");
     try {
       const host = import.meta.env.VITE_HOST;
       const response = await axios.post(

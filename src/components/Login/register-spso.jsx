@@ -50,7 +50,7 @@ const RegisterFormSPSO = () => {
       const email = response.data.email;
       const name = response.data.name;
       const hashed = CryptoJS.SHA256(email).toString(CryptoJS.enc.Hex);
-      const pw = hashed.substring(0, 8);
+      const pw = hashed.substring(0, 12);
 
       setFormData((prevData) => ({
         ...prevData,
@@ -146,6 +146,8 @@ const RegisterFormSPSO = () => {
             onChange={handleChange}
             placeholder="Full Name"
             className="w-full px-4 py-3 border-2 border-blue-300 rounded-xl focus:outline-none focus:ring-4 focus:ring-blue-400 bg-blue-50 transition-all"
+            pattern="[A-Za-zÀ-ỹ\s]{2,}" 
+            title="Full name must contain only letters and spaces, at least 2 characters." 
             required
           />
           <input
@@ -155,6 +157,8 @@ const RegisterFormSPSO = () => {
             onChange={handleChange}
             placeholder="Username"
             className="w-full px-4 py-3 border-2 border-blue-300 rounded-xl focus:outline-none focus:ring-4 focus:ring-blue-400 bg-blue-50 transition-all"
+            pattern=".{8,20}" 
+            title="username must be between 8 and 20 characters." 
             required
           />
           <input
@@ -164,6 +168,7 @@ const RegisterFormSPSO = () => {
             onChange={handleChange}
             placeholder="Password"
             className="w-full px-4 py-3 border-2 border-blue-300 rounded-xl focus:outline-none focus:ring-4 focus:ring-blue-400 bg-blue-50 transition-all"
+            pattern="^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?!.*\s).{8,20}$" title="Please be between 8 and 20 characters and include at least 1 uppercase character, 1 lowercase character, and 1 number."
             required
           />
           <select
@@ -191,6 +196,7 @@ const RegisterFormSPSO = () => {
                     onChange={(e) => handlePhoneChange(index, e.target.value)}
                     placeholder={`Phone Number ${index + 1}`}
                     className="flex-grow px-4 py-2 border-2 border-blue-300 rounded-xl focus:outline-none focus:ring-4 focus:ring-blue-400 bg-blue-50 transition-all"
+                    pattern="[0-9]{10,11}" title="Phone number has 10 or 11 numbers."
                     required
                   />
                   <button
