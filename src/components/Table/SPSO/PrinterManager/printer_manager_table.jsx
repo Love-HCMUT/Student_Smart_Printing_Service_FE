@@ -138,18 +138,18 @@ const PrinterManagerTable = () => {
           <div className="h-[600px] overflow-auto">
             <table {...getTableProps()} className="w-full border rounded-md">
               <thead className="bg-gray-light">
-                {headerGroups.map((headerGroup) => (
+                {headerGroups.map((headerGroup, i) => (
                   <tr
                     {...headerGroup.getHeaderGroupProps()}
-                    key={headerGroup.id}
+                    key={`headerGroup-${i}`}
                   >
-                    {headerGroup.headers.map((column) => (
+                    {headerGroup.headers.map((column, j) => (
                       <th
                         {...column.getHeaderProps(
                           column.getSortByToggleProps()
                         )}
                         className="p-3 text-left text-xs font-medium text-gray-700 tracking-wider cursor-pointer"
-                        key={column.id}
+                        key={`header-${j}`}
                       >
                         <div className="flex items-center">
                           {column.render("Header")}
@@ -173,19 +173,19 @@ const PrinterManagerTable = () => {
                 ))}
               </thead>
               <tbody {...getTableBodyProps()}>
-                {page.map((row) => {
+                {page.map((row, i) => {
                   prepareRow(row);
                   return (
                     <tr
                       {...row.getRowProps()}
-                      key={row.id}
+                      key={`row-${i}`}
                       className="hover:bg-gray-50"
                     >
-                      {row.cells.map((cell) => (
+                      {row.cells.map((cell, j) => (
                         <td
                           {...cell.getCellProps()}
                           className="px-4 py-2 text-sm font-normal text-gray-700 break-words"
-                          key={cell.column.id}
+                          key={`cell-${i}-${j}`}
                         >
                           {cell.column.id === "edit" ? (
                             <div

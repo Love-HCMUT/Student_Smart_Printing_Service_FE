@@ -9,7 +9,14 @@ export const getOrdersHistory = async () => {
     }
     const API_BASE_URL = `${host}/logOrder/order-history/${userId}`;
     try {
-        const response = await axios.get(API_BASE_URL);
+        const response = await axios.get(API_BASE_URL,
+            {
+                withCredentials: true,
+                headers: {
+                    "Content-Type": "application/json",
+                },
+            }
+        );
         return response.data;
     } catch (error) {
         console.error("Error fetching order history:", error);
@@ -20,7 +27,15 @@ export const getOrdersHistory = async () => {
 export const cancelOrderByUser = async (orderId) => {
     const API_BASE_URL = `${host}/logOrder/cancel-order/${orderId}`;
     try {
-        const response = await axios.post(API_BASE_URL, { note: "User cancelled" });
+        const response = await axios.post(API_BASE_URL,
+            { note: "User cancelled" },
+            {
+                withCredentials: true,
+                headers: {
+                    "Content-Type": "application/json",
+                },
+            }
+        );
         alert(`Order: ${orderId} has been cancelled`);
         return response.data;
     } catch (error) {

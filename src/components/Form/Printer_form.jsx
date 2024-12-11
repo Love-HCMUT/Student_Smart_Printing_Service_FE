@@ -41,7 +41,7 @@ const PrinterForm = ({ printerId, Id, onChange }) => {
         } else {
           data.color = "True";
         }
-        if(data.wirelessConnection == 0) {
+        if (data.wirelessConnection == 0) {
           data.wirelessConnection = "No";
         } else {
           data.wirelessConnection = "Yes";
@@ -75,16 +75,16 @@ const PrinterForm = ({ printerId, Id, onChange }) => {
   // Hàm xử lý khi form được submit
   const handleSubmit = async (e) => {
     e.preventDefault();
-    let newcolor = 0 ;
+    let newcolor = 0;
     if (color == "True") {
-      newcolor = 1 ;
+      newcolor = 1;
     } else {
       newcolor = 0;
     }
 
     let newwirelessConnection = 0;
     if (wirelessConnection == "Yes") {
-      newwirelessConnection = 1 ;
+      newwirelessConnection = 1;
     } else {
       newwirelessConnection = 0;
     }

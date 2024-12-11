@@ -5,8 +5,16 @@ const host = import.meta.env.VITE_HOST
 export const getRecentlyMonthlyOrder = async () => {
     const API_BASE_URL = `${host}/statistic/spso/get-recently-monthly-order`;
     try {
-        const response = await axios.post(API_BASE_URL);
-        if (response.status === 200) {
+        const response = await axios.post(API_BASE_URL,
+            {},
+            {
+                withCredentials: true,
+                headers: {
+                    "Content-Type": "application/json",
+                },
+            }
+        );
+        if (response.status == 200) {
             return response.data;
         } else {
             throw new Error('Failed to get all orders');
@@ -26,7 +34,14 @@ export const getCurrentMonthlyOrder = async (month, year) => {
     }
 
     try {
-        const response = await axios.get(API_BASE_URL)
+        const response = await axios.get(API_BASE_URL,
+            {
+                withCredentials: true,
+                headers: {
+                    "Content-Type": "application/json",
+                },
+            }
+        )
         if (response.status === 200) {
             return response.data;
         }

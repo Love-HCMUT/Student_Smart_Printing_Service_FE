@@ -10,7 +10,14 @@ export const getUserBalance = async () => {
   const API_BASE_URL = `${host}/logPayment/get-balance/${userId}`;
 
   try {
-    const response = await axios.get(API_BASE_URL);
+    const response = await axios.get(API_BASE_URL,
+      {
+        withCredentials: true,
+        headers: {
+          "Content-Type": "application/json",
+        },
+      }
+    );
     return response.data;
   } catch (error) {
     console.error("Error fetching user balance:", error);
@@ -26,7 +33,14 @@ export const getRecentTransactions = async () => {
   const API_BASE_URL = `${host}/logPayment/get-recent-transition/${userId}`;
 
   try {
-    const response = await axios.get(API_BASE_URL);
+    const response = await axios.get(API_BASE_URL,
+      {
+        withCredentials: true,
+        headers: {
+          "Content-Type": "application/json",
+        },
+      }
+    );
     return response.data;
   } catch (error) {
     console.error("Error fetching recent transactions:", error);
@@ -43,7 +57,14 @@ export const getPaymentHistory = async () => {
   const API_BASE_URL = `${host}/logPayment/get-payment-history/${userId}`;
 
   try {
-    const response = await axios.get(API_BASE_URL);
+    const response = await axios.get(API_BASE_URL,
+      {
+        withCredentials: true,
+        headers: {
+          "Content-Type": "application/json",
+        },
+      }
+    );
     return response.data;
   } catch (error) {
     console.error("Error fetching payment history:", error);
