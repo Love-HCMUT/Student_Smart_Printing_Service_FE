@@ -24,8 +24,8 @@ const Files = () => {
       try {
         const host = import.meta.env.VITE_HOST;
         const response = await axios.get(
-          `${host}/systemconfig/load-file/filetype`
-        );
+          `${host}/systemconfig/load-file/filetype`);
+
         const newtypes = response.data.data.reduce((acc, curr) => {
           acc[curr] = 1;
           return acc;
