@@ -45,6 +45,7 @@ const PrinterManagerTable = () => {
           },
         }
       );
+      console.log("call API")
       setMOCK_DATA(response.data.data); // Cập nhật state với dữ liệu từ API
       setLoading(false); // Kết thúc trạng thái tải
     } catch (error) {
