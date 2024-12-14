@@ -5,7 +5,14 @@ export const countOrders = async () => {
 
     const API_BASE_URL = `${host}/logOrder/spso/get-order-count`;
     try {
-        const response = await axios.get(API_BASE_URL);
+        const response = await axios.get(API_BASE_URL,
+            {
+                withCredentials: true,
+                headers: {
+                    "Content-Type": "application/json",
+                },
+            }
+        );
         if (response.status === 200) {
             return response.data;
         } else {
@@ -20,7 +27,14 @@ export const countOrders = async () => {
 export const getAllOrderPagination = async (page, limit) => {
     const API_BASE_URL = `${host}/logOrder/spso/get-all-orders-pagination?page=${page}&limit=${limit}`;
     try {
-        const response = await axios.get(API_BASE_URL)
+        const response = await axios.get(API_BASE_URL,
+            {
+                withCredentials: true,
+                headers: {
+                    "Content-Type": "application/json",
+                },
+            }
+        )
         if (response.status === 200) {
             return response.data
         }
@@ -37,7 +51,15 @@ export const getAllOrderPagination = async (page, limit) => {
 export const getAllTransaction = async () => {
     const API_BASE_URL = `${host}/logPayment/spso/get-transaction/all`;
     try {
-        const response = await axios.post(API_BASE_URL);
+        const response = await axios.post(API_BASE_URL,
+            {},
+            {
+                withCredentials: true,
+                headers: {
+                    "Content-Type": "application/json",
+                },
+            }
+        );
         if (response.status === 200) {
             return response.data;
         } else {
@@ -52,7 +74,14 @@ export const getAllTransaction = async () => {
 export const getAllTransactionPagination = async (page, limit) => {
     const API_BASE_URL = `${host}/logPayment/spso/get-transaction-pagination?page=${page}&limit=${limit}`;
     try {
-        const response = await axios.get(API_BASE_URL)
+        const response = await axios.get(API_BASE_URL,
+            {
+                withCredentials: true,
+                headers: {
+                    "Content-Type": "application/json",
+                },
+            }
+        );
         if (response.status === 200) {
             return response.data
         }
@@ -68,7 +97,14 @@ export const getAllTransactionPagination = async (page, limit) => {
 export const countTransactions = async () => {
     const API_BASE_URL = `${host}/logPayment/spso/get-transaction-count`;
     try {
-        const response = await axios.get(API_BASE_URL);
+        const response = await axios.get(API_BASE_URL,
+            {
+                withCredentials: true,
+                headers: {
+                    "Content-Type": "application/json",
+                },
+            }
+        );
         if (response.status === 200) {
             return response.data;
         } else {
