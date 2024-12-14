@@ -12,7 +12,7 @@ const PageSetting = ({ index, func }) => {
           id="small-input"
           className="flex-grow h-8 px-3 rounded-md text-gray-800 focus:outline-none"
           onChange={(e) => func(index, "from_to", e.target.value)}
-          placeholder="1,2,3;5-6"
+          placeholder="1, 2, 3, 5-6"
           // defaultValue="begin to end"
         />
       </div>
@@ -36,8 +36,8 @@ const PageSetting = ({ index, func }) => {
             className="h-8 rounded-md text-gray-800 w-full focus:outline-none"
             onChange={(e) => func(index, "orientation", e.target.value)}
           >
-            <option value="Landscape">Landscape</option>
             <option value="Portrait">Portrait</option>
+            <option value="Landscape">Landscape</option>
           </select>
         </div>
       </div>

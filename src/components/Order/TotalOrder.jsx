@@ -17,6 +17,7 @@ const TotalOrder = ({
 }) => {
   const navigate = useNavigate();
   const [balance, setBalance] = useState(0);
+  const [show, setShow] = useState(false);
   const handleOnClick = async () => {
     //getBalance
     const customerID = parseInt(localStorage.getItem("id")); // localstorage
@@ -24,6 +25,7 @@ const TotalOrder = ({
       .then((res) => res.json())
       .then((data) => {
         setBalance(data.balance);
+        setShow(true);
       })
       .catch((err) => console.log(err));
 
@@ -165,7 +167,7 @@ const TotalOrder = ({
 
                   <span className="col-span-1">Cost service:</span>
                   <span className="col-span-1">
-                    {total * SERVICE_COST_PERCENT}
+                    {(total * SERVICE_COST_PERCENT).toFixed(0)}
                   </span>
                 </div>
               </div>
@@ -180,10 +182,13 @@ const TotalOrder = ({
               <span className="font-bold col-span-1">Order cost:</span>
               {totalPackages.length ? (
                 <span className="col-span-1">
-                  {totalPackages.reduce(
-                    (total, item) => total + (1 + SERVICE_COST_PERCENT) * item,
-                    0
-                  )}
+                  {totalPackages
+                    .reduce(
+                      (total, item) =>
+                        total + (1 + SERVICE_COST_PERCENT) * item,
+                      0
+                    )
+                    .toFixed(0)}
                 </span>
               ) : (
                 <span className="col-span-1">Calculating...</span>
@@ -192,10 +197,13 @@ const TotalOrder = ({
               <span className="font-bold col-span-1">Discount:</span>
               {totalPackages.length ? (
                 <span className="col-span-1">
-                  {totalPackages.reduce(
-                    (total, item) => total + (1 + SERVICE_COST_PERCENT) * item,
-                    0
-                  ) * DISCOUNT_PERCENT}
+                  {(
+                    totalPackages.reduce(
+                      (total, item) =>
+                        total + (1 + SERVICE_COST_PERCENT) * item,
+                      0
+                    ) * DISCOUNT_PERCENT
+                  ).toFixed(0)}
                 </span>
               ) : (
                 <span className="col-span-1">Calculating...</span>
@@ -203,7 +211,7 @@ const TotalOrder = ({
 
               <span className="font-bold col-span-1">Total cost:</span>
               {totalPackages.length ? (
-                <span className="col-span-1">{totalCost}</span>
+                <span className="col-span-1">{totalCost.toFixed(0)}</span>
               ) : (
                 <span className="col-span-1">Calculating...</span>
               )}
@@ -211,7 +219,7 @@ const TotalOrder = ({
           </div>
         </div>
 
-        {balance && balance < totalCost ? <Announce status={false} /> : <></>}
+        {show && balance < totalCost ? <Announce status={false} /> : <></>}
 
         <button
           className="p-2 rounded-lg bg-blue-400 w-full mt-3 shadow-lg"
