@@ -10,6 +10,7 @@ import arrow from "../../../../assets/arrow-down.svg";
 import { PrinterSearch } from "./printer_search";
 import { Checkbox } from "../../Table_Lib/Components/Checkbox";
 import { useLocation, useNavigate } from "react-router-dom";
+import { PrinterSkeleton } from "../../../Skeleton";
 const MOCK_DATA = [
   {
     printer_id: "PRINTER-001",
@@ -31,12 +32,13 @@ const COIN_PER_NORMAL_PAPER = 1000;
 const PrinterTable = () => {
   const columns = useMemo(() => COLUMNS, []);
   // const data = useMemo(() => MOCK_DATA, []);
-  const [data, setData] = useState(MOCK_DATA);
+  const [data, setData] = useState([]);
   const [coinPerPaper, setCoinPerPaper] = useState();
   const navigate = useNavigate();
 
   const location = useLocation();
   const { packages, message } = location.state || [];
+  console.log(packages, message);
   useEffect(() => {
     // sides
     const s = packages.map((p) => p.sides);
@@ -50,6 +52,9 @@ const PrinterTable = () => {
     });
     condition.color = c.some((item) => item);
     const host = import.meta.env.VITE_HOST;
+    console.log(
+      `${host}/order/printers/${condition.color ? 1 : 0}/${condition.side}`
+    );
     fetch(`${host}/order/printers/${condition.color ? 1 : 0}/${condition.side}`)
       .then((res) => res.json())
       .then((resData) => {
@@ -123,7 +128,7 @@ const PrinterTable = () => {
 
   const { globalFilter } = state;
 
-  return (
+  return data.length ? (
     <div className="container mx-auto p-4">
       <PrinterSearch filter={globalFilter} setFilter={setGlobalFilter} />
       <OrderPrintingHeader />
@@ -193,6 +198,8 @@ const PrinterTable = () => {
         </div>
       </div>
     </div>
+  ) : (
+    <PrinterSkeleton />
   );
 };
 
