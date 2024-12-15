@@ -23,9 +23,8 @@ const PrintingHistoryPayment = () => {
             try {
                 const result = await getAllOrderPagination(currentPage + 1, 10);
                 setData(Array.isArray(result) ? result : []);
-
-                const totalOrders = await countOrders();
-                setTotalOrders(totalOrders.totalOrder);
+                const totalOrder = await countOrders();
+                setTotalOrders(totalOrder[0].totalOrder);
             } catch (error) {
                 console.error("Error fetching data:", error);
                 setData([]);
