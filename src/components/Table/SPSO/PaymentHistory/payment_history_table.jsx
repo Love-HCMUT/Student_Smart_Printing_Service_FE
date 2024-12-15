@@ -24,7 +24,7 @@ const PaymentHistoryTable = () => {
                 setData(Array.isArray(result) ? result : []);
 
                 const totalTransactions = await countTransactions();
-                setTotalTransactions(totalTransactions.totalTransaction);
+                setTotalTransactions(totalTransactions[0].totalTransaction);
             } catch (error) {
                 console.error("Error fetching data:", error);
                 setData([]);
