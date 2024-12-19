@@ -177,7 +177,7 @@ const PrinterForm = ({ printerId, Id, onChange }) => {
                 Select Status
               </option>
               <option value="Available">Available</option>
-              <option value="Unavailable">Unavailable</option>
+              <option value="Unavailabl">Unavailable</option>
             </select>
           </div>
 
