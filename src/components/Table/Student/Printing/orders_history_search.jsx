@@ -2,12 +2,27 @@ import React, { useState, useEffect } from 'react';
 import search from '../../../../assets/search.svg';
 import Filter from '../../../../assets/filter.svg';
 
-export const OrdersHistorySearchTables = ({ filter, setFilter, onCancelOrder = null }) => {
+export const OrdersHistorySearchTables = ({ filter, setFilter, onCancelOrder = null, onSearchOrder }) => {
     const [value, setValue] = useState(filter);
 
     useEffect(() => {
         setValue(filter);
     }, [filter]);
+
+    const handleSearchChange = (e) => {
+        setValue(e.target.value);
+        if (e.target.value.trim() === "") {
+            setFilter("");
+            onSearchOrder("");
+        }
+    };
+
+    const handleKeyPress = (e) => {
+        if (e.key === 'Enter') {
+            setFilter(value);
+            onSearchOrder(value);
+        }
+    };
 
     return (
         <div className="flex items-center mb-5 justify-between">
@@ -36,10 +51,8 @@ export const OrdersHistorySearchTables = ({ filter, setFilter, onCancelOrder = n
                 </div>
                 <input
                     value={value || ''}
-                    onChange={(e) => {
-                        setValue(e.target.value);
-                        setFilter(e.target.value);
-                    }}
+                    onChange={handleSearchChange}
+                    onKeyPress={handleKeyPress}
                     placeholder="Search"
                     className="text-xs font-inter p-2 pl-10 rounded-lg border border-gray-200 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent w-full"
                 />

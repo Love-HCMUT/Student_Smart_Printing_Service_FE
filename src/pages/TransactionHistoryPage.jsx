@@ -22,7 +22,7 @@ const TransactionHistoryPage = () => {
     };
 
     return (
-        <div className="bg-white rounded-lg overflow-hidden mt-4 p-6">
+        <div className="rounded-lg overflow-hidden mt-4 p-6">
             <OrdersHistoryTable data={data} onCancelOrder={handleCancelOrder} />
         </div>
     );
