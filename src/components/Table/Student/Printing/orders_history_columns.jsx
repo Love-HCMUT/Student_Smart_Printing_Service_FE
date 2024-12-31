@@ -24,8 +24,8 @@ export const COLUMNS = [
             <span className="text-sm font-inter font-semibold text-header-color">Date of order</span>
         ),
         sortType: (rowA, rowB) => {
-            const dateA = new Date(rowA.original.order_date.split(' ')[1].split('/').reverse().join('-') + 'T' + rowA.original.order_date.split(' ')[0]);
-            const dateB = new Date(rowB.original.order_date.split(' ')[1].split('/').reverse().join('-') + 'T' + rowB.original.order_date.split(' ')[0]);
+            const dateA = new Date(rowA.original.orderDate);
+            const dateB = new Date(rowB.original.orderDate);
             return dateA - dateB;
         },
     },
@@ -64,8 +64,8 @@ export const COLUMNS = [
             <span className="text-sm font-inter font-semibold text-header-color">Complete at</span>
         ),
         sortType: (rowA, rowB) => {
-            const dateA = new Date(rowA.original.order_date.split(' ')[1].split('/').reverse().join('-') + 'T' + rowA.original.order_date.split(' ')[0]);
-            const dateB = new Date(rowB.original.order_date.split(' ')[1].split('/').reverse().join('-') + 'T' + rowB.original.order_date.split(' ')[0]);
+            const dateA = new Date(rowA.original.completeAt);
+            const dateB = new Date(rowB.original.completeAt);
             return dateA - dateB;
         },
     },
