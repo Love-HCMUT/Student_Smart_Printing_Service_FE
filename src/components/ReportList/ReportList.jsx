@@ -19,11 +19,11 @@ export const ReportList = () => {
   const [month, setMonth] = useState(``);
   const [year, setYear] = useState(``);
   const getThreeLatestMonths = () => {
-    const names = []
+    const names = [];
+    const date = new Date();
     for (let i = 0; i < 3; i++) {
-      const date = new Date();
-      date.setMonth(date.getMonth() - i);
-      names.push({ month: date.getMonth() + 1, year: date.getFullYear() });
+      const newDate = new Date(date.getFullYear(), date.getMonth() - i, 1);
+      names.push({ month: newDate.getMonth() + 1, year: newDate.getFullYear() });
     }
     return names;
   }

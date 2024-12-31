@@ -89,9 +89,11 @@ const CustomBarChart = ({ data, year, month }) => {
             .style("font-size", "10px")
             .style("fill", "rgba(0, 0, 0, 0.5)");
 
-        // Add Y-axis
+        // Add Y-axis with integer ticks
         svg.append("g")
-            .call(d3.axisLeft(y).ticks(5));
+            .call(d3.axisLeft(y)
+                .tickValues(d3.range(0, d3.max(parsedData, d => d.OrderCount) + 1))
+                .tickFormat(d => Number.isInteger(d) ? d : ''));
 
         // Tooltip div
         const tooltip = d3.select("body")

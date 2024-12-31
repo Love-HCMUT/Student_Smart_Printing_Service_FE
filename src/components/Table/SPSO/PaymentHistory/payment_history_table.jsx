@@ -140,8 +140,8 @@ const PaymentHistoryTable = () => {
     }
 
     return (
-        <div className="container mx-auto px-6 w-4/5">
-            <div className="flex flex-col gap-4 mb-4">
+        <div className="container mx-auto w-full">
+            <div className="flex flex-col gap-4">
                 <SearchBar1
                     value={searchInput}
                     setValue={setSearchInput}
@@ -157,19 +157,19 @@ const PaymentHistoryTable = () => {
                     }
                 />
             </div>
-            <div className="shadow-md rounded-lg p-4 bg-white">
+            <div className="shadow-md rounded-lg bg-white">
                 <SPSOHeader1 header="Payment History" content="History of Payment is stored in 120 days " />
-                <table {...getTableProps()} className="mx-auto w-full">
-                    <thead className="bg-gray-light">
+                <table {...getTableProps()} className="min-w-full bg-white border border-gray-300 rounded-md">
+                    <thead className="bg-gray-100">
                         {headerGroups.map((headerGroup, i) => (
                             <tr {...headerGroup.getHeaderGroupProps()} key={`headerGroup-${i}`}>
                                 {headerGroup.headers.map((column, j) => (
                                     <th
                                         {...column.getHeaderProps(column.getSortByToggleProps())}
-                                        className="p-4 text-base font-medium text-gray-700 tracking-wider cursor-pointer"
+                                        className="px-4 py-4 text-left text-base font-medium text-gray-500 tracking-wider cursor-pointer"
                                         key={`header${j}`}
                                     >
-                                        <div className="flex">
+                                        <div className="flex items-center">
                                             {column.render('Header')}
                                             {column.isSorted && (
                                                 <img
@@ -191,7 +191,7 @@ const PaymentHistoryTable = () => {
                             return (
                                 <tr {...row.getRowProps()} key={`row-${i}`} className="hover:bg-gray-50">
                                     {row.cells.map((cell, j) => (
-                                        <td {...cell.getCellProps()} className="px-4 py-2 mt-4" key={`cell-${i}-${j}`}>
+                                        <td {...cell.getCellProps()} className="px-4 py-2 text-sm text-gray-700 break-words" key={`cell-${i}-${j}`}>
                                             {cell.render('Cell')}
                                         </td>
                                     ))}
@@ -201,7 +201,7 @@ const PaymentHistoryTable = () => {
                     </tbody>
                 </table>
             </div>
-            <div className="flex justify-center items-center mb-10 mt-10">
+            <div className="flex justify-center items-center gap-4 mt-4">
                 <CustomPagination
                     previousPage={handlePreviousPage}
                     nextPage={handleNextPage}

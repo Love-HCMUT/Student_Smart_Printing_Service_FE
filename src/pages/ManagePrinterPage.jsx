@@ -4,10 +4,8 @@ import PrintingHistoryPayment from '../components/Table/SPSO/PrintingHistory/pri
 const ManagePrinterPage = () => {
 
     return (
-        <div className="min-h-screen p-6 mt-24">
-            <div className="p-6">
-                <PrintingHistoryPayment />
-            </div>
+        <div className="min-h-screen mt-24">
+            <PrintingHistoryPayment />
         </div>
     );
 };

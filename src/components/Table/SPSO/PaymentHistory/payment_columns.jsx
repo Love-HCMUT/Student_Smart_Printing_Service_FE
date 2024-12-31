@@ -26,14 +26,14 @@ export const COLUMNS = [
     Header: 'Coins',
     accessor: 'coins',
     Cell: ({ value }) => (
-      <span className="text-base font-inter text-table-text-color">{value}</span>
+      <span className="text-base font-inter text-table-text-color">{Number(value).toLocaleString()}</span>
     ),
   },
   {
     Header: 'Charge (VND)',
     accessor: 'charge',
     Cell: ({ value }) => (
-      <span className="text-base font-inter text-table-text-color overflow-hidden text-ellipsis">{value}</span>
+      <span className="text-base font-inter text-table-text-color overflow-hidden text-ellipsis">{Number(value).toLocaleString()}</span>
     ),
   },
   {

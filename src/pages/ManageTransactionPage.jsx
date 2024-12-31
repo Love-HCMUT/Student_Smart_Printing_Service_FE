@@ -3,10 +3,8 @@ import PaymentHistoryTable from "../components/Table/SPSO/PaymentHistory/payment
 const ManageTransactionPage = () => {
 
     return (
-        <div className="min-h-screen p-6 mt-24">
-            <div className="rounded-lg shadow-md p-6">
-                <PaymentHistoryTable />
-            </div>
+        <div className="min-h-screen mt-24 max-w-full">
+            <PaymentHistoryTable />
         </div>
     );
 };

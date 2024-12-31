@@ -152,7 +152,9 @@ const CustomLineChart = ({ data, xAccessor, yAccessor, xLabel, yLabel, gradientC
             .call(d3.axisBottom(x).tickFormat(month ? d3.timeFormat("%d") : d3.timeFormat("%b")));
 
         svg.append("g")
-            .call(d3.axisLeft(y).ticks(5));
+            .call(d3.axisLeft(y)
+                .tickValues(d3.range(0, Math.ceil(d3.max(data, yAccessor)) + 1))
+                .tickFormat(d => Number.isInteger(d) ? d : ''));
 
         // Add labels
         svg.append("text")

@@ -198,10 +198,10 @@ const router = createBrowserRouter([
 
 createRoot(document.getElementById("root")).render(
   <StrictMode>
-    <div className="bg-gray-100">
-      <RouterProvider router={router} />
-      {/* <App /> */}
-    </div>
+    {/* <div className="bg-gray-100"> */}
+    <RouterProvider router={router} />
+    {/* <App /> */}
+    {/* </div> */}
   </StrictMode>
   // <RouterProvider router={router} />
 );
