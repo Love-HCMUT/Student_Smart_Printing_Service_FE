@@ -8,7 +8,7 @@ const InfoCards = ({ totalCoins, recentTransitions }) => {
         <div>
           <h3 className="text-gray-500 text-lg">Total coins</h3>
           <p className="text-4xl font-bold text-gray-800 mt-2 ml-16">
-            {totalCoins}
+            {totalCoins.toLocaleString()}
             <img src={coin} className="w-8 h-8 inline-block ml-2 coin-animation" alt="coin" />
           </p>
         </div>

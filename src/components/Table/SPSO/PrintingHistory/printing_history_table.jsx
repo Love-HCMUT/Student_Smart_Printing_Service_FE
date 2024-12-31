@@ -162,20 +162,20 @@ const PrintingHistoryPayment = () => {
                     }
                 />
             </div>
-            <div className="shadow-md rounded-lg p-4 bg-white">
+            <div className="shadow-md rounded-lg bg-white">
                 <SPSOHeader1 header="Printing Log" content="A printing log service for SPSO" />
                 <div className="overflow-auto">
-                    <table {...getTableProps()} className="mx-auto w-full">
-                        <thead className="bg-gray-light">
+                    <table {...getTableProps()} className="min-w-full bg-white border border-gray-300 rounded-md">
+                        <thead className="bg-gray-100">
                             {headerGroups.map((headerGroup, i) => (
                                 <tr {...headerGroup.getHeaderGroupProps()} key={`headerGroup${i}`}>
                                     {headerGroup.headers.map((column, j) => (
                                         <th
                                             {...column.getHeaderProps(column.getSortByToggleProps())}
-                                            className="p-4 text-base font-medium text-gray-700 tracking-wider cursor-pointer"
+                                            className="px-4 py-4 text-left text-base font-medium text-gray-500 tracking-wider cursor-pointer"
                                             key={`header${j}`}
                                         >
-                                            <div className="flex">
+                                            <div className="flex items-center">
                                                 {column.render('Header')}
                                                 {column.isSorted && (
                                                     <img
@@ -197,7 +197,7 @@ const PrintingHistoryPayment = () => {
                                 return (
                                     <tr {...row.getRowProps()} key={`row-${i}`} className="hover:bg-gray-50">
                                         {row.cells.map((cell, j) => (
-                                            <td {...cell.getCellProps()} className="px-4 py-2 mt-4" key={`cell-${i}-${j}`}>
+                                            <td {...cell.getCellProps()} className="px-4 py-2 text-sm text-gray-700 break-words" key={`cell-${i}-${j}`}>
                                                 {cell.render('Cell')}
                                             </td>
                                         ))}

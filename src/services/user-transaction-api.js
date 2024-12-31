@@ -51,3 +51,48 @@ export const cancelOrderByUser = async (orderId) => {
         window.location.reload();
     }
 }
+
+export const handleSearch = async (e) => {
+    const userID = localStorage.getItem('id');
+    const API_BASE_URL = `${host}/logPayment/search/?search=${e.target.value}&userID=${userID}`;
+    try {
+        const response = await axios.get(API_BASE_URL,
+            {
+                withCredentials: true,
+                headers: {
+                    "Content-Type": "application/json",
+                },
+            }
+        )
+
+        if (response.status === 200) {
+            setData(response.data);
+        }
+
+    } catch (error) {
+        console.error('Error fetching all orders:', error);
+        throw new Error('Failed to get all orders');
+    }
+}
+
+export const searchOrder = async (search) => {
+    const userId = localStorage.getItem("id");
+    if (!userId) {
+        throw new Error("User ID is missing");
+    }
+    const API_BASE_URL = `${host}/logOrder/search-order?customerId=${userId}&search=${search}`;
+    try {
+        const response = await axios.get(API_BASE_URL,
+            {
+                withCredentials: true,
+                headers: {
+                    "Content-Type": "application/json",
+                },
+            }
+        );
+        return response.data;
+    } catch (error) {
+        console.error("Error fetching order history:", error);
+        throw new Error("Failed to get order history");
+    }
+}

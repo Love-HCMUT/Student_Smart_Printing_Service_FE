@@ -1,13 +1,13 @@
-import React, { useMemo } from "react";
+import React, { useMemo, useState } from "react";
 import { useTable, useSortBy, useGlobalFilter, usePagination } from "react-table";
 import { COLUMNS } from "./orders_history_payments_columns";
 import { OrdersHistoryPaymentSearch } from "./orders_history_payments_search";
 import arrow from "../../../../assets/arrow-down.svg";
 import Pagination from "../../Table_Lib/Components/Pagination";
-
+import { handleSearch } from "../../../../services/user-transaction-api";
 const OrdersHistoryPayment = ({ values }) => {
     const columns = useMemo(() => COLUMNS, []);
-    const data = useMemo(() => values || [], [values]);
+    const [data, setData] = useState(values || []);
 
     const {
         getTableProps,
@@ -39,7 +39,7 @@ const OrdersHistoryPayment = ({ values }) => {
 
     return (
         <div className="container mx-auto p-4">
-            <OrdersHistoryPaymentSearch filter={globalFilter} setFilter={setGlobalFilter} />
+            <OrdersHistoryPaymentSearch filter={globalFilter} setFilter={setGlobalFilter} onSearch={handleSearch} />
             <OrderPrintingHeader pagination={
                 <Pagination
                     canPreviousPage={canPreviousPage}
