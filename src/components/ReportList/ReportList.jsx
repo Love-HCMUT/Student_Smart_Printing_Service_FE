@@ -10,12 +10,12 @@ import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 
 export const ReportList = () => {
-  const navigate = useNavigate()
+  const navigate = useNavigate();
   const [data, setData] = useState({
     listCurrentMonth: [],
     monthYear: [],
   });
-  const currentYear = new Date().getFullYear()
+  const currentYear = new Date().getFullYear();
   const [month, setMonth] = useState(``);
   const [year, setYear] = useState(``);
   const getThreeLatestMonths = () => {
@@ -26,39 +26,44 @@ export const ReportList = () => {
       names.push({ month: newDate.getMonth() + 1, year: newDate.getFullYear() });
     }
     return names;
-  }
+  };
 
   const getYear = () => {
     const date = new Date();
     return date.getFullYear();
-  }
+  };
 
   useEffect(() => {
     const fetchApi = async () => {
-      const data = await getRecentlyMonthlyOrder();
-      setData(data)
-    }
-    fetchApi()
-  }, [])
+      try {
+        const data = await getRecentlyMonthlyOrder(new Date().getMonth() + 1, new Date().getFullYear());
+        console.log("Fetched data:", data)
+        setData(data);
+      } catch (error) {
+        console.error("Error fetching data:", error);
+      }
+    };
+    fetchApi();
+  }, []);
 
   const handleKeyboardEnter = (e) => {
-    if (e.key == 'Enter') {
+    if (e.key === 'Enter') {
       e.preventDefault();
-      handleSubmit()
+      handleSubmit();
     }
-  }
+  };
   const handleSubmit = async () => {
     if (month !== `` && year !== ``) {
-      console.log(month, year)
+      console.log(month, year);
       // Navigate to detail page
-      navigate(`/spso/report/detail`, { state: { month, year } })
+      navigate(`/spso/report/detail`, { state: { month, year } });
     }
-  }
+  };
 
   return (
     <>
-      <div className="m-auto max-w-[70%] h-screen flex flex-col justify-center align-middle">
-        <div className="m-auto inline-flex flex-col w-full">
+      <div className="m-auto max-w-[70%] flex flex-col justify-center align-middle">
+        <div className="mt-4 inline-flex flex-col w-full">
           <Head>
             <Filters />
             <Search />
@@ -74,7 +79,7 @@ export const ReportList = () => {
               data={data.listCurrentMonth}
             />
           </div>
-          <div className="w-full flex justify-center">
+          <div className="w-full flex justify-center mb-4">
             <List names={[{ year: getYear() }]} year data={data.monthYear} />
           </div>
         </div>

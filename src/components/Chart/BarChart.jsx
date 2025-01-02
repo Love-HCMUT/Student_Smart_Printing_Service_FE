@@ -3,13 +3,13 @@ import * as d3 from "d3";
 
 const CustomBarChart = ({ data, year, month }) => {
     const chartRef = useRef(null);
-    const [dimensions, setDimensions] = useState({ width: 100, height: 100 });
+    const [dimensions, setDimensions] = useState({ width: 200, height: 125 }); // Fixed dimensions
 
     useEffect(() => {
         const handleResize = () => {
             if (chartRef.current) {
                 const { width, height } = chartRef.current.getBoundingClientRect();
-                setDimensions({ width, height });
+                setDimensions({ width: Math.max(width, 200), height: Math.max(height, 125) });
             }
         };
 
@@ -19,11 +19,26 @@ const CustomBarChart = ({ data, year, month }) => {
     }, []);
 
     useEffect(() => {
-        if (!Array.isArray(data) || data.length === 0) return;
         const { width, height } = dimensions;
-        const margin = { top: 5, right: 5, bottom: 20, left: 25 };
+        const margin = { top: 20, right: 20, bottom: 50, left: 50 };
         const innerWidth = width - margin.left - margin.right;
         const innerHeight = height - margin.top - margin.bottom;
+
+        if (innerWidth <= 0 || innerHeight <= 0) {
+            console.error("Chart dimensions are too small to render.");
+            return;
+        }
+
+        // Clear existing chart
+        d3.select(chartRef.current).selectAll("*").remove();
+
+        // Create SVG
+        const svg = d3.select(chartRef.current)
+            .append("svg")
+            .attr("width", width)
+            .attr("height", height)
+            .append("g")
+            .attr("transform", `translate(${margin.left},${margin.top})`);
 
         // Generate full data for the current month
         const daysInMonth = new Date(year, month, 0).getDate();
@@ -33,7 +48,7 @@ const CustomBarChart = ({ data, year, month }) => {
         }));
 
         // Merge data into fullData
-        try {
+        if (Array.isArray(data) && data.length > 0) {
             data.forEach(d => {
                 if (!d.Date) return;
                 const date = new Date(d.Date).toISOString();
@@ -42,8 +57,6 @@ const CustomBarChart = ({ data, year, month }) => {
                     fullData[index].OrderCount = d.OrderCount;
                 }
             });
-        } catch (error) {
-            console.log(error)
         }
 
         // Parse data
@@ -53,29 +66,15 @@ const CustomBarChart = ({ data, year, month }) => {
         }));
 
         // Scales
-        const x = d3
-            .scaleBand()
+        const x = d3.scaleBand()
             .domain(parsedData.map(d => d.Date))
             .range([0, innerWidth])
             .padding(0.2);
 
-        const y = d3
-            .scaleLinear()
-            .domain([0, d3.max(parsedData, d => d.OrderCount)])
+        const y = d3.scaleLinear()
+            .domain([0, d3.max(parsedData, d => d.OrderCount) || 1]) // Ensure domain is not empty
             .nice()
             .range([innerHeight, 0]);
-
-        // Clear existing chart
-        d3.select(chartRef.current).selectAll("*").remove();
-
-        // Create SVG
-        const svg = d3
-            .select(chartRef.current)
-            .append("svg")
-            .attr("width", width)
-            .attr("height", height)
-            .append("g")
-            .attr("transform", `translate(${margin.left},${margin.top})`);
 
         // Add X-axis
         const xAxis = d3.axisBottom(x)
@@ -115,8 +114,8 @@ const CustomBarChart = ({ data, year, month }) => {
             .attr("class", "bar")
             .attr("x", d => x(d.Date))
             .attr("width", x.bandwidth())
-            .attr("y", innerHeight)
-            .attr("height", 0)
+            .attr("y", d => y(d.OrderCount))
+            .attr("height", d => Math.max(0, innerHeight - y(d.OrderCount))) // Ensure height is not negative
             .attr("fill", "steelblue")
             .on("mouseover", function (event, d) {
                 tooltip.style("display", "block")
@@ -140,11 +139,11 @@ const CustomBarChart = ({ data, year, month }) => {
         bars.transition()
             .duration(800)
             .attr("y", d => y(d.OrderCount))
-            .attr("height", d => innerHeight - y(d.OrderCount));
+            .attr("height", d => Math.max(0, innerHeight - y(d.OrderCount))); // Ensure height is not negative
 
     }, [data, dimensions, year, month]);
 
-    return <div className="relative w-full h-full overflow-hidden" ref={chartRef}></div>;
+    return <div ref={chartRef} style={{ width: "100%", height: "100%" }} />;
 };
 
 export default CustomBarChart;

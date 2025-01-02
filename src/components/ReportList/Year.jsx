@@ -1,5 +1,5 @@
 import CustomChart from "../Chart/CustomChart";
-import returnValue from "./ReturnValue"
+import returnValue from "./ReturnValue";
 
 const gradientColors = [
   { offset: "0%", color: "darkorange", opacity: 0.75 },
@@ -18,7 +18,7 @@ export const Year = ({ data = { year: 2023 }, chartData }) => {
         </div>
       ),
       year
-    })
+    });
   } else {
     return returnValue({
       context: (
@@ -26,7 +26,7 @@ export const Year = ({ data = { year: 2023 }, chartData }) => {
           data={chartData}
           xAccessor={d => new Date(d.MonthYear)}
           yAccessor={d => d.OrderCount}
-          // xLabel="Month"
+          xLabel="Month"
           yLabel="Order Count"
           gradientColors={gradientColors}
           month={undefined}
@@ -34,7 +34,7 @@ export const Year = ({ data = { year: 2023 }, chartData }) => {
         />
       ),
       year
-    })
+    });
   }
 };
 

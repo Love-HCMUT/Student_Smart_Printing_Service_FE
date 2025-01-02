@@ -12,7 +12,7 @@ export const Chart = ({ title, chartData, xLabel, yLabel, type, month, year }) =
           ...Loading
         </p>
       </div>
-    )
+    );
   }
 
   return (

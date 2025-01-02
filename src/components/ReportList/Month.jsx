@@ -1,9 +1,11 @@
 import CustomBarChart from "../Chart/BarChart";
-import returnValue from "./ReturnValue"
+import returnValue from "./ReturnValue";
 
 export const Month = ({ data = { month: 9, year: 2024 }, chartData }) => {
   const { month, year } = data;
-  if (!chartData) {
+  console.log("Month component data:", data); // Debug log
+  console.log("Month component chartData:", chartData); // Debug log
+  if (!chartData || chartData === undefined) {
     return returnValue({
       context: (
         <div className="flex items-center justify-center">
@@ -14,7 +16,7 @@ export const Month = ({ data = { month: 9, year: 2024 }, chartData }) => {
       ),
       month,
       year
-    })
+    });
   } else {
     return returnValue({
       context: (
@@ -22,7 +24,7 @@ export const Month = ({ data = { month: 9, year: 2024 }, chartData }) => {
       ),
       month,
       year
-    })
+    });
   }
 };
 

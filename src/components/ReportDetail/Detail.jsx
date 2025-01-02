@@ -4,19 +4,19 @@ import cancel from "../../assets/cancel.svg";
 import { Chart } from "./Chart.jsx";
 import { useEffect, useState } from "react";
 import { useLocation } from "react-router-dom";
-import { getCurrentMonthlyOrder } from "../../services/statistic-spso-api.js"
+import { getCurrentMonthlyOrder } from "../../services/statistic-spso-api.js";
 
 export const Detail = () => {
-  let location = useLocation()
-  const { month, year } = location.state
+  let location = useLocation();
+  const { month, year } = location.state;
 
-  const [order, setOrder] = useState([])
-  const [transaction, setTransaction] = useState([])
+  const [order, setOrder] = useState([]);
+  const [transaction, setTransaction] = useState([]);
   const [total, setTotal] = useState({
     totalOrder: 0,
     totalTransaction: 0,
     totalCanceledOrder: 0
-  })
+  });
 
   useEffect(() => {
     const fetchData = async () => {
@@ -26,16 +26,15 @@ export const Detail = () => {
           totalOrder: data.countOrder[0].totalOrders,
           totalTransaction: data.countTransaction[0].totalTransactions,
           totalCanceledOrder: data.countCancel[0].totalCanceledOrder
-        })
-        setOrder(data.order)
-        setTransaction(data.transaction)
+        });
+        setOrder(data.order);
+        setTransaction(data.transaction);
       } catch (error) {
-        console.log(error);
+        console.error("Error fetching data:", error);
       }
     };
     fetchData();
   }, [month, year]);
-
 
   return (
     <>
