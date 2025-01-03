@@ -3,7 +3,7 @@ import Pagination from "../Table_Lib/Components/Pagination";
 
 export const PSOrderHeader = ({
   printer_name = "Printer 1A",
-  printer_status = "Ready",
+  printer_status = "Available",
   previousPage,
   nextPage,
   gotoPage,
@@ -28,21 +28,19 @@ export const PSOrderHeader = ({
             <span>Printer Status: </span>
             <span
               className={`flex items-center p-1 rounded-full text-xs font-inter max-w-fit px-3 
-                            ${
-                              printer_status === "active"
-                                ? "bg-status-green-background text-status-green-text"
-                                : "bg-status-red-background text-status-red-text"
-                            } ml-2`}
+                            ${printer_status === "Available"
+                  ? "bg-status-green-background text-status-green-text"
+                  : "bg-status-red-background text-status-red-text"
+                } ml-2`}
             >
               <span
                 className={`inline-block w-1.5 h-1.5 rounded-full mr-2 
-                                ${
-                                  printer_status === "active"
-                                    ? "bg-status-green-dot"
-                                    : "bg-status-red-text"
-                                }`}
+                                ${printer_status === "Available"
+                    ? "bg-status-green-dot"
+                    : "bg-status-red-text"
+                  }`}
               ></span>
-              {printer_status === "active" ? "Ready" : "Pending"}
+              {printer_status === "Available" ? "Available" : "Unavailable"}
             </span>
           </div>
         </div>

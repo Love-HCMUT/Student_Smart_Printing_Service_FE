@@ -167,11 +167,10 @@ export const PSMainTable = ({ data, printer }) => {
                       }
                     >
                       <div
-                        className={`flex items-center ${
-                          ["isDeclined", "isAccepted"].includes(column.id)
-                            ? "justify-center"
-                            : ""
-                        }`}
+                        className={`flex items-center ${["isDeclined", "isAccepted"].includes(column.id)
+                          ? "justify-center"
+                          : ""
+                          }`}
                       >
                         {column.render("Header")}
                         {column.isSorted && (
