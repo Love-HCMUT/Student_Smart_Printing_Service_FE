@@ -1,0 +1,60 @@
+name: AWS Deploy
+
+on:
+  push:
+    branches: [frontend-deploy]
+
+jobs:
+  build-and-deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+      - name: Create .env
+        env:
+          ENV_FILE: ${{ secrets.ENV_FILE }}
+        run: |
+          echo "${ENV_FILE}" > .env
+      - name: Configure AWS credentials
+        uses: aws-actions/configure-aws-credentials@v2
+        with:
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws-region: ap-southeast-1
+
+      - name: Login to Amazon ECR
+        id: login-ecr
+        uses: aws-actions/amazon-ecr-login@v2
+              
+      - name: Remove old Docker image from ECR
+        run: |
+          aws ecr batch-delete-image --repository-name assignment-frontend --image-ids imageTag=latest || true
+      
+      - name: Build, tag, and push docker image to Amazon ECR
+        env:
+          REGISTRY: ${{ secrets.ECR_REGISTRY }}
+          REPOSITORY: assignment-frontend
+          IMAGE_TAG:  latest     
+        run: |
+          docker rmi -f ${{ secrets.ECR_REGISTRY }}/assignment-frontend:latest || true
+          docker build -t $REPOSITORY .
+          docker tag $REPOSITORY:$IMAGE_TAG $REGISTRY/$REPOSITORY:$IMAGE_TAG
+          docker push $REGISTRY/$REPOSITORY:$IMAGE_TAG
+      - name: Create pem file
+        env:
+          EC2_SSH_KEY: ${{ secrets.EC2_SSH_KEY }}
+        run: |
+          echo "${EC2_SSH_KEY}" > /tmp/ec2.pem
+          chmod 400 /tmp/ec2.pem
+        
+      - name: SSH to EC2 and deploy
+        uses: appleboy/ssh-action@v1.2.0
+        with:
+          host: ${{ secrets.EC2_HOST }}
+          username: ${{ secrets.EC2_USER }}
+          key: ${{ secrets.EC2_SSH_KEY }}
+          script: |
+            docker-compose down
+            docker-compose pull
+            docker-compose up -d
