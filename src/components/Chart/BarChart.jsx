@@ -20,7 +20,7 @@ const CustomBarChart = ({ data, year, month }) => {
 
     useEffect(() => {
         const { width, height } = dimensions;
-        const margin = { top: 20, right: 20, bottom: 50, left: 50 };
+        const margin = { top: 10, right: 10, bottom: 30, left: 30 };
         const innerWidth = width - margin.left - margin.right;
         const innerHeight = height - margin.top - margin.bottom;
 
@@ -57,7 +57,7 @@ const CustomBarChart = ({ data, year, month }) => {
 
     }, [data, dimensions, year, month]);
 
-    return <div ref={chartRef} />;
+    return <div ref={chartRef} style={{ width: "100%", height: "100%" }} />;
 };
 
 const createSvg = (container, width, height, margin) => {
@@ -101,7 +101,7 @@ const createXScale = (data, width) => {
     return d3.scaleBand()
         .domain(data.map(d => d.Date))
         .range([0, width])
-        .padding(0.2);
+        .padding(0.1); // Reduced padding
 };
 
 const createYScale = (data, height) => {
@@ -120,7 +120,7 @@ const addXAxis = (svg, x, height) => {
         .attr("transform", `translate(0,${height})`)
         .call(xAxis)
         .selectAll(".tick text")
-        .style("font-size", "10px")
+        .style("font-size", "8px") // Reduced font size
         .style("fill", "rgba(0, 0, 0, 0.5)");
 };
 
@@ -128,7 +128,9 @@ const addYAxis = (svg, y) => {
     svg.append("g")
         .call(d3.axisLeft(y)
             .tickValues(d3.range(0, d3.max(y.domain()) + 1))
-            .tickFormat(d => Number.isInteger(d) ? d : ''));
+            .tickFormat(d => Number.isInteger(d) ? d : ''))
+        .selectAll(".tick text")
+        .style("font-size", "8px"); // Reduced font size
 };
 
 const createTooltip = () => {
@@ -140,7 +142,7 @@ const createTooltip = () => {
         .style("border", "1px solid #000")
         .style("padding", "5px")
         .style("display", "none")
-        .style("font-size", "12px")
+        .style("font-size", "10px") // Reduced font size
         .style("pointer-events", "none");
 };
 
