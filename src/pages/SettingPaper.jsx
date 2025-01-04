@@ -62,7 +62,7 @@ const SettingPaper = () => {
         {/* Form 1 */}
         <form className="w-1/4 border border-gray-300 rounded-lg shadow-md p-5 bg-white flex flex-col">
           <span className="mb-5 text-xl text-center font-semibold">
-            FREE PAPER PER MONTH
+            FREE COINS PER MONTH
           </span>
 
           {days.slice(0, 12).map((e, index) => (
@@ -81,7 +81,7 @@ const SettingPaper = () => {
                 htmlFor="floating_email"
                 className="peer-focus:font-medium absolute text-base text-gray-500 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:scale-75 peer-focus:-translate-y-6"
               >
-                Thang {index + 1}
+                Month {index + 1}
               </label>
             </div>
           ))}
@@ -89,7 +89,7 @@ const SettingPaper = () => {
 
         <form className="w-1/3 border border-gray-300 rounded-lg shadow-md p-5 bg-white flex flex-col">
           <span className="mb-6 text-xl font-semibold text-center">
-            DATE TO ADD PAPER EVER MONTH
+            DATE TO ADD COIN EVER MONTH
           </span>
           <div className="relative z-0 w-full mb-3 group">
             <input
@@ -110,7 +110,7 @@ const SettingPaper = () => {
               htmlFor="floating_email"
               className="peer-focus:font-medium absolute text-base text-gray-500 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:scale-75 peer-focus:-translate-y-6"
             >
-              Day to add free papers
+              Day to add free coins
             </label>
           </div>
           <span className="text-xs">
