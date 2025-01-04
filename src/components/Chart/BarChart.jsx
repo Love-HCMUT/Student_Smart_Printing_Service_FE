@@ -13,7 +13,9 @@ const CustomBarChart = ({ data, year, month }) => {
             }
         };
 
-        handleResize();
+        // Initial resize with a delay to ensure dimensions are set
+        setTimeout(handleResize, 100);
+
         window.addEventListener("resize", handleResize);
         return () => window.removeEventListener("resize", handleResize);
     }, []);
@@ -22,8 +24,8 @@ const CustomBarChart = ({ data, year, month }) => {
         const { width, height } = dimensions;
         console.log("Dimensions:", width, height);
         const margin = { top: 10, right: 10, bottom: 30, left: 30 };
-        const innerWidth = Math.min(width - margin.left - margin.right, 250);
-        const innerHeight = Math.min(height - margin.top - margin.bottom, 125);
+        const innerWidth = Math.max(width - margin.left - margin.right, 250);
+        const innerHeight = Math.max(height - margin.top - margin.bottom, 125);
 
         if (innerWidth <= 0 || innerHeight <= 0) {
             console.error("Chart dimensions are too small to render.");
