@@ -5,7 +5,10 @@ export const Month = ({ data = { month: 9, year: 2024 }, chartData }) => {
   const { month, year } = data;
   console.log("Month component data:", data); // Debug log
   console.log("Month component chartData:", chartData); // Debug log
-  if (!chartData || chartData === undefined) {
+
+  const storageKey = `chartData-${year}-${month}`;
+
+  if (!chartData || chartData.length === 0) {
     return returnValue({
       context: (
         <div className="flex items-center justify-center">
@@ -18,6 +21,9 @@ export const Month = ({ data = { month: 9, year: 2024 }, chartData }) => {
       year
     });
   } else {
+    // Store chartData in localStorage
+    localStorage.setItem(storageKey, JSON.stringify(chartData));
+
     return returnValue({
       context: (
         <div className="flex items-center justify-center">

@@ -43,7 +43,6 @@ export const getCurrentMonthlyOrder = async (month, year) => {
             }
         )
         if (response.status === 200) {
-            console.log(response.data)
             return response.data;
         }
         else {
