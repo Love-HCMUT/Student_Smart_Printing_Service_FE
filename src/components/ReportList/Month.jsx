@@ -9,7 +9,7 @@ export const Month = ({ data = { month: 9, year: 2024 }, chartData }) => {
     return returnValue({
       context: (
         <div className="flex items-center justify-center">
-          <p className="text-center text-black text-xl font-normal font-['Open Sans']  w-[300px] h-[125px]">
+          <p className="text-center text-black text-xl font-normal font-['Open Sans'] w-[50vw] h-[20vh]">
             ...Loading
           </p>
         </div>
@@ -21,7 +21,7 @@ export const Month = ({ data = { month: 9, year: 2024 }, chartData }) => {
     return returnValue({
       context: (
         <div className="flex items-center justify-center">
-          <p className="text-center text-black text-xl font-normal font-['Open Sans']  w-[300px] h-[125px]">
+          <p className="text-center text-black text-xl font-normal font-['Open Sans'] w-[50vw] h-[20vh]">
             <CustomBarChart data={chartData} year={year} month={month} />
           </p>
         </div>
