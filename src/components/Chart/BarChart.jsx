@@ -150,6 +150,7 @@ const createTooltip = () => {
 };
 
 const drawBars = (svg, data, x, y, height, tooltip) => {
+    console.log("Drawing bars:", data);
     const bars = svg.selectAll(".bar")
         .data(data)
         .enter()
